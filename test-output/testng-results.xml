@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="1158" started-at="2016-07-23T19:23:32Z" finished-at="2016-07-23T19:23:33Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="1158" started-at="2016-07-23T19:23:32Z" finished-at="2016-07-23T19:23:33Z">
+      <class name="net.csthings.antreminder.websoc.WebScrapTest">
+        <test-method status="PASS" signature="scrap1()[pri:0, instance:net.csthings.antreminder.websoc.WebScrapTest@3dfc5fb8]" name="scrap1" duration-ms="1150" started-at="2016-07-23T12:23:32Z" finished-at="2016-07-23T12:23:33Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- scrap1 -->
+      </class> <!-- net.csthings.antreminder.websoc.WebScrapTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
