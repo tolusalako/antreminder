@@ -1,6 +1,0 @@
-websoc:
-    url: https://www.reg.uci.edu/perl/WebSoc
-    cacheSearchPage: resources/websoc/cache/search.html
-    cacheSearchForm: resources/websoc/cache/form.html
-app:
-    encoding: UTF-8

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.Id;
 
 import net.csthings.config.ModulesConfig;
+import net.csthings.provider.ServiceProvider;
 
 @SpringBootApplication
 public class AntreminderApplication {
