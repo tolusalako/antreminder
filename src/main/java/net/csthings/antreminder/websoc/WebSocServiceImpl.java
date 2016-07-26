@@ -61,7 +61,7 @@ public class WebSocServiceImpl implements WebSocService {
             ws = new WebScrap(url); // TODO: cache this for future
         }
         formElement = ws.driver.findElements(By.xpath("/html/body/form"));
-
+        formDataElement = ws.driver.findElements(By.xpath("/html/body/form/table/tbody/*"));
         form = new File(formCache);
 
         LOG.info("Generated WebSoc Form with {} forms & {}/{} data elements", formElement.size(),
