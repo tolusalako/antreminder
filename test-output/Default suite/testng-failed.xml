@@ -5,8 +5,8 @@
     <classes>
       <class name="net.csthings.antreminder.websoc.WebSocServiceTests">
         <methods>
-          <include name="basicWebSoc"/>
           <include name="springTestContextBeforeTestClass"/>
+          <include name="dataTest"/>
           <include name="springTestContextPrepareTestInstance"/>
           <include name="springTestContextAfterTestClass"/>
           <include name="springTestContextAfterTestMethod"/>

@@ -17,17 +17,16 @@ import net.csthings.config.ModulesConfig;
 @SpringBootApplication
 public class AntreminderApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AntreminderApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AntreminderApplication.class, args);
+    }
 }
 
 @Entity
-class Reservation{
-	
-	@Id
-	@GeneratedValue
-	private Long id;
-	
-}
+class Reservation {
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+}
