@@ -2,16 +2,50 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="1484" started-at="2016-07-24T04:39:05Z" finished-at="2016-07-24T04:39:06Z">
+  <suite name="Default suite" duration-ms="25564" started-at="2016-07-26T02:11:30Z" finished-at="2016-07-26T02:11:56Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="1484" started-at="2016-07-24T04:39:05Z" finished-at="2016-07-24T04:39:06Z">
-      <class name="net.csthings.antreminder.websoc.WebScrapTest">
-        <test-method status="PASS" signature="scrap1()[pri:0, instance:net.csthings.antreminder.websoc.WebScrapTest@3dfc5fb8]" name="scrap1" duration-ms="1464" started-at="2016-07-23T21:39:05Z" finished-at="2016-07-23T21:39:06Z">
+    <test name="Default test" duration-ms="25564" started-at="2016-07-26T02:11:30Z" finished-at="2016-07-26T02:11:56Z">
+      <class name="net.csthings.antreminder.websoc.WebSocServiceTests">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()[pri:0, instance:net.csthings.antreminder.websoc.WebSocServiceTests@4686afc2]" name="springTestContextBeforeTestClass" is-config="true" duration-ms="6" started-at="2016-07-25T19:11:30Z" finished-at="2016-07-25T19:11:30Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- scrap1 -->
-      </class> <!-- net.csthings.antreminder.websoc.WebScrapTest -->
+        </test-method> <!-- springTestContextBeforeTestClass -->
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()[pri:0, instance:net.csthings.antreminder.websoc.WebSocServiceTests@4686afc2]" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="25527" started-at="2016-07-25T19:11:30Z" depends-on-methods="org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextBeforeTestClass" finished-at="2016-07-25T19:11:56Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextPrepareTestInstance -->
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:net.csthings.antreminder.websoc.WebSocServiceTests@4686afc2]" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="0" started-at="2016-07-25T19:11:56Z" finished-at="2016-07-25T19:11:56Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void net.csthings.antreminder.websoc.WebSocServiceTests.basicWebSoc() throws java.io.IOException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method status="PASS" signature="basicWebSoc()[pri:0, instance:net.csthings.antreminder.websoc.WebSocServiceTests@4686afc2]" name="basicWebSoc" duration-ms="19" started-at="2016-07-25T19:11:56Z" finished-at="2016-07-25T19:11:56Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- basicWebSoc -->
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:net.csthings.antreminder.websoc.WebSocServiceTests@4686afc2]" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2016-07-25T19:11:56Z" finished-at="2016-07-25T19:11:56Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void net.csthings.antreminder.websoc.WebSocServiceTests.basicWebSoc() throws java.io.IOException]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method status="PASS" signature="springTestContextAfterTestClass()[pri:0, instance:net.csthings.antreminder.websoc.WebSocServiceTests@4686afc2]" name="springTestContextAfterTestClass" is-config="true" duration-ms="0" started-at="2016-07-25T19:11:56Z" finished-at="2016-07-25T19:11:56Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestClass -->
+      </class> <!-- net.csthings.antreminder.websoc.WebSocServiceTests -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

@@ -48,7 +48,7 @@
               <ul>
                 <li>
                   <a href="#" class="navigator-link " panel-name="test-xml-Default_suite">
-                    <span>C:\Users\Owner\AppData\Local\Temp\testng-eclipse-357283609\testng-customsuite.xml</span>
+                    <span>C:\Users\One Creed\AppData\Local\Temp\testng-eclipse-1852823387\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -101,7 +101,7 @@
                     <div class="method-list-content passed suite-Default_suite">
                       <span>
                         <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="net.csthings.antreminder.websoc.WebScrapTest" hash-for-method="scrap1">scrap1</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="net.csthings.antreminder.websoc.WebSocServiceTests" hash-for-method="basicWebSoc">basicWebSoc</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Default_suite -->
@@ -119,14 +119,14 @@
           <div class="suite-Default_suite-class-passed">
             <div class="main-panel-header rounded-window-top">
               <img src="passed.png"/>
-              <span class="class-name">net.csthings.antreminder.websoc.WebScrapTest</span>
+              <span class="class-name">net.csthings.antreminder.websoc.WebSocServiceTests</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="scrap1">
-                  </a> <!-- scrap1 -->
-                  <span class="method-name">scrap1</span>
+                  <a name="basicWebSoc">
+                  </a> <!-- basicWebSoc -->
+                  <span class="method-name">basicWebSoc</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -134,7 +134,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\Owner\AppData\Local\Temp\testng-eclipse-357283609\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\One Creed\AppData\Local\Temp\testng-eclipse-1852823387\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -143,7 +143,11 @@
 &lt;suite name=&quot;Default suite&quot;&gt;
   &lt;test verbose=&quot;2&quot; name=&quot;Default test&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;net.csthings.antreminder.websoc.WebScrapTest&quot;/&gt;
+      &lt;class name=&quot;net.csthings.antreminder.websoc.WebSocServiceTests&quot;&gt;
+        &lt;methods&gt;
+          &lt;include name=&quot;basicWebSoc&quot;/&gt;
+        &lt;/methods&gt;
+      &lt;/class&gt; &lt;!-- net.csthings.antreminder.websoc.WebSocServiceTests --&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Default test --&gt;
 &lt;/suite&gt; &lt;!-- Default suite --&gt;
@@ -185,14 +189,14 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'scrap1')
-data.setCell(0, 2, 'net.csthings.antreminder.websoc.WebScrapTest')
-data.setCell(0, 3, 1464);
+data.setCell(0, 1, 'basicWebSoc')
+data.setCell(0, 2, 'net.csthings.antreminder.websoc.WebSocServiceTests')
+data.setCell(0, 3, 19);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 1 seconds</span>
+              <span class="suite-total-time">Total running time: 19 ms</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -218,11 +222,31 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">net.csthings.antreminder.websoc.WebScrapTest</div> <!-- chronological-class-name -->
-              <div class="test-method">
-                <span class="method-name">scrap1</span>
+              <div class="chronological-class-name">net.csthings.antreminder.websoc.WebSocServiceTests</div> <!-- chronological-class-name -->
+              <div class="configuration-class before">
+                <span class="method-name">springTestContextBeforeTestClass</span>
                 <span class="method-start">0 ms</span>
+              </div> <!-- configuration-class before -->
+              <div class="configuration-class before">
+                <span class="method-name">springTestContextPrepareTestInstance</span>
+                <span class="method-start">6 ms</span>
+              </div> <!-- configuration-class before -->
+              <div class="test-method">
+                <span class="method-name">basicWebSoc</span>
+                <span class="method-start">25535 ms</span>
               </div> <!-- test-method -->
+              <div class="configuration-method before">
+                <span class="method-name">springTestContextBeforeTestMethod(public void net.csthings.antreminder.websoc.WebSocServiceTests.basicWebSoc() throws java.io.IOExcept...)</span>
+                <span class="method-start">25535 ms</span>
+              </div> <!-- configuration-method before -->
+              <div class="configuration-method after">
+                <span class="method-name">springTestContextAfterTestMethod(public void net.csthings.antreminder.websoc.WebSocServiceTests.basicWebSoc() throws java.io.IOExcept...)</span>
+                <span class="method-start">25555 ms</span>
+              </div> <!-- configuration-method after -->
+              <div class="configuration-class after">
+                <span class="method-name">springTestContextAfterTestClass</span>
+                <span class="method-start">25556 ms</span>
+              </div> <!-- configuration-class after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
       </div> <!-- main-panel-root -->

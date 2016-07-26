@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 public class AntreminderApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void WwebSocServiceTest() {
 	}
 
 }

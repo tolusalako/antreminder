@@ -11,6 +11,7 @@ public class WebScrap {
 	public WebScrap(String url) {
 		driver = new HtmlUnitDriver();
 		driver.get(url);
+		//TODO: timeout? async if not local?
 		LOG.debug("Now on {}.", driver.getTitle());
 	}
 
