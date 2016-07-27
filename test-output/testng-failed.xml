@@ -9,6 +9,7 @@
           <include name="dataTest"/>
           <include name="springTestContextPrepareTestInstance"/>
           <include name="springTestContextAfterTestClass"/>
+          <include name="springTestContextBeforeTestMethod"/>
           <include name="springTestContextAfterTestMethod"/>
         </methods>
       </class> <!-- net.csthings.antreminder.websoc.WebSocServiceTests -->

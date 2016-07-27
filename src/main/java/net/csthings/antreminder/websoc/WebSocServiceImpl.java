@@ -79,8 +79,9 @@ public class WebSocServiceImpl implements WebSocService {
 
     public List<String> getFormData(Category category){
         List<String> result = new ArrayList<>();
-        formDataElement = ws.driver.findElements(By.xpath(String.format("/html/body/form/table/tbody/tr[{}]/td[3]/select/*", category.getValue())));
-	formDataElement.stream().map(f -> f.getText()).forEach(result::add);;
+        String path = String.format("/html/body/form/table/tbody/tr[%s]/td[3]/select/*", category.getValue());
+        formDataElement = ws.driver.findElements(By.xpath(path));
+	formDataElement.stream().map(f -> f.getText()).forEach(result::add);
 	return result;
     }
     
