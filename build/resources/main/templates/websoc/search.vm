@@ -1,8 +1,0 @@
-<html>
-<head>
-	<title>WEBSOC Scrap</title>
-</head>
-<body>
-#parse("websoc/form.frag")
-</body>
-</html>

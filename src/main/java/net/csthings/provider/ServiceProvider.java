@@ -3,8 +3,8 @@ package net.csthings.provider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import net.csthings.antreminder.websoc.WebSocService;
-import net.csthings.antreminder.websoc.WebSocServiceImpl;
+import net.csthings.antreminder.websoc.impl.WebSocServiceImpl;
+import net.csthings.antreminder.websoc.service.WebSocService;
 
 @Configuration
 public class ServiceProvider {

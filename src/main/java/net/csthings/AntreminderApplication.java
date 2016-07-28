@@ -1,33 +1,47 @@
 package net.csthings;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.annotation.Id;
-
-import net.csthings.config.ModulesConfig;
-import net.csthings.provider.ServiceProvider;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @SpringBootApplication
+//@EntityScan(basePackages = "net.csthings.antreminder.websoc")
 public class AntreminderApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AntreminderApplication.class, args);
     }
+    
+    @Bean
+    public DataSource dataSource() {
+
+      EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+      return builder.setType(EmbeddedDatabaseType.H2).build();
+    }
+
+    
+    @Bean
+    public EntityManagerFactory entityManagerFactory() {
+
+      HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+      vendorAdapter.setGenerateDdl(true);
+
+      LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+      factory.setJpaVendorAdapter(vendorAdapter);
+      factory.setPackagesToScan("com.acme.domain");
+      factory.setDataSource(dataSource());
+      factory.afterPropertiesSet();
+
+      return factory.getObject();
+    }
+
 }
 
-@Entity
-class Reservation {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-}

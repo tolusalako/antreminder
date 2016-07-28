@@ -1,0 +1,17 @@
+<html>
+    <div class="form-group">
+     <label class="col-md-3 control-label">Classes</label>
+         <div class="col-md-5">
+         <div th:if="${classList != null and not #lists.isEmpty(classList)}">
+             <select th:field="*{class}">
+                <option th:each="c : ${classList}"
+                             th:value="${c.id}"
+                             th:text="${c.shortName}" />
+            </select>
+        </div>
+        <div th:if="${classList == null or #lists.isEmpty(classList)}">
+            <div>"No classes were found, please create some first"</div>
+        </div>
+    </div>
+    </div>
+ </html>

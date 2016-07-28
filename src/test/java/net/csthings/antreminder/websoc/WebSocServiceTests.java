@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
 import net.csthings.antreminder.websoc.WebSocUtils.Category;
+import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.common.utils.Pair;
 import net.csthings.config.ModulesConfig;
 import net.csthings.provider.ServiceProvider;

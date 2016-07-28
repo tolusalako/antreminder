@@ -12,8 +12,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 
-import net.csthings.antreminder.websoc.WebSocService;
-import net.csthings.antreminder.websoc.WebSocServiceImpl;
+import net.csthings.antreminder.websoc.impl.WebSocServiceImpl;
+import net.csthings.antreminder.websoc.service.WebSocService;
 
 public class ModulesConfig {
 	@Inject

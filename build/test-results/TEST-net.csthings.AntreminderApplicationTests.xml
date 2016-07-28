@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="net.csthings.AntreminderApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-07-25T03:25:04" hostname="BlackPride" time="0.005">
-  <properties/>
-  <testcase name="contextLoads" classname="net.csthings.AntreminderApplicationTests" time="0.005"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
