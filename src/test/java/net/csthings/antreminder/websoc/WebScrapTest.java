@@ -1,55 +1,39 @@
 package net.csthings.antreminder.websoc;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
 import net.csthings.config.WebSocSettings;
-import net.csthings.provider.ServiceProvider;
 
 @SpringApplicationConfiguration(classes = { AntreminderApplication.class })
 @WebAppConfiguration
 public class WebScrapTest {
     @Autowired
-    WebSocSettings settings; //FIXME
-    
-    Logger LOG =  LoggerFactory.getLogger(WebScrapTest.class);
+    WebSocSettings settings; // FIXME
+
+    Logger LOG = LoggerFactory.getLogger(WebScrapTest.class);
     File cache;
     WebScrap ws;
     List<WebElement> forms;
-    
-    public void initTest(){
-        cache= new File("resources/websoc/cache/websoc.html");
-        ws= new WebScrap("file://" + cache.getAbsolutePath());
-        forms= ws.driver.findElements(By.xpath("/html/body/form"));
+
+    public void initTest() {
+        cache = new File("resources/websoc/cache/websoc.html");
+        ws = new WebScrap("file://" + cache.getAbsolutePath());
+        forms = ws.driver.findElements(By.xpath("/html/body/form"));
     }
-    
 
     @Test
     public void getFormScrap() throws IOException {

@@ -15,11 +15,6 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
-import org.testng.Assert;
-
 import net.csthings.antreminder.websoc.WebSocUtils.Category;
 import net.csthings.config.AppSettings;
 import net.csthings.config.WebSocSettings;
