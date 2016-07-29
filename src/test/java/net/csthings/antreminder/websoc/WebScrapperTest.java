@@ -13,32 +13,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
 import net.csthings.config.WebSocSettings;
+import net.csthings.provider.ServiceProvider;
 
-@SpringApplicationConfiguration(classes = { AntreminderApplication.class })
+@SpringApplicationConfiguration(classes = { AntreminderApplication.class})
 @WebAppConfiguration
-public class WebScrapTest {
-    @Autowired
-    WebSocSettings settings; // FIXME
+public class WebScrapperTest {
 
-    Logger LOG = LoggerFactory.getLogger(WebScrapTest.class);
+    Logger LOG = LoggerFactory.getLogger(WebScrapperTest.class);
     File cache;
-    WebScrap ws;
+    WebScrapper ws;
     List<WebElement> forms;
 
+    @BeforeClass
     public void initTest() {
-        cache = new File("resources/websoc/cache/websoc.html");
-        ws = new WebScrap("file://" + cache.getAbsolutePath());
+        cache = new File("resources/templates/websoc/websoc.html");
+        ws = new WebScrapper("file://" + cache.getAbsolutePath());
         forms = ws.driver.findElements(By.xpath("/html/body/form"));
     }
 
     @Test
     public void getFormScrap() throws IOException {
         Assert.assertEquals(forms.size(), 1, "There should be only one form.");
-        File form = new File("src/main/resources/websoc/form.frag");
+        File form = new File("resources/templates/websoc/form.html");
         String data = forms.get(0).getAttribute("innerHTML");
         FileUtils.writeStringToFile(form, data, Charset.forName("UTF-8"));
     }
