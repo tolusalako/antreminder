@@ -1,10 +1,16 @@
 package net.csthings.common.utils;
 
-public class Pair<L, R> extends org.apache.commons.lang3.tuple.Pair<L, R>{
+/**
+ * Created on: Jul 28, 2016
+ * @author Toluwanimi Salako
+ * Last edited: Jul 28, 2016
+ * @purpose - TODO
+ */
+public class Pair<L, R> extends org.apache.commons.lang3.tuple.Pair<L, R> {
     private L left;
     private R right;
-    
-    public Pair(L left, R right){
+
+    public Pair(L left, R right) {
         super();
         this.left = left;
         this.right = right;
@@ -20,8 +26,6 @@ public class Pair<L, R> extends org.apache.commons.lang3.tuple.Pair<L, R>{
         return right;
     }
 
-
-    
     @Override
     public R setValue(R value) {
         this.right = value;

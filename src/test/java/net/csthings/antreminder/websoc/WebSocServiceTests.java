@@ -14,12 +14,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
+import net.csthings.adapters.FormMVCAdapter;
+import net.csthings.antreminder.provider.ServiceProvider;
 import net.csthings.antreminder.websoc.WebSocUtils.Category;
 import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.common.utils.Pair;
-import net.csthings.provider.ServiceProvider;
 
-@SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class })
+@SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, FormMVCAdapter.class })
 @WebAppConfiguration
 public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
 

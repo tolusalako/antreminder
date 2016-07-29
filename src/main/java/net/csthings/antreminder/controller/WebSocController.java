@@ -1,11 +1,13 @@
-package net.csthings.antreminder.websoc.controllers;
+package net.csthings.antreminder.controller;
 
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -30,9 +32,10 @@ public class WebSocController {
         return "websoc/form";
     }
 
-    @RequestMapping(value = "${websoc.searchUrl}", method = RequestMethod.POST, produces = MediaType.ALL_VALUE)
-    public String websocPost(Map<String, Object> model) {
-        System.out.println("Ap2 post!!!");
+    @RequestMapping(value = "${websoc.searchUrl}", method = RequestMethod.POST,
+        headers = { "content-type=application/x-www-form-urlencoded" }, produces = MediaType.ALL_VALUE)
+    public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body) {
+        System.out.println(body.toString());
         return "websoc/form";
     }
 

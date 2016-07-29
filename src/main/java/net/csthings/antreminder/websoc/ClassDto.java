@@ -17,18 +17,18 @@ public @Data class ClassDto {
     @Id
     @GeneratedValue
     private UUID id;
-    
+
     public String shortName;
-    
+
     public String longName;
 
-    public ClassDto(){}
-    
+    public ClassDto() {
+    }
+
     public ClassDto(UUID id, String shortName, String longName) {
         this.id = id;
         this.shortName = shortName;
         this.longName = longName;
     }
-    
-    
+
 }

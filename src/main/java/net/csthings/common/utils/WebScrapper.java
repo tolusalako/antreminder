@@ -1,4 +1,4 @@
-package net.csthings.antreminder.websoc;
+package net.csthings.common.utils;
 
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.slf4j.Logger;

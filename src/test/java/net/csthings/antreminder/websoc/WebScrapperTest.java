@@ -17,8 +17,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
+import net.csthings.antreminder.provider.ServiceProvider;
+import net.csthings.common.utils.WebScrapper;
 import net.csthings.config.WebSocSettings;
-import net.csthings.provider.ServiceProvider;
 
 @SpringApplicationConfiguration(classes = { AntreminderApplication.class})
 @WebAppConfiguration

@@ -13,7 +13,6 @@ public final class WebSocUtils {
                 8), COURSE_TITLE(9), COURSE_TYPE(10), UNITS(11), DAYS(12), START_TIME_AFTER(13), END_TIME_BEFORE(
                         14), MAX_CAPACITY(15), COURSES_FULL_OPTION(
                                 16), WEB_FONT_SIZE_PERCENTAGE(17), CANCELLED_COURSES(18), MEETING_PLACE(19);
-
         private int code;
 
         Category(int code) {
@@ -33,7 +32,7 @@ public final class WebSocUtils {
     public static List<Pair<String, String>> parseDeptElement(List<String> dept) {
         List<Pair<String, String>> result = new ArrayList<>();
         for (int i = 1; i < dept.size(); ++i) {
-          result.add(parseDeptElement(dept.get(i)));
+            result.add(parseDeptElement(dept.get(i)));
         }
         return result;
 
