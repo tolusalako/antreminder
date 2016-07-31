@@ -1,9 +1,6 @@
 package net.csthings.antreminder.websoc.impl;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -16,19 +13,19 @@ import org.springframework.data.domain.Sort;
 import net.csthings.antreminder.websoc.ClassDto;
 import net.csthings.antreminder.websoc.service.StaticDataRepository;
 
-public class OfflineStaticDataRepositoryImpl implements StaticDataRepository{
-    
+public class OfflineStaticDataRepositoryImpl implements StaticDataRepository {
+
     @Override
     public Collection<ClassDto> getAllClasses() {
         return generateClasses("Class1", "Class2");
     }
 
-    private static List<ClassDto> generateClasses(String... classes){
+    private static List<ClassDto> generateClasses(String... classes) {
         List<ClassDto> result = new ArrayList<ClassDto>();
         for (String c : classes)
             result.add(new ClassDto(UUID.randomUUID(), c, ""));
         return result;
-        
+
     }
 
     @Override
@@ -58,7 +55,7 @@ public class OfflineStaticDataRepositoryImpl implements StaticDataRepository{
     @Override
     public void flush() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -70,13 +67,13 @@ public class OfflineStaticDataRepositoryImpl implements StaticDataRepository{
     @Override
     public void deleteInBatch(Iterable<ClassDto> entities) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void deleteAllInBatch() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -130,25 +127,25 @@ public class OfflineStaticDataRepositoryImpl implements StaticDataRepository{
     @Override
     public void delete(UUID id) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void delete(ClassDto entity) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void delete(Iterable<? extends ClassDto> entities) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void deleteAll() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override

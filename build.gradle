@@ -62,6 +62,13 @@ dependencies {
 
 test{
   useTestNG()
+  ignoreFailures = true
+}
+
+clean{
+    delete "bin"
+    delete "test-output"
+    cleanEclipse
 }
 
 //eclipse {

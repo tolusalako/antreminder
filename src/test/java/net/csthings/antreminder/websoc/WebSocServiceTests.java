@@ -34,7 +34,7 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(html.exists());
     }
 
-    @Test
+    @Test(enabled = false)
     public void websocNewForm() throws IOException {
         File form = service.generateNewFormHtml();
         Assert.assertTrue(form.exists());
@@ -44,7 +44,8 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
     @Test
     public void dataTest() {
         List<Pair<String, String>> rez = WebSocUtils.parseDeptElement(service.getFormData(Category.DEPARTMENT));
+        Assert.assertNotNull(rez);
+        Assert.assertNotEquals(rez.size(), 0);
         rez.stream().forEach(System.out::println);
-        Assert.assertEquals(rez.size(), WebSocUtils.NUM_CATEGORIES);
     }
 }
