@@ -1,7 +1,12 @@
 package net.csthings.antreminder.controller;
 
+import java.io.File;
+import java.nio.charset.Charset;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.csthings.antreminder.websoc.ClassDto;
 import net.csthings.antreminder.websoc.impl.OfflineStaticDataRepositoryImpl;
+import net.csthings.antreminder.websoc.service.RestClientService;
 import net.csthings.antreminder.websoc.service.StaticDataRepository;
+import net.csthings.antreminder.websoc.service.WebSocService;
+import net.csthings.antreminder.websoc.utils.WebSocParser;
 
 /**
  * -Created on: Jul 28, 2016
@@ -25,6 +33,12 @@ import net.csthings.antreminder.websoc.service.StaticDataRepository;
 @Controller
 public class WebSocController {
 
+    @Autowired
+    RestClientService restService;
+
+    @Autowired
+    WebSocService webSocService;
+
     StaticDataRepository repository = new OfflineStaticDataRepositoryImpl();
 
     @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
@@ -35,7 +49,16 @@ public class WebSocController {
     @RequestMapping(value = "${websoc.searchUrl}", method = RequestMethod.POST,
         headers = { "content-type=application/x-www-form-urlencoded" }, produces = MediaType.ALL_VALUE)
     public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body) {
-        System.out.println(body.toString());
+        String response;
+        try {
+            response = restService.getHtml(WebSocParser.toMultivalueMap(body), "");
+            File file = new File("temp.html");
+            System.out.println(file.getAbsolutePath());
+            FileUtils.write(file, response, Charset.forName("UTF-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = "error";
+        }
         return "websoc/form";
     }
 

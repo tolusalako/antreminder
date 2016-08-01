@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import net.csthings.antreminder.websoc.WebSocUtils.Category;
+import net.csthings.antreminder.websoc.utils.Category;
 
 @Service("webSocService")
 public interface WebSocService {

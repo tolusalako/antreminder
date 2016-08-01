@@ -1,12 +1,10 @@
 package net.csthings.antreminder.provider;
 
-import javax.validation.Validator;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import net.csthings.antreminder.websoc.impl.WebSocServiceImpl;
+import net.csthings.antreminder.websoc.service.RestClientService;
 import net.csthings.antreminder.websoc.service.WebSocService;
 
 @Configuration
@@ -18,8 +16,8 @@ public class ServiceProvider {
     }
 
     @Bean
-    public Validator localValidatorFactoryBean() {
-        return new LocalValidatorFactoryBean();
+    public static RestClientService restService() {
+        return new RestClientService();
     }
 
 }

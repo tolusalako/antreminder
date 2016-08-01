@@ -52,6 +52,7 @@ dependencies {
  // compile("org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final")
 
 compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.0.0'
+compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.1'
 
 compile("org.projectlombok:lombok:1.16.6")
   compile('javax.persistence:persistence-api:1.0')

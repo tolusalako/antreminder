@@ -16,8 +16,9 @@ import org.testng.annotations.Test;
 import net.csthings.AntreminderApplication;
 import net.csthings.adapters.FormMVCAdapter;
 import net.csthings.antreminder.provider.ServiceProvider;
-import net.csthings.antreminder.websoc.WebSocUtils.Category;
 import net.csthings.antreminder.websoc.service.WebSocService;
+import net.csthings.antreminder.websoc.utils.Category;
+import net.csthings.antreminder.websoc.utils.WebSocParser;
 import net.csthings.common.utils.Pair;
 
 @SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, FormMVCAdapter.class })
@@ -43,7 +44,7 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
 
     @Test
     public void dataTest() {
-        List<Pair<String, String>> rez = WebSocUtils.parseDeptElement(service.getFormData(Category.DEPARTMENT));
+        List<Pair<String, String>> rez = WebSocParser.parseDeptElement(service.getFormData(Category.DEPARTMENT));
         Assert.assertNotNull(rez);
         Assert.assertNotEquals(rez.size(), 0);
         rez.stream().forEach(System.out::println);

@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import net.csthings.antreminder.websoc.WebSocUtils.Category;
 import net.csthings.antreminder.websoc.service.WebSocService;
+import net.csthings.antreminder.websoc.utils.Category;
 import net.csthings.common.utils.WebScrapper;
 import net.csthings.config.AppSettings;
 import net.csthings.config.WebSocSettings;
