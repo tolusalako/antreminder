@@ -4,5 +4,10 @@ websoc:
     searchUrl: search
     cacheSearchPage: resources/templates/websoc/search.html
     cacheSearchForm: resources/templates/websoc/form.html
+
+cassandra:
+    contactPoints: 192.168.0.10
+    keyspace: antreminder
+    port: 9042
 app:
     encoding: UTF-8
