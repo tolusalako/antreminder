@@ -33,13 +33,14 @@ import net.csthings.config.WebSocSettings;
 public class WebSocServiceImpl implements WebSocService {
     Logger LOG = LoggerFactory.getLogger(WebSocServiceImpl.class);
 
+    public final String FORM_FRAGMENT = "form";
+
     @Autowired
     private WebSocSettings websocSettings;
     @Autowired
     private AppSettings appSettings;
 
     private String baseUrl;
-    private String formUrl;
     private String searchUrl;
     private String searchCache;
     private String formCache;
@@ -55,8 +56,8 @@ public class WebSocServiceImpl implements WebSocService {
     private void init() {
         this.baseUrl = websocSettings.getBaseUrl();
         this.searchUrl = websocSettings.getSearchUrl();
-        this.searchCache = websocSettings.getCacheSearchPage();
-        this.formCache = websocSettings.getCacheSearchForm();
+        this.searchCache = websocSettings.getSearchFragment();
+        this.formCache = websocSettings.getFormFragment();
         this.encoding = appSettings.getEncoding();
 
         form = new File(formCache);
@@ -99,7 +100,8 @@ public class WebSocServiceImpl implements WebSocService {
         String data = formElement.get(0).getAttribute("innerHTML");
         // Replace the generated data's action to ours. We need to intercept it
         // to prevent redirection
-        data = data.replaceFirst("action=\"(.+)\"", String.format("action=\"%s\"", searchUrl));
+        data = data.replaceFirst("action=\"(.+)\"",
+                String.format("action=\"%s\" th:fragment=\"%s\"", searchUrl, FORM_FRAGMENT));
         FileUtils.writeStringToFile(form, data, Charset.forName(encoding));
         return form;
     }

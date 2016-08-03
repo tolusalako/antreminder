@@ -5,10 +5,11 @@
     <div th:replace="fragments/head :: head">
       <!-- PlaceHolder -->
     </div>
-      <link rel="stylesheet" type="text/css" href="../static/css/index.css"
-      th:href="@{css/index.css}" media="screen" />
+
+        <link rel="stylesheet" type="text/css" href="../static/css/form.css"
+        th:href="@{css/form.css}" media="screen" />
   </head>
-  <body>
+  <body id="formholder">
     <div th:replace="fragments/header :: header">
       <!-- PlaceHolder -->
       <div class="navbar navbar-inverse navbar-fixed-top">
@@ -24,18 +25,10 @@
         </div>
       </div>
     </div>
-    <div class="fragcontainer" id="index-container">
-      <div class="hero-unit">
-        <h1>Test</h1>
-        <p>
-          Welcome to the Spring MVC Quickstart application!
-          Get started quickly by signing up.
-        </p>
-        <p>
-          <a href="/signup" th:href="@{/signup}" class="btn btn-large btn-success">Sign up</a>
-        </p>
-      </div>
-      <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
+    <div class="fragcontainer">
+    <div th:replace="fragments/form :: form">
+      <!-- PlaceHolder -->
     </div>
+  </div>
   </body>
 </html>

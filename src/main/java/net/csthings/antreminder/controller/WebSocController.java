@@ -43,13 +43,13 @@ public class WebSocController {
 
     @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
     public String websocGet(Model model) {
-        return "websoc/form";
+        return "form";
     }
 
     @RequestMapping(value = "${websoc.searchUrl}", method = RequestMethod.POST,
         headers = { "content-type=application/x-www-form-urlencoded" }, produces = MediaType.ALL_VALUE)
     public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body) {
-        String response;
+        String response = "form";
         try {
             response = restService.getHtml(WebSocParser.toMultivalueMap(body), "");
             File file = new File("temp.html");
@@ -59,7 +59,7 @@ public class WebSocController {
             e.printStackTrace();
             response = "error";
         }
-        return "websoc/form";
+        return response;
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)

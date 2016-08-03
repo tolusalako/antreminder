@@ -1,0 +1,12 @@
+.fragcontainer{
+    margin-top: 60px;
+    display: block;
+    float: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+tr > td
+{
+  /*margin-top: 100px;*/
+}

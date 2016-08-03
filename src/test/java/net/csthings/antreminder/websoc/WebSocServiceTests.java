@@ -35,7 +35,7 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(html.exists());
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void websocNewForm() throws IOException {
         File form = service.generateNewFormHtml();
         Assert.assertTrue(form.exists());

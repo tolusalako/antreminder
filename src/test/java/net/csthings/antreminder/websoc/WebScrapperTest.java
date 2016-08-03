@@ -35,7 +35,7 @@ public class WebScrapperTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void initTest() {
-        cache = new File(websocSettings.getCacheSearchPage());
+        cache = new File(websocSettings.getSearchFragment());
         Assert.assertTrue(cache.exists());
         ws = new WebScrapper("file://" + cache.getAbsolutePath());
         forms = ws.driver.findElements(By.xpath("/html/body/form"));
@@ -44,7 +44,7 @@ public class WebScrapperTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void getFormScrap() throws IOException {
-        File form = new File(websocSettings.getCacheSearchForm());
+        File form = new File(websocSettings.getFormFragment());
         Assert.assertTrue(form.exists());
         String data = forms.get(0).getAttribute("innerHTML");
         // FileUtils.writeStringToFile(form, data, Charset.forName("UTF-8"));
@@ -59,9 +59,10 @@ public class WebScrapperTest extends AbstractTestNGSpringContextTests {
         data.stream().map(f -> f.getText()).forEach(System.out::println);
     }
 
-    @Test(enabled = false)
+    @Test
     public void tableElementTest() {
         List<WebElement> tables = ws.driver.findElements(By.xpath("/html/body/form/table/tbody/tr[4]/td[3]/select/*"));
+        Assert.assertTrue(tables.size() > 0);
         tables.stream().map(f -> f.getText()).forEach(System.out::println);
     }
 }

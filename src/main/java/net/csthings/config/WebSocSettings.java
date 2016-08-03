@@ -22,7 +22,7 @@ public @Data class WebSocSettings {
     @NotEmpty
     private String searchUrl;
     @NotEmpty
-    private String cacheSearchPage;
+    private String searchFragment;
     @NotEmpty
-    private String cacheSearchForm;
+    private String formFragment;
 }

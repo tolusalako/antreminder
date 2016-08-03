@@ -2,8 +2,8 @@ websoc:
     baseUrl: https://www.reg.uci.edu/perl/WebSoc
     formUrl: form
     searchUrl: search
-    cacheSearchPage: resources/templates/websoc/search.html
-    cacheSearchForm: resources/templates/websoc/form.html
+    searchFragment: resources/templates/fragments/search.html
+    formFragment: resources/templates/fragments/form.html
 
 cassandra:
     contactPoints: 192.168.0.10
