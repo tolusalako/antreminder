@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
@@ -33,7 +34,8 @@ import net.csthings.config.WebSocSettings;
 public class WebSocServiceImpl implements WebSocService {
     Logger LOG = LoggerFactory.getLogger(WebSocServiceImpl.class);
 
-    public final String FORM_FRAGMENT = "form";
+    public final String FORM_FRAGMENT_NAME = "form";
+    private final String CSRF_STRING = "<input type=\"hidden\" th:name=\"${_csrf.parameterName}\" th:value=\"${_csrf.token}\" />";
 
     @Autowired
     private WebSocSettings websocSettings;
@@ -101,7 +103,11 @@ public class WebSocServiceImpl implements WebSocService {
         // Replace the generated data's action to ours. We need to intercept it
         // to prevent redirection
         data = data.replaceFirst("action=\"(.+)\"",
-                String.format("action=\"%s\" th:fragment=\"%s\"", searchUrl, FORM_FRAGMENT));
+                String.format("action=\"%s\" th:fragment=\"%s\"", searchUrl, FORM_FRAGMENT_NAME));
+        // Insert CSRF
+        data = data.replaceFirst("(<input type=\"submit\" name=\"Submit\" value=\"Display Text Results\"/>)",
+                Matcher.quoteReplacement(CSRF_STRING));
+
         FileUtils.writeStringToFile(form, data, Charset.forName(encoding));
         return form;
     }

@@ -1,10 +1,10 @@
-<form method="post" action="search" th:fragment="form">
+<form method="post" action="/schedule" th:fragment="form">
   <p class="banner-width" style="text-align: center;">
     <input type="submit" name="Submit" value="Display Web Results"/>
     
 	           
 	    
-    <input type="submit" name="Submit" value="Display Text Results"/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     
 	           
 	    

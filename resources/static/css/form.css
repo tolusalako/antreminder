@@ -10,3 +10,12 @@ tr > td
 {
   /*margin-top: 100px;*/
 }
+
+/*p > input
+{
+	display: none;
+}*/
+
+form > p:first-child, input[value="Display Text Results"], p > a[href*="WebSoc"] {
+    display: none;
+}

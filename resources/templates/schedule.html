@@ -5,18 +5,15 @@
     <div th:replace="fragments/head :: head">
       <!-- PlaceHolder -->
     </div>
-
-        <link rel="stylesheet" type="text/css" href="../static/css/form.css"
-        th:href="@{css/form.css}" media="screen" />
+     <script src="js/form.js" th:src="@{js/form.js}"></script>
+      <link rel="stylesheet" type="text/css" href="../static/css/form.css"
+      th:href="@{css/form.css}" media="screen" />
   </head>
-  <body id="formholder">
+  <body id="formContainer">
     <div th:replace="fragments/header :: header">
       <!-- PlaceHolder -->
       <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/">Static header</a>
-          </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="/">Home</a></li>
@@ -26,9 +23,14 @@
       </div>
     </div>
     <div class="fragcontainer">
-    <div th:replace="fragments/form :: form">
-      <!-- PlaceHolder -->
-    </div>
+      <div th:switch="${FRAGMENT}">
+        <div th:case="'FORM'" th:replace="fragments/schedule/form :: form">
+          <!-- PlaceHolder -->
+        </div>
+        <div th:case="'SEARCH'" th:replace="fragments/schedule/search :: search">
+          <!-- PlaceHolder -->
+        </div>
+      </div>
   </div>
   </body>
 </html>

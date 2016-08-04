@@ -1,11 +1,9 @@
 package net.csthings.antreminder.controller;
 
-import java.io.File;
-import java.nio.charset.Charset;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import net.csthings.antreminder.utils.Attributes;
 import net.csthings.antreminder.websoc.ClassDto;
 import net.csthings.antreminder.websoc.impl.OfflineStaticDataRepositoryImpl;
 import net.csthings.antreminder.websoc.service.RestClientService;
@@ -32,6 +31,9 @@ import net.csthings.antreminder.websoc.utils.WebSocParser;
 
 @Controller
 public class WebSocController {
+    Logger LOG = LoggerFactory.getLogger(WebSocController.class);
+
+    public final static String PAGE = "schedule";
 
     @Autowired
     RestClientService restService;
@@ -43,23 +45,27 @@ public class WebSocController {
 
     @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
     public String websocGet(Model model) {
-        return "form";
+        model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
+        model.addAttribute(Attributes.NAVBAR_ACTIVE, Attributes.NavbarActive.SCHEDULE);
+        return PAGE;
     }
 
-    @RequestMapping(value = "${websoc.searchUrl}", method = RequestMethod.POST,
-        headers = { "content-type=application/x-www-form-urlencoded" }, produces = MediaType.ALL_VALUE)
-    public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body) {
-        String response = "form";
+    @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.POST,
+        // headers = { "content-type=application/x-www-form-urlencoded" },
+        produces = MediaType.APPLICATION_XHTML_XML_VALUE)
+    public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body, Model model) {
+        model.addAttribute(Attributes.NAVBAR_ACTIVE, Attributes.NavbarActive.SCHEDULE);
         try {
-            response = restService.getHtml(WebSocParser.toMultivalueMap(body), "");
-            File file = new File("temp.html");
-            System.out.println(file.getAbsolutePath());
-            FileUtils.write(file, response, Charset.forName("UTF-8"));
+            String response = restService.getHtml(WebSocParser.toMultivalueMap(body), "");
+            model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.SEARCH);
         } catch (Exception e) {
-            e.printStackTrace();
-            response = "error";
+            LOG.error("WebSoc POST error.", e);
+            model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.ERROR);
         }
-        return response;
+
+        if (!model.containsAttribute(Attributes.FRAGMENT))
+            model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
+        return PAGE;
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)

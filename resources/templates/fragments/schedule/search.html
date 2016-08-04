@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <script> 
+    $(function(){
+      $("#includedContent").load("resources/templates/test.html"); 
+    });
+    </script> 
+  </head>
+  <body>
+    <div th:fragment="search">
+       <div id="includedContent"></div>
+    </div>
+  </body>
+</html>
