@@ -17,6 +17,9 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
+apply plugin: 'application'
+
+mainClassName = "net.csthings.AntreminderApplication"
 
 jar {
 	baseName = 'antreminder'

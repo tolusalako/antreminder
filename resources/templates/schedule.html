@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <div th:replace="fragments/head :: head">
-      <!-- PlaceHolder -->
-    </div>
-     <script src="js/form.js" th:src="@{js/form.js}"></script>
-      <link rel="stylesheet" type="text/css" href="../static/css/form.css"
-      th:href="@{css/form.css}" media="screen" />
-  </head>
-  <body id="formContainer">
-    <div th:replace="fragments/header :: header">
-      <!-- PlaceHolder -->
-      <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="/">Home</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fragcontainer">
-      <div th:switch="${FRAGMENT}">
-        <div th:case="'FORM'" th:replace="fragments/schedule/form :: form">
-          <!-- PlaceHolder -->
-        </div>
-        <div th:case="'SEARCH'" th:replace="fragments/schedule/search :: search">
-          <!-- PlaceHolder -->
-        </div>
-      </div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <div th:replace="fragments/head :: head">
+    <!-- PlaceHolder -->
   </div>
-  </body>
+  <script src="js/form.js" th:src="@{js/form.js}"></script>
+  <link rel="stylesheet" type="text/css" href="../static/css/form.css"
+  th:href="@{css/form.css}" media="screen" />
+</head>
+<body id="formContainer">
+  <div th:replace="fragments/header :: header">
+    <!-- PlaceHolder -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fragcontainer">
+    <th:block th:switch="${FRAGMENT}">
+    <th:block th:case="'FORM'">
+    <div  th:replace="fragments/schedule/form :: form">
+      <!-- PlaceHolder -->
+    </div>
+  </th:block>
+  <th:block th:case="'SEARCH'">
+  <div th:replace="fragments/schedule/search :: search">
+    <!-- PlaceHolder -->
+  </div>
+</th:block>
+</th:block>
+</div>
+</body>
 </html>

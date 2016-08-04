@@ -45,6 +45,7 @@ public class WebSocController {
 
     @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
     public String websocGet(Model model) {
+        model.asMap().clear();
         model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
         model.addAttribute(Attributes.NAVBAR_ACTIVE, Attributes.NavbarActive.SCHEDULE);
         return PAGE;
@@ -54,10 +55,12 @@ public class WebSocController {
         // headers = { "content-type=application/x-www-form-urlencoded" },
         produces = MediaType.APPLICATION_XHTML_XML_VALUE)
     public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body, Model model) {
+        model.asMap().clear();
         model.addAttribute(Attributes.NAVBAR_ACTIVE, Attributes.NavbarActive.SCHEDULE);
         try {
             String response = restService.getHtml(WebSocParser.toMultivalueMap(body), "");
             model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.SEARCH);
+            model.addAttribute(Attributes.PAGE, response);
         } catch (Exception e) {
             LOG.error("WebSoc POST error.", e);
             model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.ERROR);

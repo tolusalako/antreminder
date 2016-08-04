@@ -42,13 +42,13 @@ public class RestClientService {
     }
 
     public String getHtml(MultivaluedMap params, String path)
-            throws UniformInterfaceException, ClientHandlerException, JsonProcessingException {
+            throws UniformInterfaceException, ClientHandlerException, JsonProcessingException, ServiceException {
         response = resource.accept(MediaType.TEXT_HTML).accept(MediaType.APPLICATION_XHTML_XML)
                 .accept(MediaType.APPLICATION_XML).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .post(ClientResponse.class, params);
 
         if (response.getStatus() != Status.OK.getStatusCode())
-            return null;
+            throw new ServiceException("Got unexpected rest response");
         else
             return response.getEntity(String.class);
     }

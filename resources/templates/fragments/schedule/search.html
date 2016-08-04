@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
-  <head>
-     <script> 
-    $(function(){
-      $("#includedContent").load("resources/templates/test.html"); 
-    });
-    </script> 
-  </head>
-  <body>
-    <div th:fragment="search">
-       <div id="includedContent"></div>
+<head>
+  ... 
+</head>
+<body>
+  <div id="searchReply" style="display:none;" th:utext="${PAGE}"></div>
+  <div th:fragment="search">
+    <iframe id="searchFrame" src="#" height="1000px">
+    </iframe>
+    <script type="text/javascript" th:inline="javascript"> 
+     $(document).ready( function() {
+        $('iframe').contentWindow.document.write($('#searchReply').html());
+      });
+    </script>
     </div>
   </body>
-</html>
+  </html>

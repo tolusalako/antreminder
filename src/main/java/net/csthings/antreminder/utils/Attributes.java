@@ -3,6 +3,7 @@ package net.csthings.antreminder.utils;
 public final class Attributes {
     public final static String NAVBAR_ACTIVE = "NAVSELECTION";
     public final static String FRAGMENT = "FRAGMENT";
+    public final static String PAGE = "PAGE";
 
     public final class NavbarActive {
         public final static String HOME = "HOME";
