@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -16,6 +18,7 @@ import org.testng.annotations.Test;
 import net.csthings.AntreminderApplication;
 import net.csthings.adapters.FormMVCAdapter;
 import net.csthings.antreminder.provider.ServiceProvider;
+import net.csthings.antreminder.websoc.impl.WebSocServiceImpl;
 import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.antreminder.websoc.utils.Category;
 import net.csthings.antreminder.websoc.utils.WebSocParser;
@@ -24,6 +27,7 @@ import net.csthings.common.utils.Pair;
 @SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, FormMVCAdapter.class })
 @WebAppConfiguration
 public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
+    Logger LOG = LoggerFactory.getLogger(WebSocServiceTests.class);
 
     @Autowired
     WebSocService service;
@@ -40,6 +44,14 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
         File form = service.generateNewFormHtml();
         Assert.assertTrue(form.exists());
         Assert.assertEquals(sdf.format(form.lastModified()), sdf.format((new Date()).getTime()));
+    }
+    
+    @Test
+    public void websocInnerForm(){
+        String innerForm = service.generateInnerFormHtml();
+        Assert.assertNotNull(innerForm);
+        Assert.assertNotEquals(innerForm, "");
+        LOG.info(innerForm);
     }
 
     @Test

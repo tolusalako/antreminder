@@ -22,4 +22,8 @@ public interface WebSocService {
     public List<String> getFormData(Category category);
 
     public File generateNewFormHtml() throws IOException;
+    
+    public String generateInnerFormHtml();
+    
+    public String generateInnerSearchHtml(String response);
 }

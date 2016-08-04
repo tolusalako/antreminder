@@ -2,6 +2,7 @@ package net.csthings.antreminder.websoc.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,10 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.gargoylesoftware.htmlunit.StringWebResponse;
+import com.gargoylesoftware.htmlunit.html.HTMLParser;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.antreminder.websoc.utils.Category;
@@ -111,7 +116,34 @@ public class WebSocServiceImpl implements WebSocService {
         FileUtils.writeStringToFile(form, data, Charset.forName(encoding));
         return form;
     }
+    
+    /**
+     * Strips form from its tag returning only the table.
+     */
+    public String generateInnerFormHtml() {
+        // Re init WebScrapper with non static url
+        WebScrapper ws = new WebScrapper(baseUrl);
+        LOG.debug("Generating new Inner-Form from {}", url);
+        formElement = ws.driver.findElements(By.xpath("/html/body/form/table"));
+        return formElement.get(0).getAttribute("innerHTML");
+    }
 
+    /**
+     * Strips the search result from elements that aren't
+     * required
+     * @return
+     */ // FIXME
+    public String generateInnerSearchHtml(String response){
+        File f = new File("/resources/templates/placeholder.html");
+        
+        WebScrapper ws = new WebScrapper("file://" + form.getAbsolutePath()); //TODO add to properties
+        ws.driver.setJavascriptEnabled(true);
+        ws.driver.executeScript("document.innerHTML = " + response);
+        LOG.debug("Generating new Inner-Search from HTML respose");
+        ws.driver.findElements(By.xpath("/html/body/div[4]/table/tbody"));
+        return formElement.get(0).getAttribute("innerHTML");
+    }
+    
     /**
      * Returns the data in the specified category of the form
      */

@@ -46,10 +46,12 @@ public class WebSocController {
     @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
     public String websocGet(Model model) {
         model.asMap().clear();
-        model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
         model.addAttribute(Attributes.NAVBAR_ACTIVE, Attributes.NavbarActive.SCHEDULE);
+        model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
+        model.addAttribute(Attributes.PAGE, webSocService.generateInnerFormHtml());
         return PAGE;
     }
+    
 
     @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.POST,
         // headers = { "content-type=application/x-www-form-urlencoded" },
