@@ -5,9 +5,9 @@
   <div th:replace="fragments/head :: head">
     <!-- PlaceHolder -->
   </div>
-  <script src="js/form.js" th:src="@{js/form.js}"></script>
-  <link rel="stylesheet" type="text/css" href="../static/css/form.css"
-  th:href="@{css/form.css}" media="screen" />
+  <script src="js/schedule.js" th:src="@{js/schedule.js}"></script>
+  <link rel="stylesheet" type="text/css" href="../static/css/schedule.css"
+  th:href="@{css/schedule.css}" media="screen" />
 </head>
 <body id="formContainer">
   <div th:replace="fragments/header :: header">
@@ -22,10 +22,10 @@
       </div>
     </div>
   </div>
-  <div class="fragcontainer">
+  <div>
     <th:block th:switch="${FRAGMENT}">
     <th:block th:case="'FORM'">
-    <div  th:replace="fragments/schedule/form :: form">
+    <div th:replace="fragments/schedule/form :: form">
       <!-- PlaceHolder -->
     </div>
   </th:block>

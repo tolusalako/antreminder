@@ -4,7 +4,7 @@
   ... 
 </head>
 <body>
-  <div th:fragment="form">
+  <div class="fragment" th:fragment="form">
     <form method="post" action="/schedule" th:fragment="form">
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <div id="formReply" th:utext="${PAGE}"></div>

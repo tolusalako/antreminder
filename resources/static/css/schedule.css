@@ -1,0 +1,39 @@
+/*.fragment
+{
+    margin-top: 55px;
+    display: block;
+    float: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: auto;
+}*/
+
+#searchReply{
+    padding-left: 1%;
+}
+
+div#formReply a
+{
+    color: black;
+    pointer-events: none;
+}
+
+tr > td b
+{
+    font-weight: normal;
+}
+
+
+tr[valign]:hover *
+{
+  cursor: pointer;
+  background-color: #DDEEFF;
+  color: red;
+}
+
+/* Hide unwanted fields */
+#contact-date, #RegBannerMain, #reg-banner-container, #reg-nav-bar,
+	#contact-footer, #hzDownscaled, .title-bar, .college-title, .college-comment, .white-bar
+{
+	display: none;
+}
