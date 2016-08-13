@@ -1,9 +1,21 @@
 body {
-   /* background-color: gray;*/
-   margin-top: 30px;
+    background-color: rgb(27,61,109);
+   /*margin-top: 30px;*/
 }
 
 #index-container {
     width: 75%;
     float: middle;
+}
+
+#loginFragment {    
+    display: table;
+    margin: 0 auto;
+    background-color: white;
+    width: 25%;
+    height: 25%;
+}
+
+#index-container{
+
 }

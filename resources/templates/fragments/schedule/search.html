@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  ... 
+	... 
 </head>
 <body>
-  <div class="fragment" th:fragment="search">
-   <div id="searchReply" th:utext="${PAGE}"></div>
- </div>
+	<div class="fragment search-fragment" th:fragment="search">
+		<div id="searchReply">
+			<div id="searchReplyContent" th:utext="${PAGE}"></div>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Schedule a Reminder</h4>
+						</div>
+						<div class="modal-body">
+							<div>
+								<h6 id="modal-remind-text">Remind me when ...</h6>
+								<div class="btn-group m-x-auto" id="modal-btn-group" data-toggle="buttons">
+									<label class="btn btn-outline-success active">
+									<input class="modal-btn" type="radio" name="options" id="open" autocomplete="off"> OPEN </input>
+									</label>
+									<label class="btn btn-outline-warning">
+										<input class="modal-btn" type="radio" name="options" id="waitlist" autocomplete="off"> WAITLIST-OPEN </input>
+									</label>
+									<label class="btn btn-outline-info">
+										<input class="modal-btn" type="radio" name="options" id="newonly" autocomplete="off"> NEWONLY </input>
+									</label>
+									<label class="btn btn-outline-danger">
+										<input class="modal-btn" type="radio" name="options" id="full" autocomplete="off"> FULL </input>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" id="modal-setreminder">Set Reminder</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

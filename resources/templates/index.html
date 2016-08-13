@@ -11,29 +11,13 @@
   <body>
     <div th:replace="fragments/header :: header">
       <!-- PlaceHolder -->
-      <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="/">Static header</a>
-          </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="/">Home</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="fragcontainer" id="index-container">
       <div class="hero-unit">
-        <h1>Test</h1>
-        <p>
-          Welcome to the Spring MVC Quickstart application!
-          Get started quickly by signing up.
-        </p>
-        <p>
-          <a href="/signup" th:href="@{/signup}" class="btn btn-large btn-success">Sign up</a>
-        </p>
+          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">Open Modal</button>
+      </div>
+      <div th:replace="fragments/session/login :: login">
+      <!-- PlaceHolder -->
       </div>
       <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
     </div>

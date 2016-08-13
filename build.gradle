@@ -64,8 +64,8 @@ compile("org.projectlombok:lombok:1.16.6")
   compile files('resources')
 
 //WebJars
-compile group: 'org.webjars', name: 'jquery', version: '3.0.0'
-compile group: 'org.webjars', name: 'bootstrap', version: '3.3.7'
+compile group: 'org.webjars', name: 'jquery', version: '3.1.0'
+compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0-alpha.3'
 
 
   testCompile("org.springframework.boot:spring-boot-starter-test:${springVersion}")

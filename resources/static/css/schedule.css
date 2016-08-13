@@ -1,29 +1,42 @@
-/*.fragment
-{
-    margin-top: 55px;
-    display: block;
-    float: center;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: auto;
-}*/
-
-#searchReply{
-    padding-left: 1%;
+#form-container{
+  padding-top: 1%;
+  width: auto;
+  border-radius: 25px;
+  border-bottom: 4px !important;
+  background-color: rgb(74,107,151);
+  margin-bottom: 10%;
 }
 
+.course-list{
+  padding-left: 8%;
+}
+
+div#formReply, div#formReply table{
+  width: 500px;
+}
+
+div#formReply tr:nth-child(2){
+  color: white;
+}
+div#formReply tr td font{
+  font-size: 100%;
+  color: white;
+}
 div#formReply a
 {
     color: black;
     pointer-events: none;
 }
-
-tr > td b
+tr > td:nth-child(2) b
 {
+    color: black;
     font-weight: normal;
 }
-
-
+div#formReply a[href="https://www.reg.uci.edu/addl/campus/"]
+{
+  color: white;
+  pointer-events: auto;
+}
 tr[valign]:hover *
 {
   cursor: pointer;
@@ -33,7 +46,29 @@ tr[valign]:hover *
 
 /* Hide unwanted fields */
 #contact-date, #RegBannerMain, #reg-banner-container, #reg-nav-bar,
-	#contact-footer, #hzDownscaled, .title-bar, .college-title, .college-comment, .white-bar
+	#contact-footer, #hzDownscaled, .title-bar, .college-title, .college-comment, .white-bar,
+  #searchReplyContent dl, #searchReplyContent ul
 {
 	display: none;
+}
+#searchReplyContent{
+  color: white;
+}
+#searchReplyContent{
+  /*margin-top: -14%;*/
+}
+#searchReplyContent p:last-of-type{
+  /*color: white;*/
+  display: none;
+}
+/*#searchReplyContent p a{
+  color: white;
+  text-decoration: underline;
+}*/
+.dept-comment > td > p{
+  color: black;
+}
+
+#modal-btn-group{
+  width: 400px;
 }

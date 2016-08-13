@@ -9,32 +9,26 @@
   <link rel="stylesheet" type="text/css" href="../static/css/schedule.css"
   th:href="@{css/schedule.css}" media="screen" />
 </head>
-<body id="formContainer">
+<body>
   <div th:replace="fragments/header :: header">
     <!-- PlaceHolder -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
-  <div>
-    <th:block th:switch="${FRAGMENT}">
-    <th:block th:case="'FORM'">
-    <div th:replace="fragments/schedule/form :: form">
+  <div class="container rounded m-x-auto" id="form-container">
+    <div>
+      <th:block th:switch="${FRAGMENT}">
+      <th:block th:case="'FORM'">
+      <div th:replace="fragments/schedule/form :: form">
+        <!-- PlaceHolder -->
+      </div>
+    </th:block>
+    <th:block th:case="'SEARCH'">
+    <div th:replace="fragments/schedule/search :: search">
       <!-- PlaceHolder -->
     </div>
   </th:block>
-  <th:block th:case="'SEARCH'">
-  <div th:replace="fragments/schedule/search :: search">
-    <!-- PlaceHolder -->
-  </div>
 </th:block>
-</th:block>
+</div>
+<br></br>
 </div>
 </body>
 </html>
