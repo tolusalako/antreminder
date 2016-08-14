@@ -34,6 +34,11 @@ task stage {
 
 repositories {
 	jcenter()
+   // if (System.getenv('ALT_REPO')) {
+  maven { 
+    url "http://www.csthings.net/libs/jar" 
+  }
+    // }
 }
 
 dependencies {
@@ -42,30 +47,25 @@ dependencies {
   compile("org.springframework.session:spring-session:${springSessionVersion}")
   compile("org.springframework.boot:spring-boot-starter-thymeleaf:${springVersion}")
   compile("org.springframework.boot:spring-boot-starter-web:${springVersion}")
-
   compile("org.springframework.data:spring-data-commons:1.12.2.RELEASE")
   compile("org.springframework.boot:spring-boot-starter-data-rest:${springVersion}")
- // compile("org.springframework.boot:spring-boot-starter-data-cassandra:${springVersion}")
 
+  compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.0.0'
+  compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.1'
 
-//  compile("org.springframework.data:spring-data-jpa:1.10.2.RELEASE")
- // compile("org.hibernate:hibernate-entitymanager:${hibernateVersion}")
- // compile("org.hibernate:hibernate-core:${hibernateVersion}")
- // compile("org.hibernate:hibernate-ehcache:${hibernateVersion}")
- // compile("org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final")
-
-compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.0.0'
-compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.1'
-
-compile("org.projectlombok:lombok:1.16.6")
+  compile("org.projectlombok:lombok:1.16.6")
   compile('javax.persistence:persistence-api:1.0')
   compile('org.seleniumhq.selenium:htmlunit-driver:2.21')
   compile('org.seleniumhq.selenium:selenium-support:2.53.0')
   compile files('resources')
 
-//WebJars
-compile group: 'org.webjars', name: 'jquery', version: '3.1.0'
-compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0-alpha.3'
+  compile group: 'net.csthings.service', name: 'csthings-services-common', version: "0.0.1"
+
+  compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: "1.11.24"
+
+  //WebJars
+  compile group: 'org.webjars', name: 'jquery', version: '3.1.0'
+  compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0-alpha.3'
 
 
   testCompile("org.springframework.boot:spring-boot-starter-test:${springVersion}")
@@ -82,10 +82,3 @@ clean{
     delete "test-output"
     cleanEclipse
 }
-
-//eclipse {
-//  classpath {
-//     containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-//		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-//	}
-//}

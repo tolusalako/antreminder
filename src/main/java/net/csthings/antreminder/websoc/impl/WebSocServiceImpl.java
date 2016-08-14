@@ -22,11 +22,11 @@ import com.gargoylesoftware.htmlunit.StringWebResponse;
 import com.gargoylesoftware.htmlunit.html.HTMLParser;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import net.csthings.antreminder.config.AppSettings;
+import net.csthings.antreminder.config.WebSocSettings;
 import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.antreminder.websoc.utils.Category;
-import net.csthings.common.utils.WebScrapper;
-import net.csthings.config.AppSettings;
-import net.csthings.config.WebSocSettings;
+import net.csthings.antreminder.websoc.utils.WebScrapper;
 
 /*-
  * Created on: Jul 28, 2016

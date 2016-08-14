@@ -19,8 +19,8 @@ import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 
-import net.csthings.config.WebSocSettings;
-import net.csthings.service.rest.ClientUtils;
+import net.csthings.antreminder.config.WebSocSettings;
+import net.csthings.antreminder.service.rest.ClientUtils;
 
 @Singleton
 @Service("websocRestService")

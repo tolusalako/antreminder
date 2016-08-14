@@ -1,4 +1,4 @@
-package net.csthings.adapters;
+package net.csthings.antreminder.adapters;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -9,8 +9,6 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import net.csthings.common.utils.Pair;
-
 public final class WebSocParser {
 
     public static Pair<String, String> parseDeptElement(String dept) {

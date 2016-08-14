@@ -1,4 +1,4 @@
-package net.csthings.common.utils;
+package net.csthings.antreminder.websoc.utils;
 
 /**
  * Created on: Jul 28, 2016

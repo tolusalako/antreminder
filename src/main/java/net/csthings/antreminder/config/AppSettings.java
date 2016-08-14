@@ -1,4 +1,4 @@
-package net.csthings.config;
+package net.csthings.antreminder.config;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.boot.context.properties.ConfigurationProperties;

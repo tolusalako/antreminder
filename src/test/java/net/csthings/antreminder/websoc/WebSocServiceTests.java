@@ -16,13 +16,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
-import net.csthings.adapters.FormMVCAdapter;
+import net.csthings.antreminder.adapters.FormMVCAdapter;
 import net.csthings.antreminder.provider.ServiceProvider;
 import net.csthings.antreminder.websoc.impl.WebSocServiceImpl;
 import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.antreminder.websoc.utils.Category;
+import net.csthings.antreminder.websoc.utils.Pair;
 import net.csthings.antreminder.websoc.utils.WebSocParser;
-import net.csthings.common.utils.Pair;
 
 @SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, FormMVCAdapter.class })
 @WebAppConfiguration

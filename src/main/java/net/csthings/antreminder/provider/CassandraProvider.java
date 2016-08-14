@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
-import net.csthings.config.CassandraSettings;
+import net.csthings.antreminder.config.CassandraSettings;
 
 @Configuration
 @ConditionalOnClass({ Cluster.class })

@@ -1,4 +1,4 @@
-package net.csthings.config;
+package net.csthings.antreminder.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.ViewResolver;

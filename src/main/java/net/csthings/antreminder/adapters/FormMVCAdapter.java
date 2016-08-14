@@ -1,4 +1,4 @@
-package net.csthings.adapters;
+package net.csthings.antreminder.adapters;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
