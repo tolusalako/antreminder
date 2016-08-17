@@ -9,49 +9,36 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.csthings.antreminder.utils.Attributes;
-import net.csthings.antreminder.websoc.ClassDto;
 import net.csthings.antreminder.websoc.impl.OfflineStaticDataRepositoryImpl;
 import net.csthings.antreminder.websoc.service.RestClientService;
 import net.csthings.antreminder.websoc.service.StaticDataRepository;
-import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.antreminder.websoc.utils.WebSocParser;
 
-/**
- * -Created on: Jul 28, 2016
- * @author Toluwanimi Salako
- *-Last edited: Jul 28, 2016
- * @purpose - Controller for websoc
- */
+@Controller()
+public class ReminderController {
+    Logger LOG = LoggerFactory.getLogger(ReminderController.class);
 
-@Controller
-public class WebSocController {
-    Logger LOG = LoggerFactory.getLogger(WebSocController.class);
-
-    public final static String PAGE = "schedule";
+    public final static String PAGE = "reminders";
 
     @Autowired
     RestClientService restService;
 
-    @Autowired
-    WebSocService webSocService;
-
     StaticDataRepository repository = new OfflineStaticDataRepositoryImpl();
 
-    @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
+    @RequestMapping(value = "${reminders.url}", method = RequestMethod.GET)
     public String websocGet(Model model) {
         model.asMap().clear();
-        model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
-        model.addAttribute(Attributes.PAGE, webSocService.generateInnerFormHtml());
+        // model.addAttribute(Attributes.PAGE,
+        // webSocService.generateInnerFormHtml());
         return PAGE;
     }
 
-    @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.POST,
+    @RequestMapping(value = "${reminders.url}", method = RequestMethod.POST,
         // headers = { "content-type=application/x-www-form-urlencoded" },
         produces = MediaType.APPLICATION_XHTML_XML_VALUE)
     public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body, Model model) {
@@ -69,12 +56,5 @@ public class WebSocController {
         if (!model.containsAttribute(Attributes.FRAGMENT))
             model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
         return PAGE;
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(@ModelAttribute("class") ClassDto clazz, Model model) {
-        model.addAttribute("classList", repository.getAllClasses());
-        model.addAttribute("class", new ClassDto());
-        return "test";
     }
 }

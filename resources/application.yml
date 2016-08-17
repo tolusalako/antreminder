@@ -4,7 +4,8 @@ websoc:
     searchUrl: /schedule
     searchFragment: resources/templates/fragments/schedule/search.html
     formFragment: resources/templates/fragments/schedule/form.html
-
+reminders:
+    url: /reminders
 cassandra:
     contactPoints: 192.168.0.10
     keyspace: antreminder
