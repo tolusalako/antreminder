@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
 
 	$('.star').on('click', function () {
@@ -17,5 +18,7 @@ $(document).ready(function () {
         $('.table tr').css('display', 'none').fadeIn('slow');
       }
     });
+
+});
 
  });

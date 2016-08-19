@@ -64,17 +64,7 @@ a.mail-dropdown {
 .inbox-body {
     padding: 20px;
 }
-.btn-compose {
-    background: none repeat scroll 0 0 #ff6c60;
-    color: #fff;
-    padding: 12px 0;
-    text-align: center;
-    width: 100%;
-}
-.btn-compose:hover {
-    background: none repeat scroll 0 0 #f5675c;
-    color: #fff;
-}
+
 ul.inbox-nav {
     display: inline-block;
     margin: 0;
@@ -204,10 +194,23 @@ ul.inbox-pagination li {
     background: none repeat scroll 0 0 #fcfcfc;
     border: 1px solid #e7e7e7;
     border-radius: 3px !important;
-    color: #afafaf;
+    /*color: #afafaf;*/
     display: inline-block;
     padding: 5px 10px;
 }
+.mail-option .btn-group a#refresh {
+  color: rgb(92,184,92);
+}
+.mail-option .btn-group a#add {
+  color: rgb(2,117,216);
+}
+.mail-option .btn-group a#stop {
+  color: rgb(106,106,106);
+}
+.mail-option .btn-group a#remove {
+  color: rgb(255,0,0);
+}
+
 .inbox-pagination a.np-btn {
     background: none repeat scroll 0 0 #fcfcfc;
     border: 1px solid #e7e7e7;

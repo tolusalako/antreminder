@@ -69,22 +69,22 @@
           <div class="inbox-body">
             <div class="mail-option">
               <div class="btn-group">
-                <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn mini tooltips">
-                  <i class=" fa fa-refresh"></i>
+                <a class="btn mini btn-primary" id="refresh" href="/reminders">
+                  <i class=" fa fa-refresh btn-default"></i>
                 </a>
               </div>
-              <div class="btn-group">
-                <a class="btn mini btn-primary" href="javascript:;">
+              <div class="btn-group" id="add">
+                <a class="btn mini btn-primary" href="#add">
                   <i class="fa fa-plus"></i>
                 </a>
               </div>
               <div class="btn-group">
-                <a class="btn mini btn-success" href="javascript:;">
-                  <i class="fa fa-times"></i>
+                <a class="btn mini btn-success" id="stop" href="#stop">
+                  <i class="fa fa-stop"></i>
                 </a>
               </div>
               <div class="btn-group">
-                <a class="btn mini btn-info" href="javascript:;">
+                <a class="btn mini btn-info"  id="remove" href="#remove">
                   <i class="fa fa-minus"></i>
                 </a>
               </div>
@@ -146,6 +146,18 @@
                   <td class="view-message inbox-small-cells"></td>
                   <td class="view-message text-right">April 01</td>
                 </tr>
+                <div th:if="${not #lists.isEmpty(reminders)}">
+                  <tr class="unread" th:each="reminder : ${reminders}">
+                    <td class="inbox-small-cells">
+                      <input type="checkbox" class="mail-checkbox"></input>
+                    </td>
+                    <td class="inbox-small-cells"><i class=" fa fa-circle text-warning"></i></td>
+                    <td class="view-message  dont-show" th:text="${reminder.dept}"></td>
+                    <td class="view-message" th:text="${reminder.title}"></td>
+                    <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                    <td class="view-message  text-right" th:text="${reminder.expiration}"></td>
+                  </tr>
+                </div>
               </tbody>
             </table>
           </div>

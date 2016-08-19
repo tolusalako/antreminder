@@ -1,5 +1,6 @@
 package net.csthings.antreminder.controller;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import net.csthings.antreminder.config.WebSocSettings;
 import net.csthings.antreminder.utils.Attributes;
 import net.csthings.antreminder.websoc.ClassDto;
 import net.csthings.antreminder.websoc.impl.OfflineStaticDataRepositoryImpl;
@@ -32,16 +34,18 @@ import net.csthings.antreminder.websoc.utils.WebSocParser;
 @Controller
 public class WebSocController {
     Logger LOG = LoggerFactory.getLogger(WebSocController.class);
-
     public final static String PAGE = "schedule";
-
-    @Autowired
-    RestClientService restService;
-
     @Autowired
     WebSocService webSocService;
-
+    @Autowired
+    private WebSocSettings websocSettings;
+    RestClientService restService;
     StaticDataRepository repository = new OfflineStaticDataRepositoryImpl();
+
+    @PostConstruct
+    public void init() {
+        restService = new RestClientService(websocSettings.getBaseUrl());
+    }
 
     @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
     public String websocGet(Model model) {

@@ -3,7 +3,7 @@ buildscript {
 		springBootVersion = '1.3.6.RELEASE'
 	}
 	repositories {
-		mavenCentral() 
+		mavenCentral()
     maven { url "https://repo.spring.io/plugins-snapshot" }
     maven { url "https://repo.spring.io/snapshot" }
     maven { url "https://repo.spring.io/milestone" }
@@ -35,8 +35,8 @@ task stage {
 repositories {
 	jcenter()
    // if (System.getenv('ALT_REPO')) {
-  maven { 
-    url "http://www.csthings.net/libs/jar" 
+  maven {
+    url "http://www.csthings.net/libs/jar"
   }
     // }
 }
@@ -59,7 +59,7 @@ dependencies {
   compile('org.seleniumhq.selenium:selenium-support:2.53.0')
   compile files('resources')
 
-  compile group: 'net.csthings.service', name: 'csthings-services-common', version: "0.0.1"
+  compile group: 'net.csthings.service', name: 'csthings-services-common', version: "0.0.1A"
 
   compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: "1.11.24"
 
