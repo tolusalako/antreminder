@@ -4,8 +4,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Entity;
+
 import lombok.Data;
 
+@Entity
 public @Data class ReminderDto {
     private String status;
     private String dept;

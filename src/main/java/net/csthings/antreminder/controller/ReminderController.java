@@ -65,24 +65,6 @@ public class ReminderController {
         mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    // @RequestMapping(value = "${reminders.url}")
-    // public String reminderGet(Model model) {
-    // model.asMap().clear();
-    // return PAGE;
-    // }
-
-    // @RequestMapping(value = "${reminders.url}", method = RequestMethod.GET)
-    // public String reminderGet(Model model, @QueryParam("accountid") String
-    // accountid,
-    // @QueryParam("status") String status) {
-    // MultivaluedMap<String, String> queries = new MultivaluedMapImpl();
-    // queries.add("accountid", test_account_id);
-    // queries.add("status", "NEW");
-    // String result = restService.get(API_REMINDER_GET, queries);
-    // model.asMap().clear();
-    // return PAGE;
-    // }
-
     @RequestMapping(value = "${reminders.url}", method = RequestMethod.GET)
     public String reminderGetAll(Model model, @QueryParam("status") String status) {
         // Get Reminders

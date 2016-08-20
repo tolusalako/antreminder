@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	... 
+	...
 </head>
 <body>
 	<div class="fragment search-fragment" th:fragment="search">
@@ -12,30 +12,43 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="myModalLabel">Schedule a Reminder</h4>
+							<h4 class="modal-title" id="myModalLabel">Email me when...</h4>
 						</div>
 						<div class="modal-body">
 							<div>
-								<h6 id="modal-remind-text">Remind me when ...</h6>
-								<div class="btn-group m-x-auto" id="modal-btn-group" data-toggle="buttons">
+								<center>
+									<span class="h5 modal-remind-text" id="modal-remind-text-dept"></span>
+									<span class="h5 modal-remind-text" id="modal-remind-text-number"></span>
+									<span calss="h5">: </span>
+									<span class="h5 modal-remind-text" id="modal-remind-text-title"></span>
+									<span class="h5 modal-remind-text" id="modal-remind-text-section"></span>
+									<span class="h5 modal-remind-text" id="modal-remind-text-code"></span>
+									<span class="h5"> is...</span>
+								</center>
+							</div>
+							<div class="card card-block text-xs-center">
+								<div class="btn-group"  id="modal-btn-group" data-toggle="buttons">
 									<label class="btn btn-outline-success active">
-									<input class="modal-btn" type="radio" name="options" id="open" autocomplete="off"> OPEN </input>
+									<input class="modal-btn"  type="radio" name="options" id="open" autocomplete="off"> OPEN </input>
 									</label>
 									<label class="btn btn-outline-warning">
-										<input class="modal-btn" type="radio" name="options" id="waitlist" autocomplete="off"> WAITLIST-OPEN </input>
+										<input class="modal-btn"  type="radio" name="options" id="waitlist" autocomplete="off"> WAITLIST-OPEN </input>
 									</label>
 									<label class="btn btn-outline-info">
-										<input class="modal-btn" type="radio" name="options" id="newonly" autocomplete="off"> NEWONLY </input>
+										<input class="modal-btn"  type="radio" name="options" id="newonly" autocomplete="off"> NEWONLY </input>
 									</label>
 									<label class="btn btn-outline-danger">
-										<input class="modal-btn" type="radio" name="options" id="full" autocomplete="off"> FULL </input>
+										<input class="modal-btn"  type="radio" name="options" id="full" autocomplete="off"> FULL </input>
 									</label>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary" id="modal-setreminder">Set Reminder</button>
+							<form method="post" action="/schedule/add" class="form-inline pull-xs-right">
+						      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<input  type="submit" value="Set Reminder" class="btn btn-primary" id="modal-setreminder"></input>
+						  </form>
 						</div>
 					</div>
 				</div>

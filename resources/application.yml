@@ -1,13 +1,20 @@
+# TODO: clean
+
 websoc:
     baseUrl: https://www.reg.uci.edu/perl/WebSoc
     formUrl: /schedule
     searchUrl: /schedule
     searchFragment: resources/templates/fragments/schedule/search.html
     formFragment: resources/templates/fragments/schedule/form.html
+schedule:
+    url:
+      add: /add
+
 reminders:
     url: /reminders
     get: /reminders/get
     getall: /reminders/getall
+
 
 api.reminders.url: http://localhost:2424/reminder
 api:

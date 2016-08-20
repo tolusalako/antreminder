@@ -1,3 +1,5 @@
+
+
 $(document).on({
     click: function(){
       var course = "";
@@ -5,21 +7,21 @@ $(document).on({
       var firstChild = $(this).find('td').first();
       if (firstChild.is('.CourseTitle')){
         course = firstChild.text();
-    }else{
-        var parent = $(this).prevAll().find('td.CourseTitle');
-        course = parent.text();
-        code = $(this).find('td').first().text();
-    }
+      }else{
+          var parent = $(this).prevAll().find('td.CourseTitle');
+          course = parent.text();
+          code = $(this).find('td').first().text();
+      }
     course = course.trim().split(/[\s]{2,}/);
-    title = course[0] + " " + course[1] + ": " + course[2];
-    title = title.toUpperCase();
-    var remindtext = "";
-    if (!(code == ""))
-        remindtext = "Remind me when " + title  + ", Section: " + code+ " is..."
-    else
-        remindtext = "Remind me when any class in " + title + " is..."
-    
-    $('#modal-remind-text').text(remindtext);
+    // title = title.toUpperCase();
+
+    $('#modal-remind-text-dept').text(course[0]);
+    $('#modal-remind-text-number').text(course[1]);
+    $('#modal-remind-text-title').text(course[2]);
+    if (!(code == "")){
+      $('#modal-remind-text-section').text(", Section: ");
+      $('#modal-remind-text-code').text(code);
+    }
     $('#myModal').modal('toggle');
 },
 //    mouseover: function () {
@@ -28,6 +30,8 @@ $(document).on({
 // }
 }, "tr[valign]");
 
-$('#modal-setreminder').click(function(){
-    alert("Setting reminder for class...");
+$(document).ready(function(){
+  $("#modal-setreminder").on('click', function(){
+          console.log("Setting reminder for class...");
+  });
 });

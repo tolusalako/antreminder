@@ -32,6 +32,7 @@ import net.csthings.antreminder.websoc.utils.WebSocParser;
  */
 
 @Controller
+@RequestMapping("${websoc.formUrl}")
 public class WebSocController {
     Logger LOG = LoggerFactory.getLogger(WebSocController.class);
     public final static String PAGE = "schedule";
@@ -47,7 +48,8 @@ public class WebSocController {
         restService = new RestClientService(websocSettings.getBaseUrl());
     }
 
-    @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.GET)
+    // Serve page
+    @RequestMapping(method = RequestMethod.GET)
     public String websocGet(Model model) {
         model.asMap().clear();
         model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
@@ -55,7 +57,16 @@ public class WebSocController {
         return PAGE;
     }
 
-    @RequestMapping(value = "${websoc.formUrl}", method = RequestMethod.POST,
+    // Add reminder
+    @RequestMapping(value = "${schedule.url.add}", method = RequestMethod.POST)
+    public String websocGet1(Model model, @RequestBody MultiValueMap body) {
+        model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
+        model.addAttribute(Attributes.PAGE, webSocService.generateInnerFormHtml());
+        return PAGE;
+    }
+
+    // Handle form post
+    @RequestMapping(method = RequestMethod.POST,
         // headers = { "content-type=application/x-www-form-urlencoded" },
         produces = MediaType.APPLICATION_XHTML_XML_VALUE)
     public String websocPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body, Model model) {
