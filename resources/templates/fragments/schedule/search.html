@@ -26,28 +26,27 @@
 									<span class="h5"> is...</span>
 								</center>
 							</div>
-							<div class="card card-block text-xs-center">
-								<div class="btn-group"  id="modal-btn-group" data-toggle="buttons">
-									<label class="btn btn-outline-success active">
-									<input class="modal-btn"  type="radio" name="options" id="open" autocomplete="off"> OPEN </input>
-									</label>
-									<label class="btn btn-outline-warning">
-										<input class="modal-btn"  type="radio" name="options" id="waitlist" autocomplete="off"> WAITLIST-OPEN </input>
-									</label>
-									<label class="btn btn-outline-info">
-										<input class="modal-btn"  type="radio" name="options" id="newonly" autocomplete="off"> NEWONLY </input>
-									</label>
-									<label class="btn btn-outline-danger">
-										<input class="modal-btn"  type="radio" name="options" id="full" autocomplete="off"> FULL </input>
-									</label>
-								</div>
-							</div>
 						</div>
 						<div class="modal-footer">
 							<form method="post" action="/schedule/add" class="form-inline pull-xs-right">
+								<!-- <div class="btn-group"  id="modal-btn-group" data-toggle="buttons"> -->
+									<!-- <label class="btn btn-outline-success active"> -->
+									<button class="modal-btn btn btn-outline-success"  type="radio" name="options" id="open" autocomplete="off"> OPEN </button>
+									<!-- </label> -->
+									<!-- <label class="btn btn-outline-warning"> -->
+										<button class="modal-btn btn btn-outline-warning"  type="radio" name="options" id="waitlist" autocomplete="off"> WAITLIST-OPEN </button>
+									<!-- </label> -->
+									<!-- <label class="btn btn-outline-info"> -->
+										<button class="modal-btn btn btn-outline-info"  type="radio" name="options" id="newonly" autocomplete="off"> NEWONLY </button>
+									<!-- </label> -->
+									<!-- <label class="btn btn-outline-danger"> -->
+										<button class="modal-btn btn btn-outline-danger"  type="radio" name="options" id="full" autocomplete="off"> FULL </button>
+									<!-- </label> -->
+								<!-- </div> -->
+
 						      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<input  type="submit" value="Set Reminder" class="btn btn-primary" id="modal-setreminder"></input>
+								<!--	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<input  type="submit" value="Set Reminder" class="btn btn-primary" id="modal-setreminder"></input>-->
 						  </form>
 						</div>
 					</div>
