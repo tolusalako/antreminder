@@ -4,7 +4,7 @@
  * @author Toluwanimi Salako
  * Last edited: Jul 2, 2016
  */
-package net.csthings.antreminder.websoc.service;
+package net.csthings.antreminder.service;
 
 public final class ServiceException extends Exception{
     

@@ -1,19 +1,28 @@
 # TODO: clean
 
+application.name: AntReminder
+application.mode: dev
+
+
+security.basic.enabled: false
+html: text/html
+
+
 websoc:
     baseUrl: https://www.reg.uci.edu/perl/WebSoc
     formUrl: /schedule
     searchUrl: /schedule
     searchFragment: resources/templates/fragments/schedule/search.html
     formFragment: resources/templates/fragments/schedule/form.html
-schedule:
-    url:
-      add: /add
+
+schedule.url: /schedule
 
 reminders:
     url: /reminders
+    add: /reminders/add
     get: /reminders/get
     getall: /reminders/getall
+
 
 
 api.reminders.url: http://localhost:2424/reminder
@@ -24,9 +33,5 @@ api:
       getall: /getall
       add: /add
 
-cassandra:
-    contactPoints: 192.168.0.10
-    keyspace: antreminder
-    port: 9042
 app:
     encoding: UTF-8

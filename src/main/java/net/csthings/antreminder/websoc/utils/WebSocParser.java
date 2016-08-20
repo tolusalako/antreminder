@@ -9,6 +9,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+import net.csthings.services.common.utils.Pair;
+
 public final class WebSocParser {
 
     public static Pair<String, String> parseDeptElement(String dept) {
@@ -22,7 +24,7 @@ public final class WebSocParser {
             result.add(parseDeptElement(dept.get(i)));
         }
         return result;
-    
+
     }
 
     public static MultivaluedMap toMultivalueMap(Map<?, ?> map) {

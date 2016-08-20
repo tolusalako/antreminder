@@ -12,25 +12,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import net.csthings.antreminder.service.reminder.ReminderDto;
-import net.csthings.antreminder.utils.Attributes;
-import net.csthings.antreminder.websoc.service.RestClientService;
-import net.csthings.antreminder.websoc.utils.WebSocParser;
+import net.csthings.antreminder.service.rest.RestClientService;
 import net.csthings.services.common.dto.ResultDto;
 
-@Controller
+@RestController
+@RequestMapping(value = "${reminders.url}")
 public class ReminderController {
     Logger LOG = LoggerFactory.getLogger(ReminderController.class);
 
@@ -65,8 +66,8 @@ public class ReminderController {
         mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    @RequestMapping(value = "${reminders.url}", method = RequestMethod.GET)
-    public String reminderGetAll(Model model, @QueryParam("status") String status) {
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView reminderGetAll(Model model, @QueryParam("status") String status) {
         // Get Reminders
         MultivaluedMap<String, String> queries = new MultivaluedMapImpl();
         queries.add("accountid", test_account_id);
@@ -84,28 +85,44 @@ public class ReminderController {
         // TODO: fail here
         List<ReminderDto> reminders = rez.getItem();
         model.addAttribute("reminders", reminders);
-        return PAGE;
+        return new ModelAndView(PAGE, "Model", model);
     }
 
-    @RequestMapping(value = "${reminders.url}", method = RequestMethod.POST,
-        // headers = { "content-type=application/x-www-form-urlencoded" },
-        produces = MediaType.APPLICATION_XHTML_XML_VALUE)
-    public String reminderPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body, Model model) {
-        model.asMap().clear();
+    // Add reminder
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String reminderAdd(HttpServletRequest servletRequest, Model model, @RequestBody MultiValueMap body) {
+        String response;
         try {
-            String response = restService.getHtml(WebSocParser.toMultivalueMap(body), "");
-            model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.SEARCH);
-            model.addAttribute(Attributes.PAGE, response);
+            response = mapper.writeValueAsString(body);
         }
-        catch (Exception e) {
-            LOG.error("WebSoc POST error.", e);
-            model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.ERROR);
+        catch (JsonProcessingException e) {
+            LOG.error("Could not convert data to String", e);
+            response = "Error";
         }
-
-        if (!model.containsAttribute(Attributes.FRAGMENT))
-            model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
-        return PAGE;
+        return response;
     }
+
+    // @RequestMapping(method = RequestMethod.POST,
+    // // headers = { "content-type=application/x-www-form-urlencoded" },
+    // produces = MediaType.APPLICATION_XHTML_XML_VALUE)
+    // public String reminderPost(HttpServletRequest servletRequest,
+    // @RequestBody MultiValueMap body, Model model) {
+    // model.asMap().clear();
+    // try {
+    // String response = restService.getHtml(WebSocParser.toMultivalueMap(body),
+    // "");
+    // model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.SEARCH);
+    // model.addAttribute(Attributes.PAGE, response);
+    // }
+    // catch (Exception e) {
+    // LOG.error("WebSoc POST error.", e);
+    // model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.ERROR);
+    // }
+    //
+    // if (!model.containsAttribute(Attributes.FRAGMENT))
+    // model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
+    // return PAGE;
+    // }
 
     private void getReminders() {
 

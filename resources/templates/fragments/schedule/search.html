@@ -7,17 +7,17 @@
 	<div class="fragment search-fragment" th:fragment="search">
 		<div id="searchReply">
 			<div id="searchReplyContent" th:utext="${PAGE}"></div>
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal fade" id="schedule-modal" tabindex="-1" role="dialog">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="myModalLabel">Email me when...</h4>
+							<h4 class="modal-title" id="schedule-modal-label">Email me when...</h4>
 						</div>
 						<div class="modal-body">
 							<div>
 								<center>
-									<span class="h5 modal-remind-text" id="modal-remind-text-dept"></span>
+									<span class="h5 modal-remind-text modal-remind-text-dept" id="modal-remind-text-dept"></span>
 									<span class="h5 modal-remind-text" id="modal-remind-text-number"></span>
 									<span calss="h5">: </span>
 									<span class="h5 modal-remind-text" id="modal-remind-text-title"></span>
@@ -28,23 +28,24 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<form method="post" action="/schedule/add" class="form-inline pull-xs-right">
+							<form id="modal-form" method="post" th:action="${REMINDER_ADD_URL}" class="form-inline pull-xs-right">
+									<input type="hidden" class="modal-remind-text-dept" name="dept" />
+							      			<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+
 								<!-- <div class="btn-group"  id="modal-btn-group" data-toggle="buttons"> -->
 									<!-- <label class="btn btn-outline-success active"> -->
-									<button class="modal-btn btn btn-outline-success"  type="radio" name="options" id="open" autocomplete="off"> OPEN </button>
+										<button class="modal-btn btn btn-outline-success" type="submit"   name="status" value="OPEN"> OPEN </button>
 									<!-- </label> -->
 									<!-- <label class="btn btn-outline-warning"> -->
-										<button class="modal-btn btn btn-outline-warning"  type="radio" name="options" id="waitlist" autocomplete="off"> WAITLIST-OPEN </button>
+										<button class="modal-btn btn btn-outline-warning" type="submit"   name="status" value="WAITLIST-OPEN"> WAITLIST-OPEN </button>
 									<!-- </label> -->
 									<!-- <label class="btn btn-outline-info"> -->
-										<button class="modal-btn btn btn-outline-info"  type="radio" name="options" id="newonly" autocomplete="off"> NEWONLY </button>
+										<button class="modal-btn btn btn-outline-info" type="submit"  name="status" value="NEWONLY"> NEWONLY </button>
 									<!-- </label> -->
 									<!-- <label class="btn btn-outline-danger"> -->
-										<button class="modal-btn btn btn-outline-danger"  type="radio" name="options" id="full" autocomplete="off"> FULL </button>
+										<button class="modal-btn btn btn-outline-danger" type="submit"   name="status" value="FULL"> FULL </button>
 									<!-- </label> -->
 								<!-- </div> -->
-
-						      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 								<!--	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 									<input  type="submit" value="Set Reminder" class="btn btn-primary" id="modal-setreminder"></input>-->
 						  </form>

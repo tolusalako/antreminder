@@ -2,7 +2,6 @@ package net.csthings.antreminder.websoc.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +16,6 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.gargoylesoftware.htmlunit.StringWebResponse;
-import com.gargoylesoftware.htmlunit.html.HTMLParser;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import net.csthings.antreminder.config.AppSettings;
 import net.csthings.antreminder.config.WebSocSettings;
@@ -116,10 +111,11 @@ public class WebSocServiceImpl implements WebSocService {
         FileUtils.writeStringToFile(form, data, Charset.forName(encoding));
         return form;
     }
-    
+
     /**
      * Strips form from its tag returning only the table.
      */
+    @Override
     public String generateInnerFormHtml() {
         // Re init WebScrapper with non static url
         WebScrapper ws = new WebScrapper(baseUrl);
@@ -133,17 +129,21 @@ public class WebSocServiceImpl implements WebSocService {
      * required
      * @return
      */ // FIXME
-    public String generateInnerSearchHtml(String response){
+    @Override
+    public String generateInnerSearchHtml(String response) {
         File f = new File("/resources/templates/placeholder.html");
-        
-        WebScrapper ws = new WebScrapper("file://" + form.getAbsolutePath()); //TODO add to properties
+
+        WebScrapper ws = new WebScrapper("file://" + form.getAbsolutePath()); // TODO
+                                                                              // add
+                                                                              // to
+                                                                              // properties
         ws.driver.setJavascriptEnabled(true);
         ws.driver.executeScript("document.innerHTML = " + response);
         LOG.debug("Generating new Inner-Search from HTML respose");
         ws.driver.findElements(By.xpath("/html/body/div[4]/table/tbody"));
         return formElement.get(0).getAttribute("innerHTML");
     }
-    
+
     /**
      * Returns the data in the specified category of the form
      */

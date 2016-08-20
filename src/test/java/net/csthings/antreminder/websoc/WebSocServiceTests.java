@@ -16,15 +16,14 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
-import net.csthings.antreminder.adapters.FormMVCAdapter;
+import net.csthings.antreminder.adapters.MVCAdapter;
 import net.csthings.antreminder.provider.ServiceProvider;
-import net.csthings.antreminder.websoc.impl.WebSocServiceImpl;
 import net.csthings.antreminder.websoc.service.WebSocService;
 import net.csthings.antreminder.websoc.utils.Category;
-import net.csthings.antreminder.websoc.utils.Pair;
 import net.csthings.antreminder.websoc.utils.WebSocParser;
+import net.csthings.services.common.utils.Pair;
 
-@SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, FormMVCAdapter.class })
+@SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, MVCAdapter.class })
 @WebAppConfiguration
 public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
     Logger LOG = LoggerFactory.getLogger(WebSocServiceTests.class);
@@ -45,9 +44,9 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(form.exists());
         Assert.assertEquals(sdf.format(form.lastModified()), sdf.format((new Date()).getTime()));
     }
-    
+
     @Test
-    public void websocInnerForm(){
+    public void websocInnerForm() {
         String innerForm = service.generateInnerFormHtml();
         Assert.assertNotNull(innerForm);
         Assert.assertNotEquals(innerForm, "");
