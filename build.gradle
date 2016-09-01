@@ -25,6 +25,7 @@ jar {
 	baseName = 'antreminder'
 	version = '0.0.1'
 }
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -55,8 +56,6 @@ dependencies {
 	compile group: 'javax.persistence', name: 'persistence-api', version: '1.0'
 	//Jersey Cli
 	compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.1'
-	//Csthings
-	compile group: 'net.csthings.service', name: 'csthings-services-common', version: "0.0.1A"
 
 	compile group: 'org.projectlombok', name: 'lombok', version: '1.16.6'
 	compile group: 'org.seleniumhq.selenium', name: 'htmlunit-driver', version: '2.21'

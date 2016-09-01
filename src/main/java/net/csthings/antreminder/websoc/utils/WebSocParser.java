@@ -1,31 +1,28 @@
 package net.csthings.antreminder.websoc.utils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import net.csthings.services.common.utils.Pair;
-
 public final class WebSocParser {
 
-    public static Pair<String, String> parseDeptElement(String dept) {
-        String[] result = dept.split("\\.");
-        return new Pair<String, String>(result[0], result[result.length - 1]);
-    }
+    // public static Pair<String, String> parseDeptElement(String dept) {
+    // String[] result = dept.split("\\.");
+    // return new Pair<String, String>(result[0], result[result.length - 1]);
+    // }
+    //
+    // public static List<Pair<String, String>> parseDeptElement(List<String>
+    // dept) {
+    // List<Pair<String, String>> result = new ArrayList<>();
+    // for (int i = 1; i < dept.size(); ++i) {
+    // result.add(parseDeptElement(dept.get(i)));
+    // }
+    // return result;
 
-    public static List<Pair<String, String>> parseDeptElement(List<String> dept) {
-        List<Pair<String, String>> result = new ArrayList<>();
-        for (int i = 1; i < dept.size(); ++i) {
-            result.add(parseDeptElement(dept.get(i)));
-        }
-        return result;
-
-    }
+    // }
 
     public static MultivaluedMap toMultivalueMap(Map<?, ?> map) {
         MultivaluedMap formData = new MultivaluedMapImpl();

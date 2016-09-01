@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +18,6 @@ import net.csthings.AntreminderApplication;
 import net.csthings.antreminder.adapters.MVCAdapter;
 import net.csthings.antreminder.provider.ServiceProvider;
 import net.csthings.antreminder.websoc.service.WebSocService;
-import net.csthings.antreminder.websoc.utils.Category;
-import net.csthings.antreminder.websoc.utils.WebSocParser;
-import net.csthings.services.common.utils.Pair;
 
 @SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, MVCAdapter.class })
 @WebAppConfiguration
@@ -52,12 +48,13 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
         Assert.assertNotEquals(innerForm, "");
         LOG.info(innerForm);
     }
-
-    @Test
-    public void dataTest() {
-        List<Pair<String, String>> rez = WebSocParser.parseDeptElement(service.getFormData(Category.DEPARTMENT));
-        Assert.assertNotNull(rez);
-        Assert.assertNotEquals(rez.size(), 0);
-        rez.stream().forEach(System.out::println);
-    }
+    //
+    // @Test
+    // public void dataTest() {
+    // List<Pair<String, String>> rez =
+    // WebSocParser.parseDeptElement(service.getFormData(Category.DEPARTMENT));
+    // Assert.assertNotNull(rez);
+    // Assert.assertNotEquals(rez.size(), 0);
+    // rez.stream().forEach(System.out::println);
+    // }
 }

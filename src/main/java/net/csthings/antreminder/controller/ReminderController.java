@@ -27,8 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import net.csthings.antreminder.service.reminder.ReminderDto;
+import net.csthings.antreminder.service.reminder.ResultDto;
 import net.csthings.antreminder.service.rest.RestClientService;
-import net.csthings.services.common.dto.ResultDto;
 
 @RestController
 @RequestMapping(value = "${reminders.url}")
