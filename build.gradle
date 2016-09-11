@@ -29,10 +29,6 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-task stage {
-	dependsOn build
-}
-
 repositories {
 	jcenter()
 	// if (System.getenv('ALT_REPO')) {
@@ -71,7 +67,17 @@ test{
 	ignoreFailures = true
 }
 
+task stage(type: Copy, dependsOn: [clean, build]) {
+    from jar.archivePath
+    into project.rootDir
+    rename {
+        'app.jar'
+    }
+}
+stage.mustRunAfter(clean)
+
 clean{
+	delete "app.jar"
 	delete "bin"
 	delete "test-output"
 	cleanEclipse
