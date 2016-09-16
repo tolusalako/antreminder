@@ -2,6 +2,8 @@ package net.csthings.antreminder.controller;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +50,8 @@ public class ScheduleController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String reminderGet(Model model) {
+    public String reminderGet(Model model, HttpSession session, HttpServletRequest request,
+            HttpServletResponse response) {
         model.asMap().clear();
         model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
         model.addAttribute(Attributes.PAGE, webSocService.generateInnerFormHtml());
@@ -56,10 +59,11 @@ public class ScheduleController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_XHTML_XML_VALUE)
-    public String reminderPost(HttpServletRequest servletRequest, @RequestBody MultiValueMap body, Model model) {
+    public String reminderPost(Model model, @RequestBody MultiValueMap body, HttpSession session,
+            HttpServletRequest request, HttpServletResponse httpResponse) {
         model.asMap().clear();
         try {
-            String response = restService.getHtml(WebSocParser.toMultivalueMap(body), "");
+            String response = restService.getHtml(WebSocParser.toMultivaluedMap(body), "");
             model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.SEARCH);
             model.addAttribute(Attributes.PAGE, response);
         }

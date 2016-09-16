@@ -24,7 +24,7 @@ public final class WebSocParser {
 
     // }
 
-    public static MultivaluedMap toMultivalueMap(Map<?, ?> map) {
+    public static MultivaluedMap toMultivaluedMap(Map<?, ?> map) {
         MultivaluedMap formData = new MultivaluedMapImpl();
         for (Object k : map.keySet()) {
             LinkedList<String> o = (LinkedList<String>) map.get(k);

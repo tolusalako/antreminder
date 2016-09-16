@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -35,7 +34,7 @@ import net.csthings.antreminder.service.rest.RestClientService;
 public class ReminderController {
     Logger LOG = LoggerFactory.getLogger(ReminderController.class);
 
-    public final static String PAGE = "reminders";
+    public final static String PAGE_NAME = "reminders";
 
     /**
      * Sub Pages
@@ -85,12 +84,12 @@ public class ReminderController {
         // TODO: fail here
         List<ReminderDto> reminders = rez.getItem();
         model.addAttribute("reminders", reminders);
-        return new ModelAndView(PAGE, "Model", model);
+        return new ModelAndView(PAGE_NAME, "Model", model);
     }
 
     // Add reminder
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String reminderAdd(HttpServletRequest servletRequest, Model model, @RequestBody MultiValueMap body) {
+    public String reminderAdd(Model model, @RequestBody MultiValueMap body) {
         String response;
         try {
             response = mapper.writeValueAsString(body);

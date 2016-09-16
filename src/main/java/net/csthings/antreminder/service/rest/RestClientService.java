@@ -33,6 +33,11 @@ public class RestClientService {
         mapper = new ObjectMapper();
     }
 
+    public String post(String path, MultivaluedMap form) throws ServiceException {
+        ClientResponse response = resource.path(path).post(ClientResponse.class, form);
+        return handleResponse(response);
+    }
+
     public String get(String path, MultivaluedMap queryParams) {
         return resource.path(path).queryParams(queryParams).get(String.class);
     }
@@ -43,7 +48,10 @@ public class RestClientService {
         ClientResponse response = resource.accept(MediaType.TEXT_HTML).accept(MediaType.APPLICATION_XHTML_XML)
                 .accept(MediaType.APPLICATION_XML).type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
                 .post(ClientResponse.class, params);
+        return handleResponse(response);
+    }
 
+    public String handleResponse(ClientResponse response) throws ServiceException {
         if (response.getStatus() != Status.OK.getStatusCode())
             throw new ServiceException("Got unexpected rest response");
         else

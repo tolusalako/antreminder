@@ -8,7 +8,7 @@ body {
     float: middle;
 }
 
-#loginFragment {    
+#loginFragment {
     display: table;
     margin: 0 auto;
     background-color: white;
@@ -18,4 +18,8 @@ body {
 
 #index-container{
 
+}
+
+.text-bad-login{
+    color: red;
 }
