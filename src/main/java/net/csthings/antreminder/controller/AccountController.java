@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +28,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.csthings.antreminder.entity.User;
 import net.csthings.antreminder.security.AuthenticationImpl;
+import net.csthings.antreminder.security.SecurityUtils;
 import net.csthings.antreminder.service.ServiceException;
 import net.csthings.antreminder.service.reminder.ResultDto;
 import net.csthings.antreminder.service.rest.RestClientService;
@@ -36,7 +42,7 @@ import net.csthings.antreminder.utils.Status;
 import net.csthings.antreminder.websoc.utils.WebSocParser;
 
 @RestController
-@RequestMapping(value = "/account")
+@RequestMapping(value = "/login")
 public class AccountController {
     Logger LOG = LoggerFactory.getLogger(AccountController.class);
 
@@ -51,7 +57,8 @@ public class AccountController {
     private String API_ACCOUNT_REGISTER;
     @Value("${api.account.url.validate}")
     private String API_ACCOUNT_VALIDATE;
-    String responsePage = "/reminders";
+
+    public final static String PAGE_NAME = "login";
 
     RestClientService restService;
     ObjectMapper mapper;
@@ -62,19 +69,16 @@ public class AccountController {
         mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public ModelAndView login(@RequestBody MultiValueMap body, HttpSession session, HttpServletRequest request,
-            HttpServletResponse response) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView login(Model model, @RequestBody MultiValueMap body, HttpSession session,
+            HttpServletRequest request, HttpServletResponse response) {
         List<String> pages = (List<String>) body.get("page");
         String responsePage = pages.get(0);
-        responsePage = responsePage.equals("/account/login") ? ReminderController.PAGE_NAME : responsePage;
 
-        responsePage = "redirect:/" + responsePage;
-
-        ResultDto<String> apiResponse = null;
+        ResultDto<Object> apiResponse = null;
         try {
             String result = restService.post(API_ACCOUNT_LOGIN, WebSocParser.toMultivaluedMap(body));
-            apiResponse = mapper.readValue(result, new TypeReference<ResultDto<String>>() {
+            apiResponse = mapper.readValue(result, new TypeReference<ResultDto<Object>>() {
             });
         }
         catch (IOException | ServiceException e) {
@@ -82,11 +86,25 @@ public class AccountController {
             // TODO: fail here
         }
         if (null == apiResponse || apiResponse.getStatus().equals(Status.FAILED)) {
-            // model.addAttribute("apiResponse", apiResponse);
-            return new ModelAndView(responsePage);
+            model.addAttribute("apiResponse", apiResponse);
+            return new ModelAndView(AccountController.PAGE_NAME, "Model", model);
         }
+
+        // Redirect logins and home to Reminders
+        if (responsePage.equals(AccountController.PAGE_NAME) || responsePage.equals("/"))
+            responsePage = ReminderController.PAGE_NAME;
+        else
+            responsePage = responsePage.substring(1, responsePage.length());
+
+        responsePage = "redirect:/" + responsePage;
+
+        Gson gson = new Gson();
         List<String> emails = (List<String>) body.get("email");
-        String token = apiResponse.getItem();
+        String jsonString = gson.toJson(apiResponse.getItem());
+        JsonObject credentials = new JsonParser().parse(jsonString).getAsJsonObject();
+
+        String token = credentials.get("sessionId").getAsString();
+        UUID accountId = UUID.fromString(credentials.get("accountId").getAsString());
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.HOUR, 24);
@@ -95,22 +113,20 @@ public class AccountController {
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
-        User user = new User(emails.get(0), true, token);
+        User user = new User(accountId, emails.get(0), true, token);
         Authentication authentication = new AuthenticationImpl(user, token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // redirectAttrs.addAttribute("authenticated", user.getAuthenticated());
-        // redirectAttrs.addAttribute("email", user.getEmail());
-        // try {
-        // response.sendRedirect(
-        // request.getContextPath() + (responsePage.equals("redirect:index") ?
-        // "redirect:/" : responsePage));
-        // }
-        // catch (IOException e) {
-        // LOG.error("Could not chage response's redirect", e);
-        // }
         return new ModelAndView(responsePage);
 
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView reminderGet(Model model, HttpSession session, HttpServletRequest request,
+            HttpServletResponse response) {
+        return new ModelAndView(
+                SecurityUtils.isAuthenticated() ? ReminderController.PAGE_NAME : AccountController.PAGE_NAME, "Model",
+                model);
     }
 
 }

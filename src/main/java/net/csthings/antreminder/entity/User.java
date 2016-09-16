@@ -1,19 +1,20 @@
 package net.csthings.antreminder.entity;
 
-import java.util.Collection;
+import java.util.UUID;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.apache.commons.lang3.StringUtils;
 
-public class User implements UserDetails {
+public class User {
     private String email;
     private Boolean authenticated;
     private String session;
+    private UUID accountId;
 
     public User() {
     }
 
-    public User(String email, Boolean authenticated, String session) {
+    public User(UUID accountId, String email, Boolean authenticated, String session) {
+        this.accountId = accountId;
         this.email = email;
         this.authenticated = authenticated;
         this.session = session;
@@ -43,45 +44,7 @@ public class User implements UserDetails {
         this.session = session;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isAuthenticated() {
+        return authenticated && StringUtils.isNotEmpty(session) && StringUtils.isNotEmpty(email) && accountId != null;
     }
 }

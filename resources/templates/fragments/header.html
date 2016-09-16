@@ -22,10 +22,10 @@
 
         <div class="session">
             <span sec:authorize="isAuthenticated()">
-                <font color="white"><b class="text-email-login" sec:authentication="name">Anonymous</b></font>
+                <font color="white"><b class="pull-xs-right text-email-login" th:text="${'Hello, ' + #authentication.name}">Anonymous</b></font>
             </span>
             <th:block th:unless="${#authorization?.expression('isAuthenticated()')}">
-                <form class="form-inline pull-xs-right" method="post" action="/account/login">
+                <form class="form-inline pull-xs-right" method="post" action="/login">
                     <font color="red"><a class="text-bad-login" th:text="${apiResponse?.msg}"></a></font>
                     <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

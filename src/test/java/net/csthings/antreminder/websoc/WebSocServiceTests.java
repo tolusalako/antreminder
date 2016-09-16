@@ -15,11 +15,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import net.csthings.AntreminderApplication;
-import net.csthings.antreminder.adapters.MVCAdapter;
 import net.csthings.antreminder.provider.ServiceProvider;
 import net.csthings.antreminder.websoc.service.WebSocService;
 
-@SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class, MVCAdapter.class })
+@SpringApplicationConfiguration(classes = { AntreminderApplication.class, ServiceProvider.class })
 @WebAppConfiguration
 public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
     Logger LOG = LoggerFactory.getLogger(WebSocServiceTests.class);
