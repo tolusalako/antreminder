@@ -8,8 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import net.csthings.antreminder.entity.User;
 
 public class AuthenticationImpl implements Authentication {
-    public static final String AUTH_NAME = "ANTREMINDER_AUTH";
-
     private String session;
     private User user;
     private boolean authenticated;
@@ -22,7 +20,7 @@ public class AuthenticationImpl implements Authentication {
 
     @Override
     public String getName() {
-        return AUTH_NAME;
+        return user.getEmail();
     }
 
     @Override

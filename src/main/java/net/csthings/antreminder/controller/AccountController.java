@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,7 +96,9 @@ public class AccountController {
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
         User user = new User(emails.get(0), true, token);
-        SecurityContextHolder.getContext().setAuthentication(new AuthenticationImpl(user, token));
+        Authentication authentication = new AuthenticationImpl(user, token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         // redirectAttrs.addAttribute("authenticated", user.getAuthenticated());
         // redirectAttrs.addAttribute("email", user.getEmail());
         // try {

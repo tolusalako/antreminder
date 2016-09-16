@@ -41,12 +41,12 @@ repositories {
 dependencies {
 	//Spring Boot
 	compile group:'org.springframework.boot', name: 'spring-boot-starter-security', version: "${springVersion}"
-	compile group:'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: "${springVersion}"
+	// compile group:'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: "${springVersion}"
 	compile group:'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springVersion}"
 	compile group:'org.springframework.session', name: 'spring-session', version: "${springSessionVersion}"
-	// compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.1.RELEASE'
-	// compile group: 'org.thymeleaf', name: 'thymeleaf-spring3', version: '3.0.1.RELEASE'
-	// compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity3', version: '3.0.0.RELEASE'
+	compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.1.RELEASE'
+	compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '3.0.1.RELEASE'
+	compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.0.RELEASE'
 	//WebJars
 	compile group: 'org.webjars', name: 'jquery', version: '3.1.0'
 	compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0-alpha.3'

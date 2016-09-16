@@ -21,10 +21,10 @@
         </ul>
 
         <div class="session">
-                <div  sec:authorize="isAuthenticated()">
-                    <font color="white"><b class="text-email-login" th:text="${httpSession}"></b></font>
-                </div>
-            <!-- <th:block th:if="${#httpSession} == null or ${#httpSession.authentication} == null or ${#httpSession.authentication} == false"> -->
+            <span sec:authorize="isAuthenticated()">
+                <font color="white"><b class="text-email-login" sec:authentication="name">Anonymous</b></font>
+            </span>
+            <th:block th:unless="${#authorization?.expression('isAuthenticated()')}">
                 <form class="form-inline pull-xs-right" method="post" action="/account/login">
                     <font color="red"><a class="text-bad-login" th:text="${apiResponse?.msg}"></a></font>
                     <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
@@ -33,7 +33,7 @@
                     <input class="form-control" type="password"  name="password" placeholder="password"></input>
                     <button class="btn btn-outline-success" type="submit">Login</button>
                 </form>
-            <!-- </th:block> -->
+            </th:block>
 </div>
 </nav>
 </body>
