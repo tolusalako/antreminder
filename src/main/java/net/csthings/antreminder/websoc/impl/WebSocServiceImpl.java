@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
@@ -90,27 +89,29 @@ public class WebSocServiceImpl implements WebSocService {
         return form;
     }
 
-    /**
-     * Updates the existing form html with latest data
-     */
-    @Override
-    public File generateNewFormHtml() throws IOException {
-        // Re init WebScrapper with non static url
-        WebScrapper ws = new WebScrapper(baseUrl);
-        formElement = ws.driver.findElements(By.xpath("/html/body/form"));
-        LOG.debug("Generating new form from {}", url);
-        String data = formElement.get(0).getAttribute("innerHTML");
-        // Replace the generated data's action to ours. We need to intercept it
-        // to prevent redirection
-        data = data.replaceFirst("action=\"(.+)\"",
-                String.format("action=\"%s\" th:fragment=\"%s\"", searchUrl, FORM_FRAGMENT_NAME));
-        // Insert CSRF
-        data = data.replaceFirst("(<input type=\"submit\" name=\"Submit\" value=\"Display Text Results\"/>)",
-                Matcher.quoteReplacement(CSRF_STRING));
-
-        FileUtils.writeStringToFile(form, data, Charset.forName(encoding));
-        return form;
-    }
+    // /**
+    // * Updates the existing form html with latest data
+    // */
+    // @Override
+    // public File generateNewFormHtml() throws IOException {
+    // // Re init WebScrapper with non static url
+    // WebScrapper ws = new WebScrapper(baseUrl);
+    // formElement = ws.driver.findElements(By.xpath("/html/body/form"));
+    // LOG.debug("Generating new form from {}", url);
+    // String data = formElement.get(0).getAttribute("innerHTML");
+    // // Replace the generated data's action to ours. We need to intercept it
+    // // to prevent redirection
+    // data = data.replaceFirst("action=\"(.+)\"",
+    // String.format("action=\"%s\" th:fragment=\"%s\"", searchUrl,
+    // FORM_FRAGMENT_NAME));
+    // // Insert CSRF
+    // data = data.replaceFirst("(<input type=\"submit\" name=\"Submit\"
+    // value=\"Display Text Results\"/>)",
+    // Matcher.quoteReplacement(CSRF_STRING));
+    //
+    // FileUtils.writeStringToFile(form, data, Charset.forName(encoding));
+    // return form;
+    // }
 
     /**
      * Strips form from its tag returning only the table.

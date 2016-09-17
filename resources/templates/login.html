@@ -9,33 +9,38 @@
     th:href="@{css/login.css}" media="screen" />
 </head>
 <body>
-    <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'></link> -->
-    <div class="container-fluid">
-    	 <form action="" method="post" class="register-form">
-             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-             <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
-          <div class="row">
-               <div class="col-md-4 col-sm-4 col-lg-4">
-                  <label for="email">EMAIL</label>
-                   <input name="email" class="form-control" type="email">
-               </div>
-          </div>
-          <div class="row">
-               <div class="col-md-4 col-sm-4 col-lg-4">
-                  <label for="password">PASSWORD</label>
-                   <input name="password" class="form-control" type="password">
-               </div>
-          </div>
+  <div th:replace="fragments/header :: header">
+    <!-- PlaceHolder -->
+  </div>
+  <div class="container">
+  <div class="card card-container">
+      <center><h4>Antreminder</h4></center>
+      <form class="form-signin" method="post" action="/login" >
+          <span id="reauth-email" class="reauth-email"></span>
+          <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
+          <center>
+              <font color="red"><a class="text-bad-login" th:text="${apiResponse?.msg}"></a></font>
+          </center>
           <hr>
-          <div class="row">
-               <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
-               <button class="btn btn-outline-danger regbutton" name="register">Register</button>
-              </div>
-              <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6">
-               <button class="btn btn-outline-success logbutton" name="login">Login</button>
-              </div>
+          <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <div id="remember" class="checkbox">
+              <label>
+                  <input type="checkbox" value="remember-me"> Remember me
+              </label>
+                <a href="#" class="forgot-password center-block">
+                    Forgot password?
+                </a>
           </div>
-        </form>
-    </div>
+          <div>
+              <button class="btn btn-lg btn-outline-primary btn-block btn-signin" name="login" type="submit">Sign in</button>
+          </div>
+          <div>
+              <button class="btn btn-lg btn-outline-default btn-block btn-reg" name="register" type="submit">Register</button>
+          </div>
+      </form><!-- /form -->
+  </div><!-- /card-container -->
+</div><!-- /container -->
 </body>
 </html>

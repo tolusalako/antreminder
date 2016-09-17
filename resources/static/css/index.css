@@ -23,3 +23,7 @@ body {
 .text-bad-login{
     color: red;
 }
+
+.login-dropdown{
+    background-color: rgb(55,58,60);
+}

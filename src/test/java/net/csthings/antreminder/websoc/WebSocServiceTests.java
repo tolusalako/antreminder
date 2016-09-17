@@ -3,7 +3,6 @@ package net.csthings.antreminder.websoc;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,13 +31,14 @@ public class WebSocServiceTests extends AbstractTestNGSpringContextTests {
         File html = service.getFormHtml();
         Assert.assertTrue(html.exists());
     }
-
-    @Test(enabled = true)
-    public void websocNewForm() throws IOException {
-        File form = service.generateNewFormHtml();
-        Assert.assertTrue(form.exists());
-        Assert.assertEquals(sdf.format(form.lastModified()), sdf.format((new Date()).getTime()));
-    }
+    //
+    // @Test(enabled = true)
+    // public void websocNewForm() throws IOException {
+    // File form = service.generateNewFormHtml();
+    // Assert.assertTrue(form.exists());
+    // Assert.assertEquals(sdf.format(form.lastModified()), sdf.format((new
+    // Date()).getTime()));
+    // }
 
     @Test
     public void websocInnerForm() {

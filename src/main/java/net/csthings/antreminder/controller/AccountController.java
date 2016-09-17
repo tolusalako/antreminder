@@ -42,7 +42,6 @@ import net.csthings.antreminder.utils.Status;
 import net.csthings.antreminder.websoc.utils.WebSocParser;
 
 @RestController
-@RequestMapping(value = "/login")
 public class AccountController {
     Logger LOG = LoggerFactory.getLogger(AccountController.class);
 
@@ -69,15 +68,16 @@ public class AccountController {
         mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
     public ModelAndView login(Model model, @RequestBody MultiValueMap body, HttpSession session,
             HttpServletRequest request, HttpServletResponse response) {
         List<String> pages = (List<String>) body.get("page");
+        String path = body.keySet().contains(PAGE_NAME) ? API_ACCOUNT_LOGIN : API_ACCOUNT_REGISTER;
         String responsePage = pages.get(0);
 
         ResultDto<Object> apiResponse = null;
         try {
-            String result = restService.post(API_ACCOUNT_LOGIN, WebSocParser.toMultivaluedMap(body));
+            String result = restService.post(path, WebSocParser.toMultivaluedMap(body));
             apiResponse = mapper.readValue(result, new TypeReference<ResultDto<Object>>() {
             });
         }
@@ -121,12 +121,19 @@ public class AccountController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView reminderGet(Model model, HttpSession session, HttpServletRequest request,
+    @RequestMapping(method = RequestMethod.GET, value = "/login")
+    public ModelAndView loginGet(Model model, HttpSession session, HttpServletRequest request,
             HttpServletResponse response) {
         return new ModelAndView(
                 SecurityUtils.isAuthenticated() ? ReminderController.PAGE_NAME : AccountController.PAGE_NAME, "Model",
                 model);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/logout")
+    public ModelAndView logout(Model model, @RequestBody MultiValueMap body, HttpSession session,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        return new ModelAndView("redirect:/index");
     }
 
 }
