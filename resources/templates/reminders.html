@@ -147,7 +147,7 @@
                   <td class="view-message text-right">April 01</td>
                 </tr>
                 <div th:if="${not #lists.isEmpty(reminders)}">
-                  <tr class="unread" th:each="reminder : ${reminders}">
+                  <tr th:each="reminder : ${reminders}">
                     <td class="inbox-small-cells">
                       <input type="checkbox" class="mail-checkbox"></input>
                     </td>

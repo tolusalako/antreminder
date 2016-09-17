@@ -1,9 +1,13 @@
 package net.csthings.antreminder.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -23,11 +27,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+import net.csthings.antreminder.security.SecurityUtils;
+import net.csthings.antreminder.service.ServiceException;
 import net.csthings.antreminder.service.reminder.ReminderDto;
 import net.csthings.antreminder.service.reminder.ResultDto;
 import net.csthings.antreminder.service.rest.RestClientService;
+import net.csthings.antreminder.utils.FormUtils;
+import net.csthings.antreminder.utils.Status;
 
 @RestController
 @RequestMapping(value = "${reminders.url}")
@@ -70,10 +79,10 @@ public class ReminderController {
         // Get Reminders
         MultivaluedMap<String, String> queries = new MultivaluedMapImpl();
         queries.add("accountid", test_account_id);
-        String result = restService.get(API_REMINDER_GETALL, queries);
+        String response = restService.get(API_REMINDER_GETALL, queries);
         ResultDto<List<ReminderDto>> rez = null;
         try {
-            rez = mapper.readValue(result, new TypeReference<ResultDto<List<ReminderDto>>>() {
+            rez = mapper.readValue(response, new TypeReference<ResultDto<List<ReminderDto>>>() {
             });
         }
         catch (IOException e) {
@@ -88,40 +97,38 @@ public class ReminderController {
     }
 
     // Add reminder
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String reminderAdd(Model model, @RequestBody MultiValueMap body) {
-        String response;
-        try {
-            response = mapper.writeValueAsString(body);
-        }
-        catch (JsonProcessingException e) {
-            LOG.error("Could not convert data to String", e);
-            response = "Error";
-        }
-        return response;
-    }
+    public String reminderAdd(Model model, @RequestBody MultiValueMap<String, String> body,
+            HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
 
-    // @RequestMapping(method = RequestMethod.POST,
-    // // headers = { "content-type=application/x-www-form-urlencoded" },
-    // produces = MediaType.APPLICATION_XHTML_XML_VALUE)
-    // public String reminderPost(HttpServletRequest servletRequest,
-    // @RequestBody MultiValueMap body, Model model) {
-    // model.asMap().clear();
-    // try {
-    // String response = restService.getHtml(WebSocParser.toMultivalueMap(body),
-    // "");
-    // model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.SEARCH);
-    // model.addAttribute(Attributes.PAGE, response);
-    // }
-    // catch (Exception e) {
-    // LOG.error("WebSoc POST error.", e);
-    // model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.ERROR);
-    // }
-    //
-    // if (!model.containsAttribute(Attributes.FRAGMENT))
-    // model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
-    // return PAGE;
-    // }
+        String response = "";
+        JsonObject jsonResponse = new JsonObject();
+        httpResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        try {
+
+            if (!SecurityUtils.isAuthenticated()) {
+                httpResponse.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode());
+                jsonResponse.addProperty("msg", "User is Unauthorized");
+                jsonResponse.addProperty("status", Status.FAILED);
+            }
+            else {
+                Map<String, Object> map = FormUtils.toSingleValuedMap(body);
+                map.put("accountId", SecurityUtils.getAccountId());
+                map.put("expiration", new Date()); // TODO FIXME
+                map.remove("_csrf");
+                String json = mapper.writeValueAsString(map);
+                response = restService.post(API_REMINDER_ADD, json);
+                return response;
+            }
+        }
+        catch (JsonProcessingException | ServiceException e) {
+            LOG.error("Could not convert data to String", e);
+            jsonResponse.addProperty("msg", "Could not add Reminder.");
+            jsonResponse.addProperty("status", Status.FAILED);
+        }
+        return jsonResponse.toString();
+    }
 
     private void getReminders() {
 

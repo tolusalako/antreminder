@@ -20,6 +20,14 @@ public class User {
         this.session = session;
     }
 
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
     public String getEmail() {
         return email;
     }

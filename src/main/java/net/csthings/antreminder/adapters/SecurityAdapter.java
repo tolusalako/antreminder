@@ -15,7 +15,7 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests().antMatchers("/").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/schedule").permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/reminders").authenticated();
+        httpSecurity.authorizeRequests().antMatchers("/reminders/**").authenticated();
         httpSecurity.csrf().csrfTokenRepository(csrfTokenRepository());
         // httpSecurity.formLogin().loginProcessingUrl("/login").loginPage("/login").usernameParameter("email")
         // .passwordParameter("password").permitAll().and().exceptionHandling().accessDeniedPage("/login").and()

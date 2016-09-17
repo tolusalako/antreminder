@@ -39,7 +39,7 @@ import net.csthings.antreminder.service.ServiceException;
 import net.csthings.antreminder.service.reminder.ResultDto;
 import net.csthings.antreminder.service.rest.RestClientService;
 import net.csthings.antreminder.utils.Status;
-import net.csthings.antreminder.websoc.utils.WebSocParser;
+import net.csthings.antreminder.utils.FormUtils;
 
 @RestController
 public class AccountController {
@@ -77,7 +77,7 @@ public class AccountController {
 
         ResultDto<Object> apiResponse = null;
         try {
-            String result = restService.post(path, WebSocParser.toMultivaluedMap(body));
+            String result = restService.post(path, FormUtils.toMultiValuedMap(body));
             apiResponse = mapper.readValue(result, new TypeReference<ResultDto<Object>>() {
             });
         }

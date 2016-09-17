@@ -34,12 +34,19 @@ public class RestClientService {
     }
 
     public String post(String path, MultivaluedMap form) throws ServiceException {
-        ClientResponse response = resource.path(path).post(ClientResponse.class, form);
+        ClientResponse response = resource.path(path).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class,
+                form);
+        return handleResponse(response);
+    }
+
+    public String post(String path, String json) throws ServiceException {
+        ClientResponse response = resource.path(path).accept(MediaType.APPLICATION_JSON)
+                .type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
         return handleResponse(response);
     }
 
     public String get(String path, MultivaluedMap queryParams) {
-        return resource.path(path).queryParams(queryParams).get(String.class);
+        return resource.path(path).queryParams(queryParams).accept(MediaType.APPLICATION_JSON).get(String.class);
     }
 
     public String getHtml(MultivaluedMap params, String path)

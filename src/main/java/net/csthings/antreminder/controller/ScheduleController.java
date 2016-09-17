@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.csthings.antreminder.config.WebSocSettings;
 import net.csthings.antreminder.service.rest.RestClientService;
 import net.csthings.antreminder.utils.Attributes;
+import net.csthings.antreminder.utils.FormUtils;
 import net.csthings.antreminder.websoc.service.WebSocService;
-import net.csthings.antreminder.websoc.utils.WebSocParser;
 
 /**
  * -Created on: Jul 28, 2016
@@ -63,7 +63,7 @@ public class ScheduleController {
             HttpServletRequest request, HttpServletResponse httpResponse) {
         model.asMap().clear();
         try {
-            String response = restService.getHtml(WebSocParser.toMultivaluedMap(body), "");
+            String response = restService.getHtml(FormUtils.toMultiValuedMap(body), "");
             model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.SEARCH);
             model.addAttribute(Attributes.PAGE, response);
         }

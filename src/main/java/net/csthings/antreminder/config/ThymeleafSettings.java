@@ -1,6 +1,7 @@
 package net.csthings.antreminder.config;
 
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -71,8 +74,14 @@ public class ThymeleafSettings extends WebMvcConfigurerAdapter implements Applic
         FormHttpMessageConverter converter = new FormHttpMessageConverter();
         MediaType mediaType = new MediaType("application", "x-www-form-urlencoded", Charset.forName("UTF-8"));
         converter.setSupportedMediaTypes(Arrays.asList(mediaType));
-
         converters.add(converter);
+
+        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+        builder.indentOutput(true).dateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+        // converters.add(new
+        // MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
+
         super.configureMessageConverters(converters);
     }
 
