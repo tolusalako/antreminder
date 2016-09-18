@@ -1,7 +1,6 @@
 package net.csthings.antreminder.controller;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +38,11 @@ import net.csthings.antreminder.utils.FormUtils;
 import net.csthings.antreminder.utils.Status;
 
 @RestController
-@RequestMapping(value = "${reminders.url}")
+@RequestMapping("/reminders")
 public class ReminderController {
     Logger LOG = LoggerFactory.getLogger(ReminderController.class);
 
-    public final static String PAGE_NAME = "reminders";
+    public static final String PAGE_NAME = "reminders";
 
     /**
      * Sub Pages
@@ -66,8 +65,6 @@ public class ReminderController {
     RestClientService restService;
     ObjectMapper mapper;
 
-    private String test_account_id = "0013d030-6418-11e6-880a-a51705403ed5";
-
     @PostConstruct
     public void init() {
         restService = new RestClientService(API_REMINDER_URL);
@@ -78,7 +75,7 @@ public class ReminderController {
     public ModelAndView reminderGetAll(Model model, @QueryParam("status") String status) {
         // Get Reminders
         MultivaluedMap<String, String> queries = new MultivaluedMapImpl();
-        queries.add("accountid", test_account_id);
+        queries.add("accountid", SecurityUtils.getAccountId().toString());
         String response = restService.get(API_REMINDER_GETALL, queries);
         ResultDto<List<ReminderDto>> rez = null;
         try {
@@ -115,7 +112,6 @@ public class ReminderController {
             else {
                 Map<String, Object> map = FormUtils.toSingleValuedMap(body);
                 map.put("accountId", SecurityUtils.getAccountId());
-                map.put("expiration", new Date()); // TODO FIXME
                 map.remove("_csrf");
                 String json = mapper.writeValueAsString(map);
                 response = restService.post(API_REMINDER_ADD, json);

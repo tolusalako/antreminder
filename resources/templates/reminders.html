@@ -106,56 +106,16 @@
             </div>
             <table class="table table-inbox table-hover">
               <tbody>
-                <tr class="unread">
-                  <td class="inbox-small-cells">
-                    <input type="checkbox" class="mail-checkbox"></input>
-                  </td>
-                  <td class="inbox-small-cells"><i class=" fa fa-circle text-warning"></i></td>
-                  <td class="view-message  dont-show">PHPClass</td>
-                  <td class="view-message ">Added a new class: Login Class Fast Site</td>
-                  <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                  <td class="view-message  text-right">9:27 AM</td>
-                </tr>
-                <tr class="unread">
-                  <td class="inbox-small-cells">
-                    <input type="checkbox" class="mail-checkbox"></input>
-                  </td>
-                  <td class="inbox-small-cells"><i class=" fa fa-circle text-danger"></i></td>
-                  <td class="view-message dont-show">Google Webmaster </td>
-                  <td class="view-message">Improve the search presence of WebSite</td>
-                  <td class="view-message inbox-small-cells"></td>
-                  <td class="view-message text-right">March 15</td>
-                </tr>
-                <tr class="">
-                  <td class="inbox-small-cells">
-                    <input type="checkbox" class="mail-checkbox"></input>
-                  </td>
-                  <td class="inbox-small-cells"><i class=" fa fa-circle text-success"></i></td>
-                  <td class="view-message dont-show">JW Player</td>
-                  <td class="view-message">Last Chance: Upgrade to Pro for </td>
-                  <td class="view-message inbox-small-cells"></td>
-                  <td class="view-message text-right">March 15</td>
-                </tr>
-                <tr class="">
-                  <td class="inbox-small-cells">
-                    <input type="checkbox" class="mail-checkbox"></input>
-                  </td>
-                  <td class="inbox-small-cells"><i class=" fa fa-circle text-success"></i></td>
-                  <td class="view-message dont-show">Tim Reid, S P N</td>
-                  <td class="view-message">Boost Your Website Traffic</td>
-                  <td class="view-message inbox-small-cells"></td>
-                  <td class="view-message text-right">April 01</td>
-                </tr>
                 <div th:if="${not #lists.isEmpty(reminders)}">
                   <tr th:each="reminder : ${reminders}">
                     <td class="inbox-small-cells">
                       <input type="checkbox" class="mail-checkbox"></input>
                     </td>
                     <td class="inbox-small-cells"><i class=" fa fa-circle text-warning"></i></td>
-                    <td class="view-message  dont-show" th:text="${reminder.dept}"></td>
+                    <td class="view-message  dont-show" th:text="${reminder.dept} + ' ' + ${reminder.number}"></td>
                     <td class="view-message" th:text="${reminder.title}"></td>
                     <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                    <td class="view-message  text-right" th:text="${reminder.expiration}"></td>
+                    <td class="view-message  text-right" th:text="${reminder.code}"></td>
                   </tr>
                 </div>
               </tbody>

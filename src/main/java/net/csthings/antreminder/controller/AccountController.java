@@ -38,8 +38,8 @@ import net.csthings.antreminder.security.SecurityUtils;
 import net.csthings.antreminder.service.ServiceException;
 import net.csthings.antreminder.service.reminder.ResultDto;
 import net.csthings.antreminder.service.rest.RestClientService;
-import net.csthings.antreminder.utils.Status;
 import net.csthings.antreminder.utils.FormUtils;
+import net.csthings.antreminder.utils.Status;
 
 @RestController
 public class AccountController {
@@ -72,7 +72,9 @@ public class AccountController {
     public ModelAndView login(Model model, @RequestBody MultiValueMap body, HttpSession session,
             HttpServletRequest request, HttpServletResponse response) {
         List<String> pages = (List<String>) body.get("page");
-        String path = body.keySet().contains(PAGE_NAME) ? API_ACCOUNT_LOGIN : API_ACCOUNT_REGISTER;
+        String path = body.keySet().contains(PAGE_NAME) ? API_ACCOUNT_LOGIN : API_ACCOUNT_REGISTER; // TODO
+                                                                                                    // fix
+                                                                                                    // register
         String responsePage = pages.get(0);
 
         ResultDto<Object> apiResponse = null;
