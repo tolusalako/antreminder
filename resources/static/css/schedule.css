@@ -1,11 +1,23 @@
 @import url("index.css");
+
+/*body{
+    min-width:800px;
+    _width: expression( document.body.clientWidth > 800 ? "1000px" : "auto" );
+}*/
+
 #form-container{
   padding-top: 1%;
-  width: auto;
+  /*width: auto;*/
+  min-width:1000px;
+  max-width:1000px;
   border-radius: 25px;
   border-bottom: 4px !important;
   background-color: rgb(74,107,151);
   margin-bottom: 10%;
+}
+
+#search-btn{
+    width: 100%;
 }
 
 .course-list{
@@ -52,6 +64,23 @@ tr[valign]:hover *
 {
 	display: none;
 }
+
+/*.course-list > table{
+     border: 2px solid black;
+     border-left: 2px solid black;
+}*/
+
+.course-list > table > tbody{
+    display:block;
+    border: 1px solid black;
+    border-collapse: initial;
+    border-spacing: 1px;
+}
+
+.course-list > table > tbody > tr:not([bgcolor]) {
+   background-color: white;
+}
+
 #searchReplyContent{
   color: white;
 }

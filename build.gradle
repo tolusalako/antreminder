@@ -23,7 +23,7 @@ mainClassName = "net.csthings.AntreminderApplication"
 
 jar {
 	baseName = 'antreminder'
-	version = '0.0.1'
+	version = '1.0.QA'
 }
 
 sourceCompatibility = 1.8
@@ -63,6 +63,10 @@ dependencies {
 
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springVersion}")
 	testCompile("org.testng:testng:6.8")
+}
+
+springBoot {
+    executable = true
 }
 
 test{

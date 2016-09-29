@@ -4,7 +4,8 @@ $(document).on({
         var code = "";
         var firstChild = $(this).find('td').first();
         if (firstChild.is('.CourseTitle')){
-            course = firstChild.text();
+            // course = firstChild.text();
+            return;
         }else{
             var parent = $(this).prevAll().find('td.CourseTitle');
             course = parent.text();
