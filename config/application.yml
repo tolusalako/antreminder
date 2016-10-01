@@ -39,3 +39,20 @@ api:
 
 app:
     encoding: UTF-8
+
+spring:
+    datasource:
+        driver: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.0.15:3306/test_csthings
+        username: root
+        password: root
+        testWhileIdle: true
+        validationQuery: SELECT 1
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            dialect: org.hibernate.dialect.MySQL5Dialect
+    entitymanager:
+        packagesToScan: net.csthings.antreminder.entity.dto

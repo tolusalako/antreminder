@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +34,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import net.csthings.antreminder.entity.User;
+import net.csthings.antreminder.repo.AccountDao;
 import net.csthings.antreminder.security.AuthenticationImpl;
 import net.csthings.antreminder.security.SecurityUtils;
 import net.csthings.antreminder.service.ServiceException;
@@ -58,6 +60,13 @@ public class AccountController {
     private String API_ACCOUNT_VALIDATE;
 
     public final static String PAGE_NAME = "login";
+    //
+    // @Autowired
+    // AccountDao accountDao;
+
+    @Autowired
+    AccountDao accountDao;
+    // BaseRepository<AccountDto, UUID> accountDao;
 
     RestClientService restService;
     ObjectMapper mapper;
@@ -75,6 +84,7 @@ public class AccountController {
         String path = body.keySet().contains(PAGE_NAME) ? API_ACCOUNT_LOGIN : API_ACCOUNT_REGISTER; // TODO
                                                                                                     // fix
                                                                                                     // register
+
         String responsePage = pages.get(0);
 
         ResultDto<Object> apiResponse = null;
@@ -129,6 +139,11 @@ public class AccountController {
         return new ModelAndView(
                 SecurityUtils.isAuthenticated() ? ReminderController.PAGE_NAME : AccountController.PAGE_NAME, "Model",
                 model);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/login/test")
+    public String test(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        return accountDao.findAll().toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/logout")
