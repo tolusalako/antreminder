@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import net.csthings.antreminder.services.account.utils.AccountStatus;
 
 /*
  * Created on: Aug 10, 2016
@@ -44,7 +45,7 @@ public class AccountDto {
         AccountDto result = new AccountDto();
         result.email = email;
         result.password = password;
-        result.status = 0; // AccountStatus.NEW;
+        result.status = AccountStatus.NEW;
         result.created = new Date();
         return result;
     }

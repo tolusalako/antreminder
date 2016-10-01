@@ -1,4 +1,4 @@
-package net.csthings.antreminder.service.rest;
+package net.csthings.antreminder.services.rest;
 
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
@@ -17,7 +17,7 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 
-import net.csthings.antreminder.service.ServiceException;
+import net.csthings.antreminder.services.ServiceException;
 
 @Singleton
 public class RestClientService {

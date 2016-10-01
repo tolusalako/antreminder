@@ -1,4 +1,4 @@
-package net.csthings.antreminder.service.reminder;
+package net.csthings.antreminder.services.reminder;
 
 public class ResultDto<T> extends EmptyResultDto {
 

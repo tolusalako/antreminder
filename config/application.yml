@@ -23,14 +23,8 @@ reminders:
     getall: /reminders/getall
 
 
-api.account.url: http://localhost:2220/account
 api.reminders.url: http://localhost:2424/reminder
 api:
-    account:
-        url:
-            login: /login
-            create: /create
-            validate: /validate
     reminders:
         url:
             get: /get

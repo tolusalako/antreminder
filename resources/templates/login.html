@@ -12,6 +12,11 @@
   <div th:replace="fragments/header :: header">
     <!-- PlaceHolder -->
   </div>
+  <th:block th:if="${apiResponse == 'confirmation'}">
+      <center>
+          <div class="alert alert-success" type="hidden" role="alert">A verification link has been sent to your email.</div>
+      </center>
+  </th:block>
   <div class="container">
   <div class="card card-container">
       <center><h4>Antreminder</h4></center>
@@ -19,9 +24,11 @@
           <span id="reauth-email" class="reauth-email"></span>
           <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
           <input type="password" name="password" class="form-control" placeholder="Password" required>
-          <center>
-              <font color="red"><a class="text-bad-login" th:text="${apiResponse?.msg}"></a></font>
-          </center>
+            <th:block th:unless="${apiResponse == 'confirmation'}">
+              <center>
+                  <font color="red"><a class="text-bad-login" th:text="${apiResponse}"></a></font>
+              </center>
+          </th:block>
           <hr>
           <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

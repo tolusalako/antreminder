@@ -1,4 +1,4 @@
-package net.csthings.antreminder.service.reminder;
+package net.csthings.antreminder.services.reminder;
 
 import java.io.Serializable;
 

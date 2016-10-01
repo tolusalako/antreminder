@@ -30,7 +30,7 @@
             </div>
             <th:block th:unless="${#authorization?.expression('isAuthenticated()') or #httpServletRequest.requestURI.equalsIgnoreCase('/login')}">
                 <form class="form-inline pull-xs-right" method="post" action="/login">
-                    <font color="red"><a class="text-bad-login" th:text="${apiResponse?.msg}"></a></font>
+                    <font color="red"><a class="text-bad-login" th:text="${apiResponse}"></a></font>
                     <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <input class="form-control" type="text" name="email" placeholder="email"></input>

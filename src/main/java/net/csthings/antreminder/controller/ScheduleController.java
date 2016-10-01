@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import net.csthings.antreminder.config.WebSocSettings;
-import net.csthings.antreminder.service.rest.RestClientService;
+import net.csthings.antreminder.services.rest.RestClientService;
 import net.csthings.antreminder.utils.Attributes;
 import net.csthings.antreminder.utils.FormUtils;
 import net.csthings.antreminder.websoc.service.WebSocService;

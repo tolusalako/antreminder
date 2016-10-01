@@ -46,6 +46,7 @@ dependencies {
 	compile group:'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springVersion}"
 	compile group:'org.springframework.session', name: 'spring-session', version: "${springSessionVersion}"
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.39'
+	compile group: 'commons-validator', name: 'commons-validator', version: '1.4.1'
 	compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.1.RELEASE'
 	compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '3.0.1.RELEASE'
 	compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.0.RELEASE'

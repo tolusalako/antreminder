@@ -30,10 +30,10 @@ import com.google.gson.JsonObject;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import net.csthings.antreminder.security.SecurityUtils;
-import net.csthings.antreminder.service.ServiceException;
-import net.csthings.antreminder.service.reminder.ReminderDto;
-import net.csthings.antreminder.service.reminder.ResultDto;
-import net.csthings.antreminder.service.rest.RestClientService;
+import net.csthings.antreminder.services.ServiceException;
+import net.csthings.antreminder.services.reminder.ReminderDto;
+import net.csthings.antreminder.services.reminder.ResultDto;
+import net.csthings.antreminder.services.rest.RestClientService;
 import net.csthings.antreminder.utils.FormUtils;
 import net.csthings.antreminder.utils.Status;
 

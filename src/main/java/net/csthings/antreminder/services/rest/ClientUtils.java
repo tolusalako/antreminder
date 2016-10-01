@@ -1,4 +1,4 @@
-package net.csthings.antreminder.service.rest;
+package net.csthings.antreminder.services.rest;
 
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
