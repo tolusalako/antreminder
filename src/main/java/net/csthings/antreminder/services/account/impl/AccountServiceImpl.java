@@ -48,9 +48,6 @@ public final class AccountServiceImpl implements AccountService {
     ValidationAccountDao validationAccountDao;
 
     public AccountServiceImpl() {
-        // this.emailService = emailService;
-        // this.configService = configService;
-        // validationUtils = new ValidationUtils(configService);
     }
 
     @Override

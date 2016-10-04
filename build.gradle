@@ -14,6 +14,10 @@ buildscript {
 	}
 }
 
+ext {
+	devmode = project.hasProperty('devmode') ? project.getProperty('devmode') : false
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
@@ -31,11 +35,6 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
-	// if (System.getenv('ALT_REPO')) {
-	maven {
-		url "http://www.csthings.net/libs/jar"
-	}
-	// }
 }
 
 dependencies {
@@ -46,6 +45,7 @@ dependencies {
 	compile group:'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springVersion}"
 	compile group:'org.springframework.session', name: 'spring-session', version: "${springSessionVersion}"
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.39'
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
 	compile group: 'commons-validator', name: 'commons-validator', version: '1.4.1'
 	compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.1.RELEASE'
 	compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '3.0.1.RELEASE'
@@ -66,6 +66,10 @@ dependencies {
 
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springVersion}")
 	testCompile("org.testng:testng:6.8")
+
+	if (devmode){
+		compile fileTree(dir: 'libs', include: ['*.jar'])
+	}
 }
 
 springBoot {

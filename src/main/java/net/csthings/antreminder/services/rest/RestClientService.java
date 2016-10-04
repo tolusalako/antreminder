@@ -1,6 +1,5 @@
 package net.csthings.antreminder.services.rest;
 
-import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -19,7 +18,6 @@ import com.sun.jersey.api.client.config.ClientConfig;
 
 import net.csthings.antreminder.services.ServiceException;
 
-@Singleton
 public class RestClientService {
     Logger LOG = LoggerFactory.getLogger(RestClientService.class);
     Client client;
