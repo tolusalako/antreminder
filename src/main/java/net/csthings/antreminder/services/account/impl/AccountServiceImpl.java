@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.hibernate.exception.GenericJDBCException;
 import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +84,7 @@ public final class AccountServiceImpl implements AccountService {
             return new EmptyResultDto(Status.SUCCESS, StringUtils.EMPTY,
                     "Account successfuly registered. Please check your email for your verification link.");
         }
-        catch (DatabaseException | CannotPerformOperationException e) {
+        catch (DatabaseException | GenericJDBCException | CannotPerformOperationException e) {
             LOG.error("Failed to register {}", email, e);
             return new EmptyResultDto(Status.FAILED, CommonError.UNEXPECTED_ERROR, e.getMessage());
         }

@@ -15,11 +15,13 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests().antMatchers("/").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/schedule").permitAll();
+        httpSecurity.authorizeRequests().antMatchers("/login").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/reminders/**").authenticated();
+        httpSecurity.exceptionHandling().accessDeniedPage("/403");
         httpSecurity.csrf().csrfTokenRepository(csrfTokenRepository());
-        httpSecurity.formLogin().loginProcessingUrl("/login").loginPage("/login").usernameParameter("email")
-                .passwordParameter("password").permitAll().and().exceptionHandling().accessDeniedPage("/login").and()
-                .logout().permitAll();
+        // httpSecurity.formLogin().loginProcessingUrl("/login").loginPage("/login").usernameParameter("email")
+        // .passwordParameter("password").permitAll().and().exceptionHandling().accessDeniedPage("/login").and()
+        // .logout().permitAll();
 
     }
 

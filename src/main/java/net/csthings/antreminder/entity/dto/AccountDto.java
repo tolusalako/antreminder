@@ -1,11 +1,13 @@
 package net.csthings.antreminder.entity.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,7 +25,7 @@ import net.csthings.antreminder.services.account.utils.AccountStatus;
 @Data
 @Entity
 @Table(name = AccountDto.TABLE_NAME)
-public class AccountDto {
+public class AccountDto implements Serializable {
     public static final String TABLE_NAME = "accounts";
     @Id
     private UUID accountId;
@@ -41,6 +43,7 @@ public class AccountDto {
     }
 
     @JsonIgnore
+    @Transient
     public static AccountDto createNewAccount(String email, String password) {
         AccountDto result = new AccountDto();
         result.email = email;

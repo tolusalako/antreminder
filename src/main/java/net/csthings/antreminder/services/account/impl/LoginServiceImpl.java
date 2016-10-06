@@ -96,7 +96,7 @@ public final class LoginServiceImpl implements LoginService {
             }
 
         }
-        catch (CannotPerformOperationException | InvalidHashException e) {
+        catch (CannotPerformOperationException | HibernateException | InvalidHashException e) {
             LOG.error("Failed to login {}", email, e);
             return new ResultDto<>(null, Status.FAILED, CommonError.UNEXPECTED_ERROR, e.getMessage());
         }

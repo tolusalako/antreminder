@@ -1,7 +1,7 @@
 package net.csthings.antreminder.services.reminder;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 import javax.inject.Singleton;
@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import net.csthings.antreminder.entity.dto.AccountReminderDto;
+import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.common.dto.EmptyResultDto;
 import net.csthings.common.dto.ResultDto;
 
@@ -27,18 +28,14 @@ public interface ReminderService extends Serializable {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    EmptyResultDto add(AccountReminderDto reminderJson);
+    EmptyResultDto add(UUID accountId, ReminderDto reminder);
     // TODO: make sure you check session. get user from session data
 
     @GET
     @Path("/get")
     @Produces(MediaType.APPLICATION_JSON)
-    ResultDto<AccountReminderDto> get(@QueryParam("accountid") UUID accountId, @QueryParam("status") String status);
-
-    @GET
-    @Path("/getall")
-    @Produces(MediaType.APPLICATION_JSON)
-    ResultDto<List<AccountReminderDto>> getAll(@QueryParam("accountid") UUID accountId);
+    ResultDto<Collection<ReminderDto>> get(@QueryParam("accountid") UUID accountId,
+            @QueryParam("status") String status);
 
     @POST
     @Path("/delete")
