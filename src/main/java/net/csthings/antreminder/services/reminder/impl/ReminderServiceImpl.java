@@ -78,10 +78,10 @@ public class ReminderServiceImpl implements ReminderService {
             return new ResultDto<>(null, Status.FAILED);
         }
         try {
-            // AccountReminderDto accountReminder =
-            // accountReminderDao.findOne(accountId);
+            AccountReminderDto accountReminder = accountReminderDao.findOne(accountId);
+            accountReminder = accountReminder == null ? new AccountReminderDto() : accountReminder;
             // TODO cache
-            Set<ReminderDto> reminders = null;// accountReminder.getReminders();
+            Set<ReminderDto> reminders = accountReminder.getReminders();
             if (StringUtils.isEmpty(status))
                 return new ResultDto<>(reminders, Status.SUCCESS);
 

@@ -19,7 +19,7 @@
       <div class="mail-box">
         <aside class="sm-side">
           <div class="user-head">
-            <a class="inbox-avatar" href="javascript:;">
+            <!-- <a class="inbox-avatar" href="javascript:;">
               <img  width="64" hieght="60" src="https://avatars1.githubusercontent.com/u/6373173?v=3&amp;s=460"></img>
             </a>
             <div class="user-name">
@@ -28,7 +28,10 @@
             </div>
             <a class="mail-dropdown pull-right" href="javascript:;">
               <i class="fa fa-chevron-down"></i>
-            </a>
+            </a> -->
+            <div id='reminder-title'>
+              <b><h3>Reminders</h3></b>
+            </div>
           </div>
           <div class="inbox-body">
             Quater Info
@@ -49,16 +52,12 @@
             <li>
               <a href="#"><i class=" fa fa-circle text-danger"></i> FULL <span class="label label-info pull-right">30</span></a>
             </li>
-            <li>
-              <a href="#"><i class=" fa fa-circle text-default"></i> TRIGGERED</a>
-            </li>
           </ul>
 
 
         </aside>
         <aside class="lg-side">
           <div class="inbox-head">
-            <h3>Reminders</h3>
             <form action="#" class="pull-right position">
               <div class="input-append">
                 <input type="text" class="sr-input" placeholder="Search"></input>
@@ -111,11 +110,21 @@
                     <td class="inbox-small-cells">
                       <input type="checkbox" class="mail-checkbox"></input>
                     </td>
-                    <td class="inbox-small-cells"><i class=" fa fa-circle text-warning"></i></td>
+                    <th:block th:if="${reminder.status == 'OPEN'}">
+                        <td class="inbox-small-cells"><i class=" fa fa-circle text-success"></i></td>
+                    </th:block>
+                    <th:block th:if="${reminder.status == 'WAITL'}">
+                        <td class="inbox-small-cells"><i class=" fa fa-circle text-warning"></i></td>
+                    </th:block>
+                    <th:block th:if="${reminder.status == 'NEWONLY'}">
+                        <td class="inbox-small-cells"><i class=" fa fa-circle text-info"></i></td>
+                    </th:block>
+                    <th:block th:if="${reminder.status == 'FULL'}">
+                        <td class="inbox-small-cells"><i class=" fa fa-circle text-danger"></i></td>
+                    </th:block>
                     <td class="view-message  dont-show" th:text="${reminder.dept} + ' ' + ${reminder.number}"></td>
+                    <td class="view-message  text-right" th:text="${reminder.reminderId}"></td>
                     <td class="view-message" th:text="${reminder.title}"></td>
-                    <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                    <td class="view-message  text-right" th:text="${reminder.code}"></td>
                   </tr>
                 </div>
               </tbody>
