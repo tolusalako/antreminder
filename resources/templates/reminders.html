@@ -44,7 +44,7 @@
               <a href="#"><i class=" fa fa-circle text-success"></i> OPEN</a>
             </li>
             <li>
-              <a href="#"><i class=" fa fa-circle text-warning"></i> WAITLIST-OPEN</a>
+              <a href="#"><i class=" fa fa-circle text-warning"></i> WAITLIST</a>
             </li>
             <li>
               <a href="#"><i class=" fa fa-circle text-info"></i> NEWONLY</a>
@@ -58,51 +58,31 @@
         </aside>
         <aside class="lg-side">
           <div class="inbox-head">
-            <form action="#" class="pull-right position">
-              <div class="input-append">
-                <input type="text" class="sr-input" placeholder="Search"></input>
-                <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
-              </div>
-            </form>
-          </div>
-          <div class="inbox-body">
             <div class="mail-option">
-              <div class="btn-group">
-                <a class="btn mini btn-primary" id="refresh" href="/reminders">
-                  <i class=" fa fa-refresh btn-default"></i>
+              <div class="btn-group btn-group-refresh">
+                <a class="btn mini btn-default btn-refresh"href="/reminders">
+                  <i class=" fa fa-refresh"></i>
                 </a>
               </div>
-              <div class="btn-group" id="add">
-                <a class="btn mini btn-primary" href="#add">
+              <div class="btn-group btn-group-add">
+                <a class="btn mini btn-default btn-add" href="#add">
                   <i class="fa fa-plus"></i>
                 </a>
               </div>
-              <div class="btn-group">
-                <a class="btn mini btn-success" id="stop" href="#stop">
-                  <i class="fa fa-stop"></i>
-                </a>
-              </div>
-              <div class="btn-group">
-                <a class="btn mini btn-info"  id="remove" href="#remove">
+              <div class="btn-group btn-group-remove">
+                <a class="btn mini btn-default btn-remove" href="#remove">
                   <i class="fa fa-minus"></i>
                 </a>
               </div>
-              <div class="btn-group hidden-phone">
-                <a data-toggle="dropdown" href="#" class="btn mini blue" aria-expanded="false">
-                  More
-                  <i class="fa fa-angle-down "></i>
-                </a>
-              </div>
-              <ul class="unstyled inbox-pagination">
-                <li><span>1-50 of 234</span></li>
-                <li>
-                  <a class="np-btn" href="#"><i class="fa fa-angle-left  pagination-left"></i></a>
-                </li>
-                <li>
-                  <a class="np-btn" href="#"><i class="fa fa-angle-right pagination-right"></i></a>
-                </li>
-              </ul>
+              <form action="#" class="pull-right position">
+                <div class="input-append">
+                  <input type="text" class="sr-input" placeholder="Search"></input>
+                  <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                </div>
+              </form>
             </div>
+          </div>
+          <div class="inbox-body">
             <table class="table table-inbox table-hover">
               <tbody>
                 <div th:if="${not #lists.isEmpty(reminders)}">

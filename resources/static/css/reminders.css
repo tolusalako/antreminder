@@ -36,8 +36,13 @@
     background: none repeat scroll 0 0 rgb(74,107,151);
     border-radius: 4px 0 0;
     color: #fff;
-    min-height: 80px;
     padding: 10px;
+}
+.user-head{
+    height: 80px;
+    border-right: 1px;
+    border-color: rgb(229,232,239);
+    border-style: none ridge none none;
 }
 .user-head .inbox-avatar {
     float: left;
@@ -140,7 +145,7 @@ ul.labels-info li a i {
     background: none repeat scroll 0 0 rgb(74,107,151);
     border-radius: 0 4px 0 0;
     color: #fff;
-    min-height: 80px;
+    height: 80px;
     padding: 20px;
 }
 .inbox-head h3 {
@@ -159,12 +164,17 @@ ul.labels-info li a i {
     padding: 0 10px;
 }
 .inbox-head .sr-btn {
-    background: none repeat scroll 0 0 #00a6b2;
+    background: none repeat scroll 0 0 white;
     border: medium none;
     border-radius: 0 4px 4px 0;
-    color: #fff;
+    color: rgb(2,117,216);
     height: 40px;
     padding: 0 20px;
+}
+
+.inbox-head .sr-btn:hover {
+    color: white;
+    background: rgb(2,117,216);
 }
 .table-inbox {
     border: 1px solid #d3d3d3;
@@ -194,7 +204,7 @@ ul.inbox-pagination li {
 }
 .mail-option {
     display: inline-block;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     width: 100%;
 }
 .mail-option .chk-all, .mail-option .btn-group {
@@ -208,18 +218,27 @@ ul.inbox-pagination li {
     display: inline-block;
     padding: 5px 10px;
 }
-.mail-option .btn-group a#refresh {
+
+.btn-refresh {
+  color: gray;
+}
+.btn-add {
+  color: gray;
+}
+.btn-remove {
+  color: gray;
+}
+
+.btn-refresh:hover {
   color: rgb(92,184,92);
 }
-.mail-option .btn-group a#add {
+.btn-add:hover {
   color: rgb(2,117,216);
 }
-.mail-option .btn-group a#stop {
-  color: rgb(106,106,106);
-}
-.mail-option .btn-group a#remove {
+.btn-remove:hover {
   color: rgb(255,0,0);
 }
+
 
 .inbox-pagination a.np-btn {
     background: none repeat scroll 0 0 #fcfcfc;
