@@ -5,6 +5,6 @@ import net.csthings.common.dto.CommonDto;
 
 @Data
 public class ReminderJsonDto implements CommonDto {
-    public AccountReminderDto reminder;
+    // public AccountReminderDto reminder;
     public String status;
 }

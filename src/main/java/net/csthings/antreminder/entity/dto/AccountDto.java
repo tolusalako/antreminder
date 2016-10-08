@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -28,6 +29,7 @@ import net.csthings.antreminder.services.account.utils.AccountStatus;
 public class AccountDto implements Serializable {
     public static final String TABLE_NAME = "accounts";
     @Id
+    @Column(columnDefinition = "BINARY(16)")
     private UUID accountId;
     private String email;
     private String password;
@@ -39,6 +41,7 @@ public class AccountDto implements Serializable {
     }
 
     public AccountDto(UUID id) {
+        this();
         this.accountId = id;
     }
 

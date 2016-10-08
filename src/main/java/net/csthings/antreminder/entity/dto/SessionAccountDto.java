@@ -2,6 +2,7 @@ package net.csthings.antreminder.entity.dto;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,6 +16,7 @@ public class SessionAccountDto {
     public static final String TABLE_NAME = "session_account";
     @Id
     String sessionId;
+    @Column(columnDefinition = "BINARY(16)")
     UUID accountId;
 
     public SessionAccountDto() {

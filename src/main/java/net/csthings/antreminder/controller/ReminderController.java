@@ -3,8 +3,8 @@ package net.csthings.antreminder.controller;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.QueryParam;
 
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +32,7 @@ import net.csthings.antreminder.security.SecurityUtils;
 import net.csthings.antreminder.services.reminder.ReminderService;
 import net.csthings.antreminder.utils.FormUtils;
 import net.csthings.antreminder.utils.Status;
+import net.csthings.common.dto.EmptyResultDto;
 import net.csthings.common.dto.ResultDto;
 
 @RestController
@@ -51,10 +52,9 @@ public class ReminderController {
     ReminderService reminderService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView reminderGet(Model model, Authentication authentication, @QueryParam("status") String status) {
+    public ModelAndView reminderGet(Model model, @QueryParam("status") String status) {
         // Get Reminders
-        ResultDto<Collection<ReminderDto>> rez = reminderService
-                .get(((AuthenticationImpl) authentication).getPrincipal().getAccountId(), status);
+        ResultDto<Collection<ReminderDto>> rez = reminderService.get(getAccountId(), status);
         Collection<ReminderDto> reminders = rez.getItem();
         model.addAttribute("reminders", reminders);
         return new ModelAndView(PAGE_NAME, "Model", model);
@@ -64,9 +64,9 @@ public class ReminderController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String reminderAdd(Model model, @RequestBody MultiValueMap<String, String> body,
-            HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
+            HttpServletResponse httpResponse) throws IOException {
 
-        String response = "";
+        String response = Status.FAILED;
         JsonObject jsonResponse = new JsonObject();
         ObjectMapper objMapper = new ObjectMapper();
         httpResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -82,9 +82,8 @@ public class ReminderController {
                 map.remove("_csrf");
                 ReminderDto reminder = objMapper.convertValue(map, ReminderDto.class);
                 map.put("accountId", SecurityUtils.getAccountId());
-                // String json = mapper.writeValueAsString(map);
-                // response = restService.post(API_REMINDER_ADD, json);
-                return response;
+                EmptyResultDto result = reminderService.add(getAccountId(), reminder);
+                return result.getStatus();
             }
         }
         catch (JsonProcessingException e) {
@@ -95,7 +94,9 @@ public class ReminderController {
         return jsonResponse.toString();
     }
 
-    private void getReminders() {
+    private static UUID getAccountId() {
+        return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal()
+                .getAccountId();
 
     }
 }

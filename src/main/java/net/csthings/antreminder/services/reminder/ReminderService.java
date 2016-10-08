@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import net.csthings.antreminder.entity.dto.AccountReminderDto;
 import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.common.dto.EmptyResultDto;
 import net.csthings.common.dto.ResultDto;
@@ -36,10 +35,10 @@ public interface ReminderService extends Serializable {
     @Produces(MediaType.APPLICATION_JSON)
     ResultDto<Collection<ReminderDto>> get(@QueryParam("accountid") UUID accountId,
             @QueryParam("status") String status);
-
-    @POST
-    @Path("/delete")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public EmptyResultDto delete(AccountReminderDto reminder);
+    //
+    // @POST
+    // @Path("/delete")
+    // @Consumes(MediaType.APPLICATION_JSON)
+    // @Produces(MediaType.APPLICATION_JSON)
+    // public EmptyResultDto delete(AccountReminderDto reminder);
 }

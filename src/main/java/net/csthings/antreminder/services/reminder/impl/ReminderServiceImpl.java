@@ -11,10 +11,14 @@ import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.extern.slf4j.Slf4j;
+import net.csthings.antreminder.entity.dto.AccountDto;
 import net.csthings.antreminder.entity.dto.AccountReminderDto;
+import net.csthings.antreminder.entity.dto.ReminderAccountDto;
 import net.csthings.antreminder.entity.dto.ReminderDto;
+import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 import net.csthings.antreminder.repo.AccountReminderDao;
 import net.csthings.antreminder.repo.ReminderAccountDao;
+import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.reminder.ReminderService;
 import net.csthings.common.dto.EmptyResultDto;
 import net.csthings.common.dto.ResultDto;
@@ -48,12 +52,20 @@ public class ReminderServiceImpl implements ReminderService {
         }
 
         try {
-            // Save to account_reminders
-            accountReminderDao.save(accountReminder);
+            ReminderAccountDto ra = new ReminderAccountDto(reminder.getReminderId(), reminder.getStatus());
+            AccountReminderDto ar = accountReminderDao.findOne(accountId);
+            ar = ar == null ? ar = new AccountReminderDto(accountId) : ar;
+            ReminderPK reminderKey = new ReminderPK(reminder.getReminderId(), reminder.getStatus());
+            ra.getAccounts().add(new AccountDto(accountId));
+            ar.getReminders().add(reminder);
+
+            if (!reminderDao.exists(reminderKey))
+                reminderDao.save(reminder);
+            accountReminderDao.save(ar);
+            // reminderAccountDao.saveAndFlush(ra);
         }
         catch (Exception e) {
             log.error("Error processing request", e);
-            log.debug("{}", accountReminder.toString());
             return new EmptyResultDto(Status.FAILED, CommonError.UNEXPECTED_ERROR, "Error processing reminder");
         }
         return new EmptyResultDto(Status.SUCCESS, null, "Reminder added.");
@@ -66,9 +78,10 @@ public class ReminderServiceImpl implements ReminderService {
             return new ResultDto<>(null, Status.FAILED);
         }
         try {
-            AccountReminderDto accountReminder = accountReminderDao.findOne(accountId);
+            // AccountReminderDto accountReminder =
+            // accountReminderDao.findOne(accountId);
             // TODO cache
-            Set<ReminderDto> reminders = accountReminder.getReminders();
+            Set<ReminderDto> reminders = null;// accountReminder.getReminders();
             if (StringUtils.isEmpty(status))
                 return new ResultDto<>(reminders, Status.SUCCESS);
 
@@ -86,10 +99,10 @@ public class ReminderServiceImpl implements ReminderService {
         }
     }
 
-    @Override
-    public EmptyResultDto delete(AccountReminderDto reminder) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // @Override
+    // public EmptyResultDto delete(AccountReminderDto reminder) {
+    // // TODO Auto-generated method stub
+    // return null;
+    // }
 
 }

@@ -2,6 +2,7 @@ package net.csthings.antreminder.entity.dto;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,6 +17,7 @@ public class ValidationAccountDto {
 
     @Id
     private String token;
+    @Column(columnDefinition = "BINARY(16)")
     private UUID accountId;
 
     public ValidationAccountDto() {
