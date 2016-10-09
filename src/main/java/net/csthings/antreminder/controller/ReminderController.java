@@ -29,6 +29,7 @@ import com.google.gson.JsonObject;
 import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.antreminder.security.AuthenticationImpl;
 import net.csthings.antreminder.security.SecurityUtils;
+import net.csthings.antreminder.services.ServiceException;
 import net.csthings.antreminder.services.reminder.ReminderService;
 import net.csthings.antreminder.utils.FormUtils;
 import net.csthings.antreminder.utils.Status;
@@ -50,6 +51,7 @@ public class ReminderController {
 
     @Autowired
     ReminderService reminderService;
+    private static final ObjectMapper objMapper = new ObjectMapper();
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView reminderGet(Model model, @QueryParam("status") String status) {
@@ -66,9 +68,7 @@ public class ReminderController {
     public String reminderAdd(Model model, @RequestBody MultiValueMap<String, String> body,
             HttpServletResponse httpResponse) throws IOException {
 
-        String response = Status.FAILED;
         JsonObject jsonResponse = new JsonObject();
-        ObjectMapper objMapper = new ObjectMapper();
         httpResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         try {
 
@@ -83,12 +83,21 @@ public class ReminderController {
                 ReminderDto reminder = objMapper.convertValue(map, ReminderDto.class);
                 map.put("accountId", SecurityUtils.getAccountId());
                 EmptyResultDto result = reminderService.add(getAccountId(), reminder);
-                return result.getStatus();
+                if (!result.getStatus().equals(Status.SUCCESS))
+                    throw new ServiceException(result.getMsg());
+                jsonResponse.addProperty("msg", "Reminder added.");
+                jsonResponse.addProperty("status", Status.SUCCESS);
+                return jsonResponse.toString();
             }
         }
         catch (JsonProcessingException e) {
             LOG.error("Could not convert data to String", e);
             jsonResponse.addProperty("msg", "Could not add Reminder.");
+            jsonResponse.addProperty("status", Status.FAILED);
+        }
+        catch (ServiceException e) {
+            LOG.error("Error adding reminder", e);
+            jsonResponse.addProperty("msg", e.getMessage());
             jsonResponse.addProperty("status", Status.FAILED);
         }
         return jsonResponse.toString();

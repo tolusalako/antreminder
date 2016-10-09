@@ -35,6 +35,17 @@ msg_alert.show = function(message, mode){
     )
 }
 
+msg_alert.swapShow = function(message, mode, code){
+    obj = $('tr:has(td:contains(' + code +'))');
+    originalHtml = obj.html();
+    obj.html(
+        '<td></td><td colspan = 14><div class="alert alert-' +mode+ ' alert-dismissible" role="alert"><span>'+message+'</span></div></td><td></td>'
+    )
+    setTimeout(function(){
+        obj.html(originalHtml);
+    }, 2000);
+}
+
 $(document).ready(function(){
     $(".modal-btn").click(function(event) {
             // $("#modal-form").submit(function(event) {
@@ -63,11 +74,13 @@ $(document).ready(function(){
                 "code": code,
                 "_csrf": $('#modal-form').find("input[name='_csrf']").val()
             }).done(function( data ) {
+                console.log(data)
                 var json = JSON.parse(data);
+                console.log(json)
                 if (json.status == FAILED)
                     msg_alert.show(json.msg, "warning");
                 else
-                    msg_alert.show(json.msg, "success");
+                    msg_alert.swapShow(json.msg, "success", code);
             }).fail(function (data) {
                 if(data.status == STATUS_FORBIDDEN){
                     //Redirect to login page
@@ -77,6 +90,9 @@ $(document).ready(function(){
                     msg_alert.show("Unexpected error: " + json.msg, "warning");
                 }
             });
+            // setTimeout(function(){
+            //   $('.alert-dismissible > .close').click();
+            // }, 2000);
             $('#schedule-modal').modal('toggle');
         });
 

@@ -37,20 +37,20 @@
             Quater Info
           </div>
           <ul class="inbox-nav inbox-divider">
-            <li class="active">
-              <a href="#"><i class=" fa fa-circle text-primary"></i> ALL <span class="label label-danger pull-right">2</span></a>
+            <li class="active list-item list-item-all">
+              <a href="#"><i class=" fa fa-circle text-primary"></i> <i>ALL</i> <span class="label label-all pull-right">0</span></a>
             </li>
-            <li>
-              <a href="#"><i class=" fa fa-circle text-success"></i> OPEN</a>
+            <li class="list-item list-item-open">
+              <a href="#"><i class=" fa fa-circle text-success"></i> <i>OPEN</i> <span class="label label-open pull-right">0</span></a>
             </li>
-            <li>
-              <a href="#"><i class=" fa fa-circle text-warning"></i> WAITLIST</a>
+            <li class="list-item list-item-waitlist">
+              <a href="#"><i class=" fa fa-circle text-warning"></i> <i>WAITLIST</i> <span class="label label-waitlist pull-right">0</span></a>
             </li>
-            <li>
-              <a href="#"><i class=" fa fa-circle text-info"></i> NEWONLY</a>
+            <li class="list-item list-item-newonly">
+              <a href="#"><i class=" fa fa-circle text-info"></i> <i>NEWONLY</i> <span class="label label-newonly pull-right">0</span></a>
             </li>
-            <li>
-              <a href="#"><i class=" fa fa-circle text-danger"></i> FULL <span class="label label-info pull-right">30</span></a>
+            <li class="list-item list-item-full">
+              <a href="#"><i class=" fa fa-circle text-danger"></i> <i>FULL</i> <span class="label label-full pull-right">0</span></a>
             </li>
           </ul>
 
@@ -74,16 +74,30 @@
                   <i class="fa fa-minus"></i>
                 </a>
               </div>
+              <div class="btn-group entry-filter">
+
+              </div>
               <form action="#" class="pull-right position">
                 <div class="input-append">
-                  <input type="text" class="sr-input" placeholder="Search"></input>
-                  <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                  <input type="text" class="sr-input sr-only" placeholder="Search"></input>
+                  <!-- <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button> -->
                 </div>
               </form>
             </div>
           </div>
           <div class="inbox-body">
-            <table class="table table-inbox table-hover">
+              <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/dt-1.10.12/af-2.1.2/fh-3.1.2/r-2.1.0/datatables.min.css"/>
+              <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/dt-1.10.12/af-2.1.2/fh-3.1.2/r-2.1.0/datatables.min.js"></script>
+             <table id="reminder-table" class="table table-inbox table-hover">
+            <thead>
+                <tr>
+                  <th></th>
+                  <th>Status</th>
+                  <th>Department</th>
+                  <th>Course Code</th>
+                  <th>Course Title</th>
+                </tr>
+            </thead>
               <tbody>
                 <div th:if="${not #lists.isEmpty(reminders)}">
                   <tr th:each="reminder : ${reminders}">
@@ -91,16 +105,16 @@
                       <input type="checkbox" class="mail-checkbox"></input>
                     </td>
                     <th:block th:if="${reminder.status == 'OPEN'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle text-success"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-success"></i></td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'WAITL'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle text-warning"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-warning"></i></td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'NEWONLY'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle text-info"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-info"></i></td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'FULL'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle text-danger"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-danger"></i></td>
                     </th:block>
                     <td class="view-message  dont-show" th:text="${reminder.dept} + ' ' + ${reminder.number}"></td>
                     <td class="view-message  text-right" th:text="${reminder.reminderId}"></td>
