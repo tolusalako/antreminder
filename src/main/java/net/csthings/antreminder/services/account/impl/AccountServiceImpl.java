@@ -1,6 +1,8 @@
 package net.csthings.antreminder.services.account.impl;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -23,6 +25,8 @@ import net.csthings.antreminder.services.account.exception.AccountException;
 import net.csthings.antreminder.services.account.utils.AccountError;
 import net.csthings.antreminder.services.account.utils.AccountStatus;
 import net.csthings.antreminder.services.account.utils.ValidationUtils;
+import net.csthings.antreminder.services.email.EmailService;
+import net.csthings.antreminder.services.email.exception.EmailException;
 import net.csthings.common.db.exception.DatabaseException;
 import net.csthings.common.dto.EmptyResultDto;
 import net.csthings.common.dto.ResultDto;
@@ -37,6 +41,12 @@ public final class AccountServiceImpl implements AccountService {
     private static Logger LOG = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     private static final int VALIDATION_TOKEN_LENGTH = 35;
+
+    private static final String API_URL = "localhost:8080";
+    private static final String PATH = "account";
+
+    ExecutorService executors;
+
     @Autowired
     AccountDao accountDao;
     @Autowired
@@ -47,8 +57,11 @@ public final class AccountServiceImpl implements AccountService {
     SessionAccountDao sessionAccountDao;
     @Autowired
     ValidationAccountDao validationAccountDao;
+    @Autowired
+    EmailService emailService;
 
     public AccountServiceImpl() {
+        executors = Executors.newFixedThreadPool(10);
     }
 
     @Override
@@ -79,7 +92,7 @@ public final class AccountServiceImpl implements AccountService {
             validationAccountDao.save(emailValidation);
 
             // Send validation email
-            // sendValidationEmail(email, token);
+            sendValidationEmail(email, token);
 
             return new EmptyResultDto(Status.SUCCESS, StringUtils.EMPTY,
                     "Account successfuly registered. Please check your email for your verification link.");
@@ -136,20 +149,18 @@ public final class AccountServiceImpl implements AccountService {
         return null;
     }
 
-    // private void sendValidationEmail(String email, String token) {
-    // executors.submit(() -> {
-    // String validationLink = StringUtils.join(API_URL, PATH,
-    // "/validate?user=", email, "&token=", token);
-    // try {
-    // emailService.sendHtmlEmail(validationUtils.emailValidationTitle,
-    // validationUtils.getValidationEmail(email, validationLink), new String[] {
-    // email }, null, null);
-    // }
-    // catch (Exception e) {
-    // LOG.error("Could not send validation email to {}", email, e);
-    // }
-    // });
-    // }
+    private void sendValidationEmail(String email, String token) {
+        executors.submit(() -> {
+            String validationLink = StringUtils.join(API_URL, "/", PATH, "/validate?token=", token);
+            try {
+                emailService.sendHtmlEmail(ValidationUtils.EMAIL_VALIDATION_TITLE,
+                        ValidationUtils.getValidationEmail(email, validationLink), new String[] { email }, null, null);
+            }
+            catch (EmailException e) {
+                LOG.error("Could not send validation email to {}", email, e);
+            }
+        });
+    }
 
     private AccountDto getAccount(String email) throws DatabaseException {
         EmailAccountDto rez = emailAccountDao.findOne(email);

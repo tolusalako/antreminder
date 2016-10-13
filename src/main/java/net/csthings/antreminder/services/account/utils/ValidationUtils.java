@@ -1,36 +1,35 @@
 package net.csthings.antreminder.services.account.utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import net.csthings.antreminder.services.account.exception.AccountException;
-import net.csthings.common.configuration.ConfigurationService;
 
 public final class ValidationUtils {
+    public static final String EMAIL_VALIDATION_TITLE = "Antreminder Account Verification";
+    public static final String EMAIL_VALIDATION_TEXT;
 
-    private static final String EMAIL_KEY = "account.email";
-    private static final String TITLE_KEY = "account.validationemail.title";
-    private static final String FILE_KEY = "account.validationemail.file";
-
-    public String emailValidationTitle;
-    public String emailValidationText;
-
-    private final String PLACEHOLDER_VERIFY = "${verifyAccount}";
-    private final String PLACEHOLDER_USERNAME = "${username}";
+    private static final String PLACEHOLDER_VERIFY = "${verifyAccount}";
+    private static final String PLACEHOLDER_USERNAME = "${username}";
 
     private static final int MIN_PASSWORD_LENGTH = 8;
 
-    public ValidationUtils(ConfigurationService configService) throws IOException {
-        // String validationEmailFile = Paths
-        // .get(System.getProperty("user.dir").toString(),
-        // configService.getString(FILE_KEY)).toString();
-        // emailValidationText = FileUtils.readFileToString(new
-        // File(validationEmailFile), Charset.forName("UTF-8"));
+    static {
+        try {
+            EMAIL_VALIDATION_TEXT = FileUtils.readFileToString(new File("resources/email/email_validate.html"),
+                    Charset.forName("UTF-8"));
+        }
+        catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
+        }
     }
 
-    public String getValidationEmail(String email, String link) {
-        String text = StringUtils.replace(emailValidationText, PLACEHOLDER_USERNAME, email);
+    public static String getValidationEmail(String email, String link) {
+        String text = StringUtils.replace(EMAIL_VALIDATION_TEXT, PLACEHOLDER_USERNAME, email);
         return StringUtils.replace(text, PLACEHOLDER_VERIFY, link);
     }
 
