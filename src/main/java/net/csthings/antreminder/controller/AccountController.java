@@ -16,6 +16,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -85,17 +86,30 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
-    public ModelAndView loginGet(Model model, HttpSession session, HttpServletRequest request,
-            HttpServletResponse response) {
+    public ModelAndView loginGet(Model model) {
         return new ModelAndView(
                 SecurityUtils.isAuthenticated() ? ReminderController.PAGE_NAME : AccountController.PAGE_NAME, "Model",
                 model);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/validate")
+    public ModelAndView validatePost(Model model, @RequestParam(value = "token", defaultValue = "") String token,
+            @RequestParam(value = "email", defaultValue = "") String email) {
+        if (token.isEmpty() && !email.isEmpty()) {
+            EmptyResultDto res = accountService.sendValidation(email);
+            model.addAttribute("apiResponse", res.getMsg());
+        }
+        else if (!token.isEmpty() && email.isEmpty()) {
+            ResultDto<Boolean> res = accountService.validateAccount(token);
+            model.addAttribute("apiResponse", res.getMsg());
+        }
+        return loginGet(model);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/logout")
     public ModelAndView logout(Model model, @RequestBody MultiValueMap body, HttpSession session,
             HttpServletRequest request, HttpServletResponse response) {
-
+        // TODO
         return new ModelAndView("redirect:/index");
     }
 

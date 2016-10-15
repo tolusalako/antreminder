@@ -42,8 +42,9 @@ public final class AccountServiceImpl implements AccountService {
 
     private static final int VALIDATION_TOKEN_LENGTH = 35;
 
-    private static final String API_URL = "localhost:8080";
-    private static final String PATH = "account";
+    private static final String API_URL = "localhost:8080"; // TODO:
+                                                            // Move
+    private static final String SIGN_OFF = "Antreminder Support Team";
 
     ExecutorService executors;
 
@@ -78,21 +79,18 @@ public final class AccountServiceImpl implements AccountService {
 
             ValidationUtils.validatePassword(email, password);
 
-            UUID accountid = UUID.randomUUID(); // TODO timebased?
-            String token = SecurityUtils.generateToken(VALIDATION_TOKEN_LENGTH);
+            UUID accountid = UUID.randomUUID();
 
             String passHash = PasswordHash.createHash(password);
             AccountDto newAccount = AccountDto.createNewAccount(email, passHash);
             newAccount.setAccountId(accountid);
             EmailAccountDto emailAccount = new EmailAccountDto(email, accountid);
-            ValidationAccountDto emailValidation = new ValidationAccountDto(accountid, token);
 
             accountDao.save(newAccount);
             emailAccountDao.save(emailAccount);
-            validationAccountDao.save(emailValidation);
 
             // Send validation email
-            sendValidationEmail(email, token);
+            sendValidation(email, accountid);
 
             return new EmptyResultDto(Status.SUCCESS, StringUtils.EMPTY,
                     "Account successfuly registered. Please check your email for your verification link.");
@@ -108,12 +106,34 @@ public final class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public EmptyResultDto sendValidation(String email) {
+        AccountDto account = null;
+        try {
+            account = getAccount(email);
+        }
+        catch (DatabaseException e) {
+            LOG.error("Could not find account for email {}", email, e);
+        }
+        if (null == account)
+            return new EmptyResultDto(Status.FAILED, CommonError.DNE, "Could not find an account for this email.");
+
+        return sendValidation(email, account.getAccountId());
+    }
+
+    EmptyResultDto sendValidation(String email, UUID accountId) {
+        String token = SecurityUtils.generateToken(VALIDATION_TOKEN_LENGTH);
+        ValidationAccountDto emailValidation = new ValidationAccountDto(accountId, token);
+        sendValidationEmail(email, token);
+        validationAccountDao.save(emailValidation);
+
+        return new EmptyResultDto(Status.SUCCESS, StringUtils.EMPTY, "Check your email for a verification link");
+    }
+
+    @Override
     public ResultDto<Boolean> validateAccount(String token) {
         if (StringUtils.isEmpty(token))
             return new ResultDto<>(false, Status.FAILED, CommonError.INVALID_PARAMETERS, "Validation token is invalid");
 
-        ValidationAccountDto key = new ValidationAccountDto();
-        key.setToken(token);
         try {
             ValidationAccountDto validationDto = validationAccountDao.findOne(token);
 
@@ -123,7 +143,7 @@ public final class AccountServiceImpl implements AccountService {
                     account.setStatus(AccountStatus.ACTIVE);
                     accountDao.save(account);
                     validationAccountDao.save(validationDto);
-                    return new ResultDto<>(true, Status.SUCCESS, "Account validated successfully", "");
+                    return new ResultDto<>(true, Status.SUCCESS, "Account validated successfully. Please login.", "");
                 }
                 else {
                     return new ResultDto<>(false, Status.FAILED, CommonError.DNE, "Account does not exist");
@@ -151,10 +171,11 @@ public final class AccountServiceImpl implements AccountService {
 
     private void sendValidationEmail(String email, String token) {
         executors.submit(() -> {
-            String validationLink = StringUtils.join(API_URL, "/", PATH, "/validate?token=", token);
+            String validationLink = StringUtils.join(API_URL, "/validate?token=", token);
             try {
                 emailService.sendHtmlEmail(ValidationUtils.EMAIL_VALIDATION_TITLE,
-                        ValidationUtils.getValidationEmail(email, validationLink), new String[] { email }, null, null);
+                        ValidationUtils.getValidationEmail(email, validationLink, SIGN_OFF), new String[] { email },
+                        null, null);
             }
             catch (EmailException e) {
                 LOG.error("Could not send validation email to {}", email, e);

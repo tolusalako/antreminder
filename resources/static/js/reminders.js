@@ -20,21 +20,20 @@ $(document).ready(function () {
 		$('.label-'+status).text(countReminders(status));
 	}
 	var table = $('#reminder-table').dataTable();
-	$("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
-	btnParent = $('#reminder-table_wrapper > .row')[0];
-	//TODO: Move buttons
-
-	table.columns().every( function () {
-	 var that = this;
-	 console.log(1);
-	 $( 'input', this.footer() ).on( 'keyup change', function () {
-		 console.log(2);
-		 if ( that.search() !== this.value ) {
-			 console.log(3);
-			 that
-				 .search( this.value )
-				 .draw();
-		 }
-	 } );
- });
+ // $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+ // btnParent = $('#reminder-table_wrapper > .row')[0];
+ // //TODO: Move buttons
+ // table.columns().every( function () {
+ //  var that = this;
+ //  console.log(1);
+ //  $( 'input', this.footer() ).on( 'keyup change', function () {
+ // 	 console.log(2);
+ // 	 if ( that.search() !== this.value ) {
+ // 		 console.log(3);
+ // 		 that
+ // 			 .search( this.value )
+ // 			 .draw();
+ // 	 }
+ //  } );
+ // });
 });

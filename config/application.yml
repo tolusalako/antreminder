@@ -1,5 +1,6 @@
 # TODO: clean
 application.name: AntReminder
+application.host: localhost:8080
 application.mode: dev
 
 

@@ -25,6 +25,8 @@ import net.csthings.antreminder.repo.EmailAccountDao;
 import net.csthings.antreminder.repo.SessionAccountDao;
 import net.csthings.antreminder.security.AuthenticationImpl;
 import net.csthings.antreminder.services.account.LoginService;
+import net.csthings.antreminder.services.account.utils.AccountError;
+import net.csthings.antreminder.services.account.utils.AccountStatus;
 import net.csthings.common.context.CommonThreadContext;
 import net.csthings.common.dto.ResultDto;
 import net.csthings.common.utils.CommonError;
@@ -68,6 +70,15 @@ public final class LoginServiceImpl implements LoginService {
                 return new ResultDto<>(null, Status.FAILED, CommonError.DNE, "Account does not exist.");
 
             AccountDto account = accountDao.findOne(emailAccount.getAccountId());
+
+            // Users can't login until they have validated their accounts
+            if (account.getStatus() == AccountStatus.NEW) {
+                String resendValidationLink = StringUtils.join("/validate?email=", email);
+                return new ResultDto<>(null, Status.FAILED, AccountError.NONVALIDATED,
+                        String.format(
+                                "Your account hasn't been validated. Please check your email or click %s to resend validation code.",
+                                String.format("<a href=\"%s\">here</a>", resendValidationLink)));
+            }
 
             boolean passwordMatch = PasswordHash.verifyPassword(password, account.getPassword());
 

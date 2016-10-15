@@ -6,6 +6,11 @@
     <!-- PlaceHolder -->
   </div>
   <script src="js/reminders.js" th:src="@{js/reminders.js}"></script>
+  <script>
+    // $('#reminder-table').dataTable();
+  </script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/dt-1.10.12/af-2.1.2/fh-3.1.2/r-2.1.0/datatables.min.css"/>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/dt-1.10.12/af-2.1.2/fh-3.1.2/r-2.1.0/datatables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../static/css/reminders.css"
   th:href="@{css/reminders.css}" media="screen" />
 </head>
@@ -86,9 +91,7 @@
             </div>
           </div>
           <div class="inbox-body">
-              <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/dt-1.10.12/af-2.1.2/fh-3.1.2/r-2.1.0/datatables.min.css"/>
-              <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/dt-1.10.12/af-2.1.2/fh-3.1.2/r-2.1.0/datatables.min.js"></script>
-             <table id="reminder-table" class="table table-inbox table-hover">
+              <table id="reminder-table" class="table table-inbox table-hover">
             <thead>
                 <tr>
                   <th></th>

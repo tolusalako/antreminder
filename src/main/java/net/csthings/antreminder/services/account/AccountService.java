@@ -15,6 +15,8 @@ public interface AccountService extends Serializable {
 
     public EmptyResultDto createAccount(@FormParam("email") String email, @FormParam("password") String password);
 
+    public EmptyResultDto sendValidation(String email);
+
     public ResultDto<Boolean> validateAccount(@QueryParam("token") String verificationCode);
 
     public ResultDto<Boolean> changePassword(String email, String oldPassword, String newpassword);
