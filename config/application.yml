@@ -1,7 +1,11 @@
-# TODO: clean
-app.name: AntReminder
-app.host: localhost:${port}
-app.mode: dev
+server:
+    port: ${port:8080}
+
+app:
+    name: AntReminder
+    host: localhost:${server.port}
+    encoding: UTF-8
+
 security.basic.enabled: false
 html: text/html
 server.error.whitelabel.enabled: false
@@ -20,18 +24,6 @@ reminders:
     add: /reminders/add
     get: /reminders/get
     getall: /reminders/getall
-
-
-api.reminders.url: http://localhost:2424/reminder
-api:
-    reminders:
-        url:
-            get: /get
-            getall: /getall
-            add: /add
-
-app:
-    encoding: UTF-8
 
 spring:
     datasource:

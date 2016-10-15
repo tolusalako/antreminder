@@ -4,6 +4,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.exception.GenericJDBCException;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import net.csthings.antreminder.config.AppSettings;
 import net.csthings.antreminder.entity.dto.AccountDto;
 import net.csthings.antreminder.entity.dto.EmailAccountDto;
 import net.csthings.antreminder.entity.dto.ValidationAccountDto;
@@ -42,7 +45,7 @@ public final class AccountServiceImpl implements AccountService {
 
     private static final int VALIDATION_TOKEN_LENGTH = 35;
 
-    public static String api_url = "localhost:8080";
+    private String apiUrl = "localhost:8080";
     private static final String SIGN_OFF = "Antreminder Support Team";
 
     ExecutorService executors;
@@ -59,12 +62,16 @@ public final class AccountServiceImpl implements AccountService {
     ValidationAccountDao validationAccountDao;
     @Autowired
     EmailService emailService;
-    // @Autowired
-    // AppSettings appSettings;
+    @Autowired
+    AppSettings appSettings;
 
     public AccountServiceImpl() {
         executors = Executors.newFixedThreadPool(10);
-        // api_url = appSettings.getHost();
+    }
+
+    @PostConstruct
+    public void init() {
+        apiUrl = appSettings.getHost();
     }
 
     @Override
@@ -173,7 +180,7 @@ public final class AccountServiceImpl implements AccountService {
 
     private void sendValidationEmail(String email, String token) {
         executors.submit(() -> {
-            String validationLink = StringUtils.join(api_url, "/validate?token=", token);
+            String validationLink = StringUtils.join(apiUrl, "/validate?token=", token);
             try {
                 emailService.sendHtmlEmail(ValidationUtils.EMAIL_VALIDATION_TITLE,
                         ValidationUtils.getValidationEmail(email, validationLink, SIGN_OFF), new String[] { email },

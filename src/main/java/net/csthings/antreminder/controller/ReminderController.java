@@ -11,7 +11,6 @@ import javax.ws.rs.QueryParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -42,12 +41,6 @@ public class ReminderController {
     Logger LOG = LoggerFactory.getLogger(ReminderController.class);
 
     public static final String PAGE_NAME = "reminders";
-
-    /**
-     * Sub Pages
-     */
-    @Value("${reminders.url}")
-    private String REMINDER;
 
     @Autowired
     ReminderService reminderService;
