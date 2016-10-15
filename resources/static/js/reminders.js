@@ -1,15 +1,15 @@
 function countReminders(status) {
 	cssSelector = "";
 	if (status == "open")
-		cssSelector = 'i.text-success'
+		cssSelector = 'td > i.text-success'
 	else if (status == "waitlist")
-		cssSelector = 'i.text-warning'
+		cssSelector = 'td > i.text-warning'
 	else if (status == "newonly")
-		cssSelector = 'i.text-info'
+		cssSelector = 'td > i.text-info'
 	else if (status == "full")
-		cssSelector = 'i.text-danger'
+		cssSelector = 'td > i.text-danger'
 	else if (status == "all")
-		cssSelector = 'i.fa-reminder-list'
+		cssSelector = 'td > i.fa-reminder-list'
 	return $(cssSelector).length;
 }
 
