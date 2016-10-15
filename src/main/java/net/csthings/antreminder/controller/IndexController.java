@@ -16,8 +16,8 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/loaderio-0593fa28aef604d618aaa261ae25ddab", method = RequestMethod.GET)
+    @RequestMapping(value = "/loaderio-27a92395c44b94af53ef36a24e81b285", method = RequestMethod.GET)
     public String loader(Model model, HttpServletRequest request, HttpServletResponse response) {
-        return "loaderio-0593fa28aef604d618aaa261ae25ddab";
+        return "loaderio-27a92395c44b94af53ef36a24e81b285";
     }
 }
