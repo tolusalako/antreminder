@@ -15,4 +15,9 @@ public class IndexController {
     public String index(Model model, HttpServletRequest request, HttpServletResponse response) {
         return "index";
     }
+
+    @RequestMapping(value = "/loaderio-0593fa28aef604d618aaa261ae25ddab", method = RequestMethod.GET)
+    public String loader(Model model, HttpServletRequest request, HttpServletResponse response) {
+        return "loaderio-0593fa28aef604d618aaa261ae25ddab";
+    }
 }

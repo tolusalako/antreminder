@@ -42,8 +42,7 @@ public final class AccountServiceImpl implements AccountService {
 
     private static final int VALIDATION_TOKEN_LENGTH = 35;
 
-    private static final String API_URL = "localhost:8080"; // TODO:
-                                                            // Move
+    public static String api_url = "localhost:8080";
     private static final String SIGN_OFF = "Antreminder Support Team";
 
     ExecutorService executors;
@@ -60,9 +59,12 @@ public final class AccountServiceImpl implements AccountService {
     ValidationAccountDao validationAccountDao;
     @Autowired
     EmailService emailService;
+    // @Autowired
+    // AppSettings appSettings;
 
     public AccountServiceImpl() {
         executors = Executors.newFixedThreadPool(10);
+        // api_url = appSettings.getHost();
     }
 
     @Override
@@ -171,7 +173,7 @@ public final class AccountServiceImpl implements AccountService {
 
     private void sendValidationEmail(String email, String token) {
         executors.submit(() -> {
-            String validationLink = StringUtils.join(API_URL, "/validate?token=", token);
+            String validationLink = StringUtils.join(api_url, "/validate?token=", token);
             try {
                 emailService.sendHtmlEmail(ValidationUtils.EMAIL_VALIDATION_TITLE,
                         ValidationUtils.getValidationEmail(email, validationLink, SIGN_OFF), new String[] { email },

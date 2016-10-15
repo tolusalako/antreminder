@@ -5,6 +5,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -13,22 +15,26 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 public class SecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().antMatchers("/").permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/schedule").permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/login").permitAll();
+        httpSecurity.authorizeRequests().antMatchers("/", "/schedule", "/login").permitAll().anyRequest().permitAll();
         httpSecurity.authorizeRequests().antMatchers("/reminders/**").authenticated();
-        httpSecurity.exceptionHandling().accessDeniedPage("/403");
         httpSecurity.csrf().csrfTokenRepository(csrfTokenRepository());
-        // httpSecurity.formLogin().loginProcessingUrl("/login").loginPage("/login").usernameParameter("email")
-        // .passwordParameter("password").permitAll().and().exceptionHandling().accessDeniedPage("/login").and()
-        // .logout().permitAll();
+        // httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedhandler());
+        // httpSecurity.formLogin().loginPage("/login").permitAll().and().logout().permitAll();
 
+        // .usernameParameter("email")
+        // .passwordParameter("password").permitAll().and().exceptionHandling().accessDeniedPage("/login")
     }
 
     private static CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setSessionAttributeName("_csrf");
         return repository;
+    }
+
+    private static AccessDeniedHandler accessDeniedhandler() {
+        AccessDeniedHandlerImpl accessDeniedhandler = new AccessDeniedHandlerImpl();
+        accessDeniedhandler.setErrorPage("/error");
+        return accessDeniedhandler;
     }
 
     @Override

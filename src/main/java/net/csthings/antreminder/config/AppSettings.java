@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import lombok.Data;
 
 @Configuration
-@ConfigurationProperties(prefix="app")
+@ConfigurationProperties(prefix = "app")
 public @Data class AppSettings {
-    @NotEmpty private String encoding;
+    @NotEmpty
+    private String encoding;
+    @NotEmpty
+    private String host;
 }

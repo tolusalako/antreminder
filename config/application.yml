@@ -1,12 +1,10 @@
 # TODO: clean
-application.name: AntReminder
-application.host: localhost:8080
-application.mode: dev
-
-
+app.name: AntReminder
+app.host: localhost:${port}
+app.mode: dev
 security.basic.enabled: false
 html: text/html
-
+server.error.whitelabel.enabled: false
 
 websoc:
     baseUrl: https://www.reg.uci.edu/perl/WebSoc
