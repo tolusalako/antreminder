@@ -9,6 +9,8 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.support.SimpleCacheManager;
+import org.springframework.context.ApplicationContext;
 
 import lombok.extern.slf4j.Slf4j;
 import net.csthings.antreminder.entity.dto.AccountDto;
@@ -40,6 +42,9 @@ public class ReminderServiceImpl implements ReminderService {
     @Autowired
     ReminderAccountDao reminderAccountDao;
 
+    @Autowired
+    private ApplicationContext appContext;
+
     public ReminderServiceImpl() {
     }
 
@@ -58,6 +63,11 @@ public class ReminderServiceImpl implements ReminderService {
             ReminderPK reminderKey = new ReminderPK(reminder.getReminderId(), reminder.getStatus());
             ra.getAccounts().add(new AccountDto(accountId));
             ar.getReminders().add(reminder);
+
+            SimpleCacheManager cacheMng = (SimpleCacheManager) appContext.getBean("cacheManager");
+            Object cache = cacheMng.getCache(ReminderDto.TABLE_NAME).get(reminderKey);
+            if (null != cache)
+                log.debug(cache.toString());
 
             if (!reminderDao.exists(reminderKey))
                 reminderDao.save(reminder);

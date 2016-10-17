@@ -14,11 +14,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+import org.springframework.cache.annotation.Cacheable;
 
-@Data
 @Entity
 @Table(name = AccountReminderDto.TABLE_NAME)
+@Cacheable(AccountReminderDto.TABLE_NAME)
 public class AccountReminderDto {
     public static final String TABLE_NAME = "account_reminders";
     @Id
@@ -43,6 +43,23 @@ public class AccountReminderDto {
         this();
         this.accountId = accountId;
         reminders.add(reminder);
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    @Cacheable(AccountReminderDto.TABLE_NAME)
+    public Set<ReminderDto> getReminders() {
+        return reminders;
+    }
+
+    public void setReminders(Set<ReminderDto> reminders) {
+        this.reminders = reminders;
     }
 
 }

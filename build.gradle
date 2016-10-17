@@ -42,10 +42,15 @@ dependencies {
 	compile group:'org.springframework.boot', name: 'spring-boot-starter-security', version: "${springVersion}"
 	compile group:'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springVersion}"
 	compile group:'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springVersion}"
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: "${springVersion}"
+	// compile group:'org.springframework.boot', name: 'spring-boot-starter-cache', version: "${springVersion}"
 	compile group:'org.springframework.session', name: 'spring-session', version: "${springSessionVersion}"
+	compile group: 'org.springframework', name: 'spring-context-support', version: '4.2.8.RELEASE'
 	//DB
 	compile group: 'org.projectlombok', name: 'lombok', version: '1.16.6'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.39'
+	//cache
+	compile group: 'com.google.guava', name: 'guava', version: '19.0'
 	//Thymeleaf
 	compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.1.RELEASE'
 	compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '3.0.1.RELEASE'

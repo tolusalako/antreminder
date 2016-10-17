@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -17,6 +19,7 @@ import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 @Entity
 @IdClass(ReminderPK.class)
 @Table(name = ReminderDto.TABLE_NAME)
+@Cacheable
 public class ReminderDto implements Serializable {
     public static final String TABLE_NAME = "reminders";
 

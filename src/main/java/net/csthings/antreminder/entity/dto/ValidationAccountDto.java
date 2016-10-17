@@ -7,11 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = ValidationAccountDto.TABLE_NAME)
+@Cacheable(ValidationAccountDto.TABLE_NAME)
 public class ValidationAccountDto {
     public static final String TABLE_NAME = "validation_account";
 

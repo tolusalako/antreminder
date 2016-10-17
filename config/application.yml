@@ -41,3 +41,9 @@ spring:
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     entitymanager:
         packagesToScan: net.csthings.antreminder.entity.dto
+    cache:
+        cache-names: validation_account, reminders, email_account
+        guava:
+            spec:
+                maximumSize: 500
+                expireAfterAccess: 30m
