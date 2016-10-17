@@ -8,7 +8,8 @@ $(document).on({
             return;
         }else{
             var parent = $(this).prevAll().find('td.CourseTitle');
-            course = parent.text();
+            //course = parent.text();
+            course = parent[parent.length - 1].innerText;
             code = $(this).find('td').first().text();
         }
         course = course.trim().split(/[\s]{2,}/);
