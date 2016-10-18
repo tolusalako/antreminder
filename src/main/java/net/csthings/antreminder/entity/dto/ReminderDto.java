@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -18,7 +19,8 @@ import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 @Data
 @Entity
 @IdClass(ReminderPK.class)
-@Table(name = ReminderDto.TABLE_NAME)
+@Table(name = ReminderDto.TABLE_NAME, indexes = { @Index(columnList = "dept", name = "reminders_dept_index"),
+        @Index(columnList = "status", name = "reminders_status_index") })
 @Cacheable
 public class ReminderDto implements Serializable {
     public static final String TABLE_NAME = "reminders";

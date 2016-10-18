@@ -23,8 +23,6 @@ import net.csthings.antreminder.services.rest.RestClientService;
 
 public class WebsocScrapper {
     Logger LOG = LoggerFactory.getLogger(WebsocScrapper.class);
-    public static final String URL_KEY = "webscrapper.url";
-    private static final String EXPECTED_TITLE_KEY = "webscrapper.expectedTitle";
     private final String expectedTitle;
 
     private RestClientService restService;

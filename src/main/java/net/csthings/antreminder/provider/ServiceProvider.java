@@ -1,5 +1,7 @@
 package net.csthings.antreminder.provider;
 
+import javax.inject.Singleton;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,26 +20,31 @@ import net.csthings.antreminder.websoc.service.WebSocService;
 public class ServiceProvider {
 
     @Bean
+    @Singleton
     public static WebSocService webSocService() {
         return new WebSocServiceImpl();
     }
 
     @Bean
+    @Singleton
     public static AccountService accountService() {
         return new AccountServiceImpl();
     }
 
     @Bean
+    @Singleton
     public static LoginService loginService() {
         return new LoginServiceImpl();
     }
 
     @Bean
+    @Singleton
     public static ReminderService reminderService() {
         return new ReminderServiceImpl();
     }
 
     @Bean
+    @Singleton
     public static EmailService emailService() {
         return new MailGunEmailServiceImpl("Antreminder Support", "antreminder-support@csthings.net"); // TODO
     }

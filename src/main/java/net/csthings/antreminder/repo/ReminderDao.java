@@ -21,5 +21,9 @@ public interface ReminderDao extends JpaRepository<ReminderDto, ReminderPK> {
     @Override
     @Cacheable(ReminderDto.TABLE_NAME)
     ReminderDto findOne(ReminderPK key);
+    //
+    // @Query("SELECT r.dept FROM linked_reminders l JOIN reminders r GROUP BY
+    // r.dept")
+    // Stream<String> getAllDepts();
 
 }

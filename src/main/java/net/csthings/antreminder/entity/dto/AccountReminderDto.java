@@ -26,8 +26,8 @@ public class AccountReminderDto {
     private UUID accountId;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = ReminderDto.class, cascade = { CascadeType.MERGE })
-    @JoinTable(name = "AnyName", joinColumns = { @JoinColumn(name = "accountId") },
-        inverseJoinColumns = { @JoinColumn(name = "reminderId"), @JoinColumn(name = "status") })
+    @JoinTable(name = LinkedRemindersDto.TABLE_NAME, joinColumns = { @JoinColumn(name = "accountId") },
+        inverseJoinColumns = { @JoinColumn(name = "status"), @JoinColumn(name = "reminderId") })
     private Set<ReminderDto> reminders;
 
     public AccountReminderDto() {
