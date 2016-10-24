@@ -1,10 +1,13 @@
 package net.csthings.antreminder.repo;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import net.csthings.antreminder.entity.dto.ReminderDto;
@@ -21,9 +24,8 @@ public interface ReminderDao extends JpaRepository<ReminderDto, ReminderPK> {
     @Override
     @Cacheable(ReminderDto.TABLE_NAME)
     ReminderDto findOne(ReminderPK key);
-    //
-    // @Query("SELECT r.dept FROM linked_reminders l JOIN reminders r GROUP BY
-    // r.dept")
-    // Stream<String> getAllDepts();
+
+    @Query(value = "SELECT r FROM ReminderDto r GROUP BY r.dept, r.reminderId")
+    List<ReminderDto> getRemindersGroupDeptId();
 
 }

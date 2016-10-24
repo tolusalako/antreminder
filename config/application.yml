@@ -1,9 +1,9 @@
 server:
-    port: ${port:8080}
+    port: 8080
 
 app:
     name: AntReminder
-    host: localhost:${server.port}
+    host: localhost:8080
     encoding: UTF-8
 
 security.basic.enabled: false

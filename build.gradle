@@ -66,7 +66,7 @@ dependencies {
 	compile group: 'commons-validator', name: 'commons-validator', version: '1.4.1'
 	//Web Scrap
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
-	compile group: 'org.seleniumhq.selenium', name: 'htmlunit-driver', version: '2.21'
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: '2.52.0'
 	compile group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '2.53.0'
 	//Local
 	compile files('resources')
@@ -75,6 +75,8 @@ dependencies {
 	}
 
 	//Test
+	// testCompile(group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.0.1')
+	testCompile(group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '2.53.0')
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springVersion}")
 	testCompile("org.testng:testng:6.8")
 

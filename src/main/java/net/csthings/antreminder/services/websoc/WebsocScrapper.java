@@ -69,8 +69,8 @@ public class WebsocScrapper {
         return Jsoup.parse(html, "ISO-8859-1");
     }
 
-    public Map<Integer, String> getMatchingClasses(Document document, Map<Integer, Set<String>> requestedStatus) {
-        Map<Integer, String> result = new HashMap<>();
+    public Map<String, String> getMatchingClasses(Document document, Map<String, Set<String>> requestedStatus) {
+        Map<String, String> result = new HashMap<>();
         Element titleBar = document.select(".title-bar > h1").first();
         if (titleBar == null || titleBar.text() == null) {
             LOG.error("Title Bar or it's text is null");
@@ -91,12 +91,12 @@ public class WebsocScrapper {
             Element row = rowIter.next();
             Element codeElement;
             Element statusElement;
-            int code = 0;
+            String code = "";
             String status = "";
             try {
                 codeElement = row.getElementsByTag("td").first();
                 statusElement = row.getElementsByTag("td").last();
-                code = Integer.parseInt(codeElement.text());
+                code = codeElement.text();
                 status = statusElement.text().toUpperCase();
             }
             catch (NumberFormatException e) {
@@ -111,7 +111,7 @@ public class WebsocScrapper {
             Set<String> statusList = requestedStatus.getOrDefault(code, null);
 
             if (statusList != null && statusList.contains(status)) {
-                LOG.info("Found a match. Course {} is {}", code, status);
+                LOG.debug("Found a match. Course {} is {}", code, status);
                 result.put(code, status);
                 requestedStatus.remove(code);
                 if (requestedStatus.isEmpty())

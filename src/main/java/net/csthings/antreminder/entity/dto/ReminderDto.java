@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 
-@Data
 @Entity
 @IdClass(ReminderPK.class)
 @Table(name = ReminderDto.TABLE_NAME, indexes = { @Index(columnList = "dept", name = "reminders_dept_index"),
@@ -33,14 +32,6 @@ public class ReminderDto implements Serializable {
     private String dept;
     private String number;
     private String title;
-
-    // @ManyToMany(fetch = FetchType.LAZY, targetEntity =
-    // AccountReminderDto.class, cascade = CascadeType.ALL)
-    // @JoinTable(name = "AnyName", inverseJoinColumns = { @JoinColumn(name =
-    // "accountId") },
-    // joinColumns = { @JoinColumn(name = "reminderId"), @JoinColumn(name =
-    // "status") })
-    // Set<AccountReminderDto> accountReminders;
 
     public ReminderDto() {
     }
@@ -62,5 +53,51 @@ public class ReminderDto implements Serializable {
             this.reminderId = reminderId;
             this.status = status;
         }
+    }
+
+    public String getReminderId() {
+        return reminderId;
+    }
+
+    public void setReminderId(String reminderId) {
+        this.reminderId = reminderId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "ReminderDto [reminderId=" + reminderId + ", status=" + status + ", dept=" + dept + ", number=" + number
+                + ", title=" + title + "]";
     }
 }

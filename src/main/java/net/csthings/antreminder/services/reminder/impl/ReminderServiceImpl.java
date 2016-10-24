@@ -13,9 +13,7 @@ import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.ApplicationContext;
 
 import lombok.extern.slf4j.Slf4j;
-import net.csthings.antreminder.entity.dto.AccountDto;
 import net.csthings.antreminder.entity.dto.AccountReminderDto;
-import net.csthings.antreminder.entity.dto.ReminderAccountDto;
 import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 import net.csthings.antreminder.repo.AccountReminderDao;
@@ -57,11 +55,13 @@ public class ReminderServiceImpl implements ReminderService {
         }
 
         try {
-            ReminderAccountDto ra = new ReminderAccountDto(reminder.getReminderId(), reminder.getStatus());
+            // ReminderAccountDto ra = new
+            // ReminderAccountDto(reminder.getDept(), reminder.getReminderId(),
+            // reminder.getStatus());
             AccountReminderDto ar = accountReminderDao.findOne(accountId);
             ar = ar == null ? ar = new AccountReminderDto(accountId) : ar;
             ReminderPK reminderKey = new ReminderPK(reminder.getReminderId(), reminder.getStatus());
-            ra.getAccounts().add(new AccountDto(accountId));
+            // ra.getAccounts().add(new AccountDto(accountId));
             ar.getReminders().add(reminder);
 
             SimpleCacheManager cacheMng = (SimpleCacheManager) appContext.getBean("cacheManager");

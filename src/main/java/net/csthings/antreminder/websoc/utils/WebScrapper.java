@@ -6,17 +6,15 @@ import org.slf4j.LoggerFactory;
 
 public class WebScrapper {
     Logger LOG = LoggerFactory.getLogger(WebScrapper.class);
-    public HtmlUnitDriver driver;
+    public static HtmlUnitDriver driver;
 
     public WebScrapper() {
         driver = new HtmlUnitDriver();
     }
-    
 
     public WebScrapper(String url) {
         this();
         driver.get(url);
     }
-   
 
 }

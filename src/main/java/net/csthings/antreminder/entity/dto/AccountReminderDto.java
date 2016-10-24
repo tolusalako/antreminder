@@ -62,4 +62,9 @@ public class AccountReminderDto {
         this.reminders = reminders;
     }
 
+    @Override
+    public String toString() {
+        return "AccountReminderDto [accountId=" + accountId + "]";
+    }
+
 }

@@ -22,8 +22,8 @@
       <center><h4>Antreminder</h4></center>
       <form class="form-signin" method="post" action="/login" >
           <span id="reauth-email" class="reauth-email"></span>
-          <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
-          <input type="password" name="password" class="form-control" placeholder="Password" required>
+          <input type="email" name="email" class="form-control" id="form-login-email" placeholder="Email address" required autofocus>
+          <input type="password" name="password" class="form-control" id="form-login-password" placeholder="Password" required>
             <th:block th:unless="${apiResponse == 'confirmation'}">
               <center>
                   <font color="red"><a class="text-bad-login" th:text="${apiResponse}"></a></font>
@@ -41,7 +41,7 @@
                 </a>
           </div>
           <div>
-              <button class="btn btn-lg btn-outline-primary btn-block btn-signin" name="login" type="submit">Sign in</button>
+              <button class="btn btn-lg btn-outline-primary btn-block btn-signin" id="form-login-submit" name="login" type="submit">Sign in</button>
           </div>
           <div>
               <button class="btn btn-lg btn-outline-default btn-block btn-reg" name="register" type="submit">Register</button>
