@@ -25,6 +25,9 @@ public class AccountReminderDto {
     @Column(columnDefinition = "BINARY(16)")
     private UUID accountId;
 
+    @JoinColumn(table = AccountDto.TABLE_NAME)
+    private String email;
+
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = ReminderDto.class, cascade = { CascadeType.MERGE })
     @JoinTable(name = LinkedRemindersDto.TABLE_NAME, joinColumns = { @JoinColumn(name = "accountId") },
         inverseJoinColumns = { @JoinColumn(name = "status"), @JoinColumn(name = "reminderId") })
@@ -34,9 +37,10 @@ public class AccountReminderDto {
         reminders = new HashSet<>();
     }
 
-    public AccountReminderDto(UUID accountId) {
+    public AccountReminderDto(UUID accountId, String email) {
         this();
         this.accountId = accountId;
+        this.email = email;
     }
 
     public AccountReminderDto(UUID accountId, ReminderDto reminder) {
@@ -53,6 +57,14 @@ public class AccountReminderDto {
         this.accountId = accountId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Cacheable(AccountReminderDto.TABLE_NAME)
     public Set<ReminderDto> getReminders() {
         return reminders;
@@ -64,7 +76,7 @@ public class AccountReminderDto {
 
     @Override
     public String toString() {
-        return "AccountReminderDto [accountId=" + accountId + "]";
+        return "AccountReminderDto [accountId=" + accountId + ", email=" + email + "]";
     }
 
 }

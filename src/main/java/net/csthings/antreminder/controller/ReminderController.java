@@ -75,7 +75,7 @@ public class ReminderController {
                 map.remove("_csrf");
                 ReminderDto reminder = objMapper.convertValue(map, ReminderDto.class);
                 map.put("accountId", SecurityUtils.getAccountId());
-                EmptyResultDto result = reminderService.add(getAccountId(), reminder);
+                EmptyResultDto result = reminderService.add(getAccountId(), getEmail(), reminder);
                 if (!result.getStatus().equals(Status.SUCCESS))
                     throw new ServiceException(result.getMsg());
                 jsonResponse.addProperty("msg", "Reminder added.");
@@ -99,6 +99,9 @@ public class ReminderController {
     private static UUID getAccountId() {
         return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal()
                 .getAccountId();
+    }
 
+    private static String getEmail() {
+        return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal().getEmail();
     }
 }

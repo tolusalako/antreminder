@@ -42,7 +42,7 @@ public class ReminderRunner {
     Logger LOG = LoggerFactory.getLogger(ReminderRunner.class);
 
     private static final int MAX_THREAD_COUNT = 10;
-    private static final long scanInterval = 300000; // 5 min
+    private static final long scanInterval = 3000;// 300000; // 5 min
     private String url;
 
     @Autowired
@@ -67,7 +67,7 @@ public class ReminderRunner {
     }
 
     @Scheduled(fixedRate = scanInterval)
-    public void scan() {
+    public void reminderScan() {
         List<ReminderDto> reminders = reminderDao.getRemindersGroupDeptId();
         if (reminders.isEmpty())
             return;
@@ -75,35 +75,38 @@ public class ReminderRunner {
         String lastDept = reminders.get(0).getDept();
         for (ReminderDto r : reminders) {
             if (!r.getDept().equals(lastDept) && !reminderSetReq.isEmpty()) {
-                executors.submit(() -> {
-                    Document doc = null;
-                    try {
-                        doc = scrapper.searchDept(r.getDept());
-                    }
-                    catch (ServiceException e) {
-                        LOG.error("Could not search for dept: {}", r.getDept(), e);
-                    }
-                    Map<String, Set<String>> reminderSetReqCopy = null;
-                    synchronized (reminderSetReq) {
-                        reminderSetReqCopy = new HashMap<>(reminderSetReq);
-                        reminderSetReq.clear();
-                    }
-                    Map<String, String> updates = scrapper.getMatchingClasses(doc, reminderSetReqCopy);
-                    if (!updates.isEmpty()) {
-                        LOG.info("Found the following: {}", updates);
-                        // final List<AccountReminderDto> finalReminders =
-                        // reminders;
-                        handleCourseChanges(r.getDept(), updates);
-                    }
-                    else {
-                        LOG.info("Found no matches for {}", r.getDept());
-                    }
-                });
+                Map<String, Set<String>> reminderSetReqCopy = new HashMap<>(reminderSetReq);
+                reminderSetReq.clear();
+                websocScan(r.getDept(), reminderSetReqCopy);
             }
             reminderSetReq.put(r.getReminderId(), WebsocUtils.getAllStatus());
             lastDept = r.getDept();
         }
+        if (!reminderSetReq.isEmpty())
+            websocScan(lastDept, reminderSetReq);
 
+    }
+
+    public void websocScan(String dept, final Map<String, Set<String>> reminderSetReqCopy) {
+        executors.submit(() -> {
+            Document doc = null;
+            try {
+                doc = scrapper.searchDept(dept);
+            }
+            catch (ServiceException e) {
+                LOG.error("Could not search for dept: {}", dept, e);
+            }
+            Map<String, String> updates = scrapper.getMatchingClasses(doc, reminderSetReqCopy);
+            if (!updates.isEmpty()) {
+                LOG.info("Found the following: {}", updates);
+                // final List<AccountReminderDto> finalReminders =
+                // reminders;
+                handleCourseChanges(dept, updates);
+            }
+            else {
+                LOG.info("Found no matches for {}", dept);
+            }
+        });
     }
 
     /**

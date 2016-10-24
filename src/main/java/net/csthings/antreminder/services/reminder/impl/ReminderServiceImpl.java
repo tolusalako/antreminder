@@ -47,7 +47,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public EmptyResultDto add(UUID accountId, ReminderDto reminder) {
+    public EmptyResultDto add(UUID accountId, String email, ReminderDto reminder) {
         if (CommonUtils.anyNull(accountId, reminder, reminder.getDept(), reminder.getTitle(),
                 reminder.getReminderId())) {
             log.debug("Request is invalid");
@@ -59,7 +59,7 @@ public class ReminderServiceImpl implements ReminderService {
             // ReminderAccountDto(reminder.getDept(), reminder.getReminderId(),
             // reminder.getStatus());
             AccountReminderDto ar = accountReminderDao.findOne(accountId);
-            ar = ar == null ? ar = new AccountReminderDto(accountId) : ar;
+            ar = ar == null ? ar = new AccountReminderDto(accountId, email) : ar;
             ReminderPK reminderKey = new ReminderPK(reminder.getReminderId(), reminder.getStatus());
             // ra.getAccounts().add(new AccountDto(accountId));
             ar.getReminders().add(reminder);

@@ -27,7 +27,7 @@ public interface ReminderService extends Serializable {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    EmptyResultDto add(UUID accountId, ReminderDto reminder);
+    EmptyResultDto add(UUID accountId, String email, ReminderDto reminder);
     // TODO: make sure you check session. get user from session data
 
     @GET
