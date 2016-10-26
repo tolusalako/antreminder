@@ -73,6 +73,7 @@ public class MailGunEmailServiceImpl implements EmailService {
 
         form.add("subject", subject);
         form.add("text", text);
+        LOG.info("Sending email {} to {}".format(subject, to));
         return processEmail(mailResource.accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, form));
     }
 
@@ -96,6 +97,7 @@ public class MailGunEmailServiceImpl implements EmailService {
 
         form.add("subject", subject);
         form.add("html", text);
+        LOG.info("Sending email {} to {}".format(subject, to));
         return processEmail(mailResource.accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, form));
     }
 

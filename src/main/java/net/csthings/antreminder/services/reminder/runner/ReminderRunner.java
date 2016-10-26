@@ -1,10 +1,10 @@
 package net.csthings.antreminder.services.reminder.runner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,13 +19,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import net.csthings.antreminder.config.RunnerSettings;
-import net.csthings.antreminder.entity.dto.AccountDto;
-import net.csthings.antreminder.entity.dto.AccountReminderDto;
 import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.antreminder.repo.AccountReminderDao;
 import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.ServiceException;
-import net.csthings.antreminder.services.email.EmailService;
+import net.csthings.antreminder.services.reminder.util.NotificationService;
 import net.csthings.antreminder.services.websoc.WebsocScrapper;
 import net.csthings.antreminder.services.websoc.WebsocUtils;
 
@@ -42,11 +40,11 @@ public class ReminderRunner {
     Logger LOG = LoggerFactory.getLogger(ReminderRunner.class);
 
     private static final int MAX_THREAD_COUNT = 10;
-    private static final long scanInterval = 3000;// 300000; // 5 min
+    private static final long scanInterval = 9000;// 300000; // 5 min
     private String url;
 
     @Autowired
-    private EmailService emailService;
+    private NotificationService notificationService;
     @Autowired
     private RunnerSettings runnerSettings;
     @Autowired
@@ -99,8 +97,6 @@ public class ReminderRunner {
             Map<String, String> updates = scrapper.getMatchingClasses(doc, reminderSetReqCopy);
             if (!updates.isEmpty()) {
                 LOG.info("Found the following: {}", updates);
-                // final List<AccountReminderDto> finalReminders =
-                // reminders;
                 handleCourseChanges(dept, updates);
             }
             else {
@@ -110,108 +106,38 @@ public class ReminderRunner {
     }
 
     /**
-    * Performs a full scan of Reminders, comparing them to websoc, and
-    compiling those with matching status
+    * Loops through the updates and creates notifications that need to be emailed
+    * @param updates
+    * @param reminders
     */
-    // @Scheduled(fixedRate = scanInterval)
-    public void fullScan() {
-        // List<String> departments = WebsocUtils.getDepartments(url);
-        // LOG.debug(departments.toString());
-        // for (String dept : departments) {
-        // String selectDeptQuery = "SELECT * FROM %s where %s=%s;";
-        // List<AccountReminderDto> reminders = null;
-        // try {
-        // reminders = dbService.customQuery(AccountReminderDto.class,
-        // String.format(selectDeptQuery,
-        // AccountReminderDto.TABLE_NAME, "dept", StringUtils.join("\'",
-        // dept,
-        // "\'")));
-        // }
-        // catch (DatabaseException e) {
-        // LOG.error("Could not get reminders", e);
-        // }
-        //
-        // if (reminders != null && !reminders.isEmpty()) {
-        // Map<Integer, Set<String>> statusReq = new HashMap<>();
-        // for (AccountReminderDto r : reminders) {
-        // statusReq.put(r.getCode(), WebsocUtils.getAllStatus());
-        // }
-        //
-        // Document doc = scrapper.searchDept(dept);
-        // Map<Integer, String> updates = scrapper.getMatchingClasses(doc,
-        // statusReq);
-        // if (!updates.isEmpty()) {
-        // LOG.debug("Found the following: {}", updates);
-        // final List<AccountReminderDto> finalReminders = reminders;
-        // executors.submit(() -> {
-        // handleCourseChanges(updates, finalReminders);
-        // });
-        // }
-        // }
-        // }
-    }
-
-    //
-    // /**
-    // * Loops through the updates, and compiles a list of accounts that need to
-    // be notified
-    // * @param updates
-    // * @param reminders
-    // */
     public void handleCourseChanges(String dept, Map<String, String> updates) {
-        List<AccountReminderDto> accountsToEmail = accountReminderDao.getAccountsWithDept(dept);
-        LOG.info("Emailing {} about {}", accountsToEmail, updates.keySet());
-        // Set<UUID> accountsToQuery = new HashSet<>();
-        // reminders.stream().map(r ->
-        // r.getAccountId()).forEach(accountsToQuery::add);
-        // String accountQuery = "SELECT %s FROM %s WHERE %s IN %s;";
-
-        //
-        // List<AccountDto> accounts = null;
-        // try {
-        // accounts = dbService.customQuery(AccountDto.class,
-        // String.format(accountQuery, "accountid, email, status",
-        // AccountDto.TABLE_NAME, "accountid",
-        // DatabaseUtils.setToString(accountsToQuery)));
-        // }
-        // catch (DatabaseException e) {
-        // LOG.error("Could not get accounts", e);
-        // }
-        //
-        // Map<UUID, String> emailMap = getAccountEmails(accounts);
-        //
-        // Map<RunnerNotification, Set<String>> notifications = new HashMap<>();
-        // for (AccountReminderDto acr : reminders) {
-        // int code = acr.getCode();
-        // String dept = acr.getDept();
-        // String number = acr.getNumber();
-        // String status = acr.getStatus();
-        // if (updates.get(code).equals(status)) {
-        // RunnerNotification newValue = new RunnerNotification(dept, number,
-        // code, status);
-        // if (notifications.containsKey(newValue))
-        // notifications.get(newValue).add(emailMap.get(acr.getAccountId()));
-        // else {
-        // Set<String> newSet = new HashSet<>();
-        // newSet.add(emailMap.get(acr.getAccountId()));
-        // notifications.put(newValue, newSet);
-        // }
-        // }
-        // NotificationService.sendNotifications(notifications);
-        // }
+        Map<String, List<ReminderDto>> accountsToEmail = compileDataToEmail(dept, updates);
+        notificationService.sendNotifications(dept, accountsToEmail);
     }
 
-    private static Map<UUID, String> getAccountEmails(List<AccountDto> accounts) {
-        Map<UUID, String> result = new HashMap<>();
-        for (AccountDto accountDto : accounts) {
-            result.put(accountDto.getAccountId(), accountDto.getEmail());
+    /**
+     * Compiles a Map(key: email and value: reminders) of what data needs to be included in each email that needs to be sent to users
+     * @param dept
+     * @param updates
+     * @return
+     */
+
+    private Map<String, List<ReminderDto>> compileDataToEmail(String dept, Map<String, String> updates) {
+        Map<String, List<ReminderDto>> result = new HashMap<>();
+        List<String[]> accReminders = accountReminderDao.getAccountsWithReminder(dept, updates.keySet());
+        for (Object[] data : accReminders) {
+            String email = String.valueOf(data[0]);
+            String rId = String.valueOf(data[1]);
+            String title = String.valueOf(data[2]);
+            String number = String.valueOf(data[3]);
+            List<ReminderDto> reminders = result.get(email);
+            ReminderDto reminder = new ReminderDto(rId, updates.get(rId), title, number);
+            if (reminders == null)
+                reminders = new ArrayList<>();
+            reminders.add(reminder);
+            result.put(email, reminders);
         }
         return result;
-    }
-
-    public void sleep() throws InterruptedException {
-        LOG.info("Attempting to sleep");
-        Thread.sleep(scanInterval);
     }
 
 }

@@ -183,7 +183,7 @@ public final class AccountServiceImpl implements AccountService {
             String validationLink = StringUtils.join(apiUrl, "/validate?token=", token);
             try {
                 emailService.sendHtmlEmail(ValidationUtils.EMAIL_VALIDATION_TITLE,
-                        ValidationUtils.getValidationEmail(email, validationLink, SIGN_OFF), new String[] { email },
+                        ValidationUtils.createValidationEmail(email, validationLink, SIGN_OFF), new String[] { email },
                         null, null);
             }
             catch (EmailException e) {

@@ -13,9 +13,11 @@ public final class ValidationUtils {
     public static final String EMAIL_VALIDATION_TITLE = "Antreminder Account Verification";
     public static final String EMAIL_VALIDATION_TEXT;
 
-    private static final String PLACEHOLDER_VERIFY = "${verifyAccount}";
-    private static final String PLACEHOLDER_USERNAME = "${username}";
-    private static final String PLACEHOLDER_SIGNOFF = "${signoff}";
+    public static final String PLACEHOLDER_VERIFY = "${verifyAccount}";
+    public static final String PLACEHOLDER_USERNAME = "${username}";
+    public static final String PLACEHOLDER_SIGNOFF = "${signoff}";
+    public static final String PLACEHOLDER_REMINDERS = "${viewReminders}";
+    public static final String PLACEHOLDER_MESSAGE = "${message}";
 
     private static final int MIN_PASSWORD_LENGTH = 8;
 
@@ -29,7 +31,7 @@ public final class ValidationUtils {
         }
     }
 
-    public static String getValidationEmail(String email, String link, String signoff) {
+    public static String createValidationEmail(String email, String link, String signoff) {
         String text = StringUtils.replace(EMAIL_VALIDATION_TEXT, PLACEHOLDER_USERNAME, email);
         text = StringUtils.replace(text, PLACEHOLDER_SIGNOFF, signoff);
         return StringUtils.replace(text, PLACEHOLDER_VERIFY, link);

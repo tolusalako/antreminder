@@ -36,6 +36,13 @@ public class ReminderDto implements Serializable {
     public ReminderDto() {
     }
 
+    public ReminderDto(String reminderId, String status, String title, String number) {
+        this.reminderId = reminderId;
+        this.status = status;
+        this.title = title;
+        this.number = number;
+    }
+
     @Data
     @Embeddable
     public static class ReminderPK implements Serializable {

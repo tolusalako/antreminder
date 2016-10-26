@@ -1,6 +1,7 @@
 package net.csthings.antreminder.repo;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,6 @@ import net.csthings.antreminder.entity.dto.AccountReminderDto;
 @Transactional
 public interface AccountReminderDao extends JpaRepository<AccountReminderDto, UUID> {
 
-    @Query("SELECT a FROM AccountReminderDto a JOIN a.reminders r WHERE r.dept = :dept GROUP BY r.reminderId")
-    List<AccountReminderDto> getAccountsWithDept(@Param("dept") String dept);
+    @Query("SELECT a.email, r.reminderId, r.title, r.number FROM AccountReminderDto a JOIN a.reminders r WHERE r.dept = :dept AND r.reminderId IN :reminderId GROUP BY a.accountId, r.reminderId")
+    List<String[]> getAccountsWithReminder(@Param("dept") String dept, @Param("reminderId") Set<String> reminderId);
 }

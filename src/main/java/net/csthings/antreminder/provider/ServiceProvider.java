@@ -13,6 +13,7 @@ import net.csthings.antreminder.services.email.EmailService;
 import net.csthings.antreminder.services.email.impl.MailGunEmailServiceImpl;
 import net.csthings.antreminder.services.reminder.ReminderService;
 import net.csthings.antreminder.services.reminder.impl.ReminderServiceImpl;
+import net.csthings.antreminder.services.reminder.util.NotificationService;
 import net.csthings.antreminder.websoc.impl.WebSocServiceImpl;
 import net.csthings.antreminder.websoc.service.WebSocService;
 
@@ -41,6 +42,12 @@ public class ServiceProvider {
     @Singleton
     public static ReminderService reminderService() {
         return new ReminderServiceImpl();
+    }
+
+    @Bean
+    @Singleton
+    public static NotificationService notificationService() {
+        return new NotificationService();
     }
 
     @Bean
