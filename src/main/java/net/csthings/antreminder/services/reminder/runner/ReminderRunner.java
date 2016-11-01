@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import net.csthings.antreminder.config.RunnerSettings;
 import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.antreminder.repo.AccountReminderDao;
+import net.csthings.antreminder.repo.LinkedRemindersDao;
 import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.ServiceException;
 import net.csthings.antreminder.services.reminder.util.NotificationService;
@@ -40,7 +41,7 @@ public class ReminderRunner {
     Logger LOG = LoggerFactory.getLogger(ReminderRunner.class);
 
     private static final int MAX_THREAD_COUNT = 10;
-    private static final long scanInterval = 9000;// 300000; // 5 min
+    private static final long scanInterval = 300000; // 5 min
     private String url;
 
     @Autowired
@@ -49,6 +50,8 @@ public class ReminderRunner {
     private RunnerSettings runnerSettings;
     @Autowired
     private ReminderDao reminderDao;
+    @Autowired
+    private LinkedRemindersDao linkedReminderDao;
     @Autowired
     private AccountReminderDao accountReminderDao;
     private ExecutorService executors;
@@ -75,7 +78,7 @@ public class ReminderRunner {
             if (!r.getDept().equals(lastDept) && !reminderSetReq.isEmpty()) {
                 Map<String, Set<String>> reminderSetReqCopy = new HashMap<>(reminderSetReq);
                 reminderSetReq.clear();
-                websocScan(r.getDept(), reminderSetReqCopy);
+                websocScan(lastDept, reminderSetReqCopy);
             }
             reminderSetReq.put(r.getReminderId(), WebsocUtils.getAllStatus());
             lastDept = r.getDept();
@@ -98,6 +101,9 @@ public class ReminderRunner {
             if (!updates.isEmpty()) {
                 LOG.info("Found the following: {}", updates);
                 handleCourseChanges(dept, updates);
+                // Delete
+                updates.entrySet().forEach(e -> linkedReminderDao.deleteLinkedReminder(e.getKey(), e.getValue()));
+
             }
             else {
                 LOG.info("Found no matches for {}", dept);

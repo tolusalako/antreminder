@@ -20,15 +20,17 @@ $(document).ready(function () {
 		$('.label-'+status).text(countReminders(status));
 	}
 	$('.list-item').click(function(){
-		// if ($(this).hasClass())
 		var classes = $(this).attr('class');
 		var statusClass = classes.split(' ');
 		var status = statusClass[statusClass.length - 1].split('-')[2];
-		// rows = $('tbody > tr').each(function(index){
-			// console.log(index)
-		// });
-		//TODO Sort
-
+		//TODO sort
 	});
-	$('#reminder-table').dataTable();
+	$('#reminder-table').dataTable({
+		"language": {
+			"emptyTable": "<b>You have no reminders. Click here to add some.</b>"
+  		}
+	});
+	$('.dataTables_empty').click(function() {
+		window.location.href = "/schedule";
+	})
 });

@@ -22,6 +22,8 @@ import net.csthings.antreminder.services.rest.RestClientService;
 import net.csthings.antreminder.utils.Attributes;
 import net.csthings.antreminder.utils.FormUtils;
 import net.csthings.antreminder.websoc.service.WebSocService;
+import net.rossillo.spring.web.mvc.CacheControl;
+import net.rossillo.spring.web.mvc.CachePolicy;
 
 /**
  * -Created on: Jul 28, 2016
@@ -49,8 +51,9 @@ public class ScheduleController {
         restService = new RestClientService(websocSettings.getBaseUrl());
     }
 
+    @CacheControl(maxAge = 1800, policy = CachePolicy.NO_CACHE)
     @RequestMapping(method = RequestMethod.GET)
-    public String reminderGet(Model model, HttpSession session, HttpServletRequest request,
+    public String scheduleGet(Model model, HttpSession session, HttpServletRequest request,
             HttpServletResponse response) {
         model.asMap().clear();
         model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
@@ -59,7 +62,7 @@ public class ScheduleController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_XHTML_XML_VALUE)
-    public String reminderPost(Model model, @RequestBody MultiValueMap body, HttpSession session,
+    public String schedulePost(Model model, @RequestBody MultiValueMap body, HttpSession session,
             HttpServletRequest request, HttpServletResponse httpResponse) {
         model.asMap().clear();
         try {

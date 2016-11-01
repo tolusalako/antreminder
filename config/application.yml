@@ -34,7 +34,7 @@ reminder:
 spring:
     datasource:
         driver: com.mysql.jdbc.Driver
-        url: jdbc:mysql://192.168.0.8:3306/test_csthings
+        url: jdbc:mysql://192.168.0.14:3306/test_csthings
         username: root
         password: root
         testWhileIdle: true
