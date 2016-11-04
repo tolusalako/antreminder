@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
@@ -20,8 +21,7 @@ import org.springframework.stereotype.Component;
 
 import net.csthings.antreminder.config.RunnerSettings;
 import net.csthings.antreminder.entity.dto.ReminderDto;
-import net.csthings.antreminder.repo.AccountReminderDao;
-import net.csthings.antreminder.repo.LinkedRemindersDao;
+import net.csthings.antreminder.repo.AccountDao;
 import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.ServiceException;
 import net.csthings.antreminder.services.reminder.util.NotificationService;
@@ -41,7 +41,8 @@ public class ReminderRunner {
     Logger LOG = LoggerFactory.getLogger(ReminderRunner.class);
 
     private static final int MAX_THREAD_COUNT = 10;
-    private static final long scanInterval = 300000; // 5 min
+    private static final long SCAN_INTERVAL = 300000; // 5 min
+    private static final long SEND_INTERVAL = 60; // min
     private String url;
 
     @Autowired
@@ -51,9 +52,7 @@ public class ReminderRunner {
     @Autowired
     private ReminderDao reminderDao;
     @Autowired
-    private LinkedRemindersDao linkedReminderDao;
-    @Autowired
-    private AccountReminderDao accountReminderDao;
+    private AccountDao accountDao;
     private ExecutorService executors;
     private WebsocScrapper scrapper;
 
@@ -67,7 +66,7 @@ public class ReminderRunner {
         scrapper = new WebsocScrapper(url, runnerSettings.getScanExpectedTitle());
     }
 
-    @Scheduled(fixedRate = scanInterval)
+    @Scheduled(fixedRate = SCAN_INTERVAL)
     public void reminderScan() {
         List<ReminderDto> reminders = reminderDao.getRemindersGroupDeptId();
         if (reminders.isEmpty())
@@ -75,6 +74,10 @@ public class ReminderRunner {
         Map<String, Set<String>> reminderSetReq = new HashMap<>();
         String lastDept = reminders.get(0).getDept();
         for (ReminderDto r : reminders) {
+            if (r.getEmailSent() != null && System.currentTimeMillis() - r.getEmailSent().getTime() < TimeUnit.MINUTES
+                    .toMillis(SEND_INTERVAL))
+                continue;
+
             if (!r.getDept().equals(lastDept) && !reminderSetReq.isEmpty()) {
                 Map<String, Set<String>> reminderSetReqCopy = new HashMap<>(reminderSetReq);
                 reminderSetReq.clear();
@@ -101,8 +104,6 @@ public class ReminderRunner {
             if (!updates.isEmpty()) {
                 LOG.info("Found the following: {}", updates);
                 handleCourseChanges(dept, updates);
-                // Delete
-                updates.entrySet().forEach(e -> linkedReminderDao.deleteLinkedReminder(e.getKey(), e.getValue()));
 
             }
             else {
@@ -130,7 +131,7 @@ public class ReminderRunner {
 
     private Map<String, List<ReminderDto>> compileDataToEmail(String dept, Map<String, String> updates) {
         Map<String, List<ReminderDto>> result = new HashMap<>();
-        List<String[]> accReminders = accountReminderDao.getAccountsWithReminder(dept, updates.keySet());
+        List<String[]> accReminders = accountDao.getAccountsWithReminder(dept, updates.keySet());
         for (Object[] data : accReminders) {
             String email = String.valueOf(data[0]);
             String rId = String.valueOf(data[1]);

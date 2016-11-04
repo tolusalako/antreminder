@@ -30,24 +30,10 @@
 						<div class="modal-footer">
 							<form id="modal-form" method="post" th:action="${REMINDER_ADD_URL}" class="form-inline pull-xs-right">
 									<input type="hidden" class="modal-remind-text-dept" name="dept" />
-							      			<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
-
-								<!-- <div class="btn-group"  id="modal-btn-group" data-toggle="buttons"> -->
-									<!-- <label class="btn btn-outline-success active"> -->
 										<button class="modal-btn btn btn-outline-success"    name="status" value="OPEN"> OPEN </button>
-									<!-- </label> -->
-									<!-- <label class="btn btn-outline-warning"> -->
 										<button class="modal-btn btn btn-outline-warning"    name="status" value="WAITL"> WAITLIST </button>
-									<!-- </label> -->
-									<!-- <label class="btn btn-outline-info"> -->
 										<button class="modal-btn btn btn-outline-info"   name="status" value="NEWONLY"> NEWONLY </button>
-									<!-- </label> -->
-									<!-- <label class="btn btn-outline-danger"> -->
 										<button class="modal-btn btn btn-outline-danger"    name="status" value="FULL"> FULL </button>
-									<!-- </label> -->
-								<!-- </div> -->
-								<!--	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<input  type="submit" value="Set Reminder" class="btn btn-primary" id="modal-setreminder"></input>-->
 						  </form>
 						</div>
 					</div>

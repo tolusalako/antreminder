@@ -96,6 +96,45 @@ public class ReminderController {
         return jsonResponse.toString();
     }
 
+    @RequestMapping(value = "/remove", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String reminderRemove(Model model, @RequestBody MultiValueMap<String, String> body,
+            HttpServletResponse httpResponse) throws IOException {
+
+        JsonObject jsonResponse = new JsonObject();
+        httpResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        try {
+
+            if (!SecurityUtils.isAuthenticated()) {
+                httpResponse.sendError(javax.ws.rs.core.Response.Status.FORBIDDEN.getStatusCode());
+                jsonResponse.addProperty("msg", "User is Unauthorized");
+                jsonResponse.addProperty("status", Status.FAILED);
+            }
+            else {
+                Map<String, Object> map = FormUtils.toSingleValuedMap(body);
+                map.remove("_csrf");
+                ReminderDto reminder = objMapper.convertValue(map, ReminderDto.class);
+                map.put("accountId", SecurityUtils.getAccountId());
+                EmptyResultDto result = reminderService.delete(getAccountId(), getEmail(), reminder);
+                if (!result.getStatus().equals(Status.SUCCESS))
+                    throw new ServiceException(result.getMsg());
+                jsonResponse.addProperty("msg", "Reminder remooved.");
+                jsonResponse.addProperty("status", Status.SUCCESS);
+                return jsonResponse.toString();
+            }
+        }
+        catch (JsonProcessingException e) {
+            LOG.error("Could not convert data to String", e);
+            jsonResponse.addProperty("msg", "Could not add Reminder.");
+            jsonResponse.addProperty("status", Status.FAILED);
+        }
+        catch (ServiceException e) {
+            LOG.error("Error adding reminder", e);
+            jsonResponse.addProperty("msg", e.getMessage());
+            jsonResponse.addProperty("status", Status.FAILED);
+        }
+        return jsonResponse.toString();
+    }
+
     private static UUID getAccountId() {
         return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal()
                 .getAccountId();

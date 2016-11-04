@@ -10,6 +10,9 @@
   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="../static/css/reminders.css"
   th:href="@{css/reminders.css}" media="screen" />
+  <title>Antreminder - Reminders</title>
+  <meta name="description" content="Your personal schedule watcher">
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
 </head>
 <body>
   <div th:replace="fragments/header :: header">
@@ -19,20 +22,11 @@
   <br>
   <div class="container rounded m-x-auto" id="form-container">
     <div class="container">
-      <link rel="stylesheet prefetch" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"></link>
+      <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"></link>
       <div class="mail-box">
         <aside class="sm-side">
           <div class="user-head">
-            <!-- <a class="inbox-avatar" href="javascript:;">
-              <img  width="64" hieght="60" src="https://avatars1.githubusercontent.com/u/6373173?v=3&amp;s=460"></img>
-            </a>
-            <div class="user-name">
-              <h5><a href="#">Tolu Salako</a></h5>
-              <span><a href="#">salakotolu@gmail.com</a></span>
-            </div>
-            <a class="mail-dropdown pull-right" href="javascript:;">
-              <i class="fa fa-chevron-down"></i>
-            </a> -->
+             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div id='reminder-title'>
               <b><h3>Reminders</h3></b>
             </div>
@@ -73,7 +67,7 @@
                   <i class="fa fa-plus"></i>
                 </a>
               </div>
-              <div class="btn-group btn-group-remove">
+              <div class="btn-group btn-group-remove" id="btn-reminder-remove">
                 <a class="btn mini btn-default btn-remove" href="#remove">
                   <i class="fa fa-minus"></i>
                 </a>
@@ -102,24 +96,24 @@
             </thead>
               <tbody>
                 <div th:if="${not #lists.isEmpty(reminders)}">
-                  <tr th:each="reminder : ${reminders}">
+                  <tr class="reminder-row" th:each="reminder : ${reminders}">
                     <td class="inbox-small-cells">
-                      <input type="checkbox" class="mail-checkbox"></input>
+                      <input type="checkbox" name="reminder-checkbox" class="mail-checkbox"></input>
                     </td>
                     <th:block th:if="${reminder.status == 'OPEN'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-success"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-success reminder-status" name="OPEN"></i></td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'WAITL'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-warning"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-warning reminder-status" name="WAITL"></i></td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'NEWONLY'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-info"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-info reminder-status" name="NEWONLY"></i></td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'FULL'}">
-                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-danger"></i></td>
+                        <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-danger reminder-status" name="FULL"></i></td>
                     </th:block>
                     <td class="view-message  dont-show" th:text="${reminder.dept} + ' ' + ${reminder.number}"></td>
-                    <td class="view-message  text-right" th:text="${reminder.reminderId}"></td>
+                    <td class="view-message  text-right reminder-id" th:text="${reminder.reminderId}"></td>
                     <td class="view-message" th:text="${reminder.title}"></td>
                   </tr>
                 </div>

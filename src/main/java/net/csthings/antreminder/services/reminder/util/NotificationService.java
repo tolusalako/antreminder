@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import net.csthings.antreminder.config.AppSettings;
 import net.csthings.antreminder.entity.dto.ReminderDto;
+import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.account.utils.ValidationUtils;
 import net.csthings.antreminder.services.email.EmailService;
 import net.csthings.antreminder.services.email.exception.EmailException;
@@ -29,6 +30,8 @@ public class NotificationService {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private ReminderDao reminderDao;
     @Autowired
     AppSettings appSettings;
     private String apiUrl = "localhost:8080";
@@ -86,9 +89,11 @@ public class NotificationService {
             }
 
             text = StringUtils.join(text, "<ul>");
-            for (ReminderDto r : notifications)
+            for (ReminderDto r : notifications) {
+                reminderDao.updateEmailSent(r.getReminderId(), r.getStatus(), Calendar.getInstance().getTime());
                 text = StringUtils.join(text,
                         String.format(bodyListTemplate, dept, r.getNumber(), r.getTitle(), r.getStatus()));
+            }
             text = StringUtils.join(text, "</ul>");
 
             try {

@@ -9,14 +9,13 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.ApplicationContext;
 
 import lombok.extern.slf4j.Slf4j;
-import net.csthings.antreminder.entity.dto.AccountReminderDto;
+import net.csthings.antreminder.entity.dto.AccountDto;
 import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
-import net.csthings.antreminder.repo.AccountReminderDao;
+import net.csthings.antreminder.repo.AccountDao;
 import net.csthings.antreminder.repo.ReminderAccountDao;
 import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.reminder.ReminderService;
@@ -32,7 +31,7 @@ public class ReminderServiceImpl implements ReminderService {
     // private static final int TIME_TO_LIVE = 1209600; // 2 weeks
 
     @Autowired
-    AccountReminderDao accountReminderDao;
+    AccountDao accountDao;
 
     @Autowired
     ReminderDao reminderDao;
@@ -55,24 +54,22 @@ public class ReminderServiceImpl implements ReminderService {
         }
 
         try {
-            // ReminderAccountDto ra = new
-            // ReminderAccountDto(reminder.getDept(), reminder.getReminderId(),
-            // reminder.getStatus());
-            AccountReminderDto ar = accountReminderDao.findOne(accountId);
-            ar = ar == null ? ar = new AccountReminderDto(accountId, email) : ar;
+
+            AccountDto ar = getAccount(accountId, email);
             ReminderPK reminderKey = new ReminderPK(reminder.getReminderId(), reminder.getStatus());
             // ra.getAccounts().add(new AccountDto(accountId));
             ar.getReminders().add(reminder);
 
-            SimpleCacheManager cacheMng = (SimpleCacheManager) appContext.getBean("cacheManager");
-            Object cache = cacheMng.getCache(ReminderDto.TABLE_NAME).get(reminderKey);
-            if (null != cache)
-                log.debug(cache.toString());
+            // SimpleCacheManager cacheMng = (SimpleCacheManager)
+            // appContext.getBean("cacheManager");
+            // Object cache =
+            // cacheMng.getCache(ReminderDto.TABLE_NAME).get(reminderKey);
+            // if (null != cache)
+            // log.debug(cache.toString());
 
             if (!reminderDao.exists(reminderKey))
                 reminderDao.save(reminder);
-            accountReminderDao.save(ar);
-            // reminderAccountDao.saveAndFlush(ra);
+            accountDao.save(ar);
         }
         catch (Exception e) {
             log.error("Error processing request", e);
@@ -88,10 +85,10 @@ public class ReminderServiceImpl implements ReminderService {
             return new ResultDto<>(null, Status.FAILED);
         }
         try {
-            AccountReminderDto accountReminder = accountReminderDao.findOne(accountId);
-            accountReminder = accountReminder == null ? new AccountReminderDto() : accountReminder;
+            AccountDto account = accountDao.findOne(accountId);
+            account = account == null ? new AccountDto() : account;
             // TODO cache
-            Set<ReminderDto> reminders = accountReminder.getReminders();
+            Set<ReminderDto> reminders = account.getReminders();
             if (StringUtils.isEmpty(status))
                 return new ResultDto<>(reminders, Status.SUCCESS);
 
@@ -109,10 +106,30 @@ public class ReminderServiceImpl implements ReminderService {
         }
     }
 
-    // @Override
-    // public EmptyResultDto delete(AccountReminderDto reminder) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
+    @Override
+    public EmptyResultDto delete(UUID accountId, String email, ReminderDto reminder) {
+        if (CommonUtils.anyNull(accountId, reminder, reminder.getStatus(), reminder.getReminderId())) {
+            log.debug("Request is invalid");
+            return new EmptyResultDto(Status.FAILED, CommonError.INVALID_PARAMETERS, "Request is invalid");
+        }
+
+        try {
+
+            AccountDto ar = getAccount(accountId, email);
+            ar.getReminders().remove(reminder);
+            accountDao.save(ar);
+            return new EmptyResultDto();
+        }
+        catch (Exception e) {
+            log.error("Error processing request", e);
+            return new EmptyResultDto(Status.FAILED, CommonError.UNEXPECTED_ERROR, "Error processing reminder");
+        }
+    }
+
+    private AccountDto getAccount(UUID accountId, String email) {
+        AccountDto ar = accountDao.findOne(accountId);
+        ar = ar == null ? ar = new AccountDto(accountId, email) : ar;
+        return ar;
+    }
 
 }

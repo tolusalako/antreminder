@@ -1,6 +1,7 @@
 package net.csthings.antreminder.entity.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -32,6 +33,7 @@ public class ReminderDto implements Serializable {
     private String dept;
     private String number;
     private String title;
+    private Date emailSent;
 
     public ReminderDto() {
     }
@@ -100,6 +102,47 @@ public class ReminderDto implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Date getEmailSent() {
+        return emailSent;
+    }
+
+    public void setEmailSent(Date emailSent) {
+        this.emailSent = emailSent;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((reminderId == null) ? 0 : reminderId.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof ReminderDto))
+            return false;
+        ReminderDto other = (ReminderDto) obj;
+        if (reminderId == null) {
+            if (other.reminderId != null)
+                return false;
+        }
+        else if (!reminderId.equals(other.reminderId))
+            return false;
+        if (status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!status.equals(other.status))
+            return false;
+        return true;
     }
 
     @Override

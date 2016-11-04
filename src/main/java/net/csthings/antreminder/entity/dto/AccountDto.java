@@ -2,11 +2,18 @@ package net.csthings.antreminder.entity.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -32,17 +39,30 @@ public class AccountDto implements Serializable {
     @Column(columnDefinition = "BINARY(16)")
     private UUID accountId;
     private String email;
+
     private String password;
     private int status;
     private Date created;
     private Date online;
 
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = ReminderDto.class, cascade = { CascadeType.MERGE })
+    @JoinTable(name = AccountReminderDto.TABLE_NAME, joinColumns = { @JoinColumn(name = "accountId") },
+        inverseJoinColumns = { @JoinColumn(name = "status"), @JoinColumn(name = "reminderId") })
+    private Set<ReminderDto> reminders;
+
     public AccountDto() {
+        this.reminders = new HashSet<>();
     }
 
     public AccountDto(UUID id) {
         this();
         this.accountId = id;
+    }
+
+    public AccountDto(UUID id, String email) {
+        this();
+        this.accountId = id;
+        this.email = email;
     }
 
     @JsonIgnore

@@ -44,7 +44,7 @@ msg_alert.swapShow = function(message, mode, code){
     )
     setTimeout(function(){
         obj.html(originalHtml);
-    }, 2000);
+    }, 1000);
 }
 
 $(document).ready(function(){

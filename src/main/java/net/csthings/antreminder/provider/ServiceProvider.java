@@ -5,7 +5,6 @@ import javax.inject.Singleton;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import net.csthings.antreminder.repo.LinkedRemindersDao;
 import net.csthings.antreminder.services.account.AccountService;
 import net.csthings.antreminder.services.account.LoginService;
 import net.csthings.antreminder.services.account.impl.AccountServiceImpl;
@@ -55,12 +54,6 @@ public class ServiceProvider {
     @Singleton
     public static EmailService emailService() {
         return new MailGunEmailServiceImpl("Antreminder Support", "antreminder-support@csthings.net"); // TODO
-    }
-
-    @Bean
-    @Singleton
-    public static LinkedRemindersDao linkedRemindersDao() {
-        return new LinkedRemindersDao();
     }
 
 }
