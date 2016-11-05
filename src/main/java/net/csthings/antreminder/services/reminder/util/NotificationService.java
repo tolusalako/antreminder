@@ -40,7 +40,7 @@ public class NotificationService {
     private static String titleTemplate2 = "Some of your %s classes have updated status";
 
     private static String bodyTemplate2 = "The following classes in %s were updated:";
-    private static String bodyListTemplate = "<li>%s %s: %s is now %s</li>";
+    private static String bodyListTemplate = "<li>[%s] %s %s: %s is now %s</li>";
 
     private static final String EMAIL_TEXT;
 
@@ -91,8 +91,8 @@ public class NotificationService {
             text = StringUtils.join(text, "<ul>");
             for (ReminderDto r : notifications) {
                 reminderDao.updateEmailSent(r.getReminderId(), r.getStatus(), Calendar.getInstance().getTime());
-                text = StringUtils.join(text,
-                        String.format(bodyListTemplate, dept, r.getNumber(), r.getTitle(), r.getStatus()));
+                text = StringUtils.join(text, String.format(bodyListTemplate, r.getReminderId(), dept, r.getNumber(),
+                        r.getTitle(), r.getStatus()));
             }
             text = StringUtils.join(text, "</ul>");
 

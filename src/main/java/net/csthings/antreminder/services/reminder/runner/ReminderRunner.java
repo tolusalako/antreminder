@@ -133,12 +133,15 @@ public class ReminderRunner {
         Map<String, List<ReminderDto>> result = new HashMap<>();
         List<String[]> accReminders = accountDao.getAccountsWithReminder(dept, updates.keySet());
         for (Object[] data : accReminders) {
+            String status = String.valueOf(data[4]);
             String email = String.valueOf(data[0]);
             String rId = String.valueOf(data[1]);
             String title = String.valueOf(data[2]);
             String number = String.valueOf(data[3]);
+            if (!status.equals(updates.get(rId)))
+                continue;
             List<ReminderDto> reminders = result.get(email);
-            ReminderDto reminder = new ReminderDto(rId, updates.get(rId), title, number);
+            ReminderDto reminder = new ReminderDto(rId, status, title, number);
             if (reminders == null)
                 reminders = new ArrayList<>();
             reminders.add(reminder);
