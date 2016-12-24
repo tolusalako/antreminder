@@ -8,15 +8,14 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
-import lombok.extern.slf4j.Slf4j;
 import net.csthings.antreminder.entity.dto.AccountDto;
 import net.csthings.antreminder.entity.dto.ReminderDto;
 import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 import net.csthings.antreminder.repo.AccountDao;
-import net.csthings.antreminder.repo.ReminderAccountDao;
 import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.reminder.ReminderService;
 import net.csthings.common.dto.EmptyResultDto;
@@ -25,22 +24,14 @@ import net.csthings.common.utils.CommonError;
 import net.csthings.common.utils.CommonUtils;
 import net.csthings.common.utils.Status;
 
-@Slf4j
 public class ReminderServiceImpl implements ReminderService {
-
-    // private static final int TIME_TO_LIVE = 1209600; // 2 weeks
+    private Logger LOG = LoggerFactory.getLogger(ReminderServiceImpl.class);
 
     @Autowired
     AccountDao accountDao;
 
     @Autowired
     ReminderDao reminderDao;
-
-    @Autowired
-    ReminderAccountDao reminderAccountDao;
-
-    @Autowired
-    private ApplicationContext appContext;
 
     public ReminderServiceImpl() {
     }
@@ -49,7 +40,7 @@ public class ReminderServiceImpl implements ReminderService {
     public EmptyResultDto add(UUID accountId, String email, ReminderDto reminder) {
         if (CommonUtils.anyNull(accountId, reminder, reminder.getDept(), reminder.getTitle(),
                 reminder.getReminderId())) {
-            log.debug("Request is invalid");
+            LOG.debug("Request is invalid");
             return new EmptyResultDto(Status.FAILED, CommonError.INVALID_PARAMETERS, "Request is invalid");
         }
 
@@ -57,7 +48,6 @@ public class ReminderServiceImpl implements ReminderService {
 
             AccountDto ar = getAccount(accountId, email);
             ReminderPK reminderKey = new ReminderPK(reminder.getReminderId(), reminder.getStatus());
-            // ra.getAccounts().add(new AccountDto(accountId));
             ar.getReminders().add(reminder);
 
             if (!reminderDao.exists(reminderKey))
@@ -65,7 +55,7 @@ public class ReminderServiceImpl implements ReminderService {
             accountDao.save(ar);
         }
         catch (Exception e) {
-            log.error("Error processing request", e);
+            LOG.error("Error processing request", e);
             return new EmptyResultDto(Status.FAILED, CommonError.UNEXPECTED_ERROR, "Error processing reminder");
         }
         return new EmptyResultDto(Status.SUCCESS, null, "Reminder added.");
@@ -74,7 +64,7 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public ResultDto<Collection<ReminderDto>> get(UUID accountId, String status) {
         if (CommonUtils.isNull(accountId)) {
-            log.debug("AccountId cannot be null");
+            LOG.debug("AccountId cannot be null");
             return new ResultDto<>(null, Status.FAILED);
         }
         try {
@@ -94,7 +84,7 @@ public class ReminderServiceImpl implements ReminderService {
                 return new ResultDto<>(null, Status.SUCCESS, null, "Found nothing");
         }
         catch (HibernateException e) {
-            log.error("Error processing request", e);
+            LOG.error("Error processing request", e);
             return new ResultDto<>(null, Status.FAILED, CommonError.UNEXPECTED_ERROR, "Error processing reminder");
         }
     }
@@ -102,7 +92,7 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public EmptyResultDto delete(UUID accountId, String email, ReminderDto reminder) {
         if (CommonUtils.anyNull(accountId, reminder, reminder.getStatus(), reminder.getReminderId())) {
-            log.debug("Request is invalid");
+            LOG.debug("Request is invalid");
             return new EmptyResultDto(Status.FAILED, CommonError.INVALID_PARAMETERS, "Request is invalid");
         }
 
@@ -114,14 +104,14 @@ public class ReminderServiceImpl implements ReminderService {
             return new EmptyResultDto();
         }
         catch (Exception e) {
-            log.error("Error processing request", e);
+            LOG.error("Error processing request", e);
             return new EmptyResultDto(Status.FAILED, CommonError.UNEXPECTED_ERROR, "Error processing reminder");
         }
     }
 
     private AccountDto getAccount(UUID accountId, String email) {
         AccountDto ar = accountDao.findOne(accountId);
-        ar = ar == null ? ar = new AccountDto(accountId, email) : ar;
+        ar = ar == null ? new AccountDto(accountId, email) : ar;
         return ar;
     }
 

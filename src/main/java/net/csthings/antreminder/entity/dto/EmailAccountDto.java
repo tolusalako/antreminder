@@ -9,9 +9,6 @@ import javax.persistence.Table;
 
 import org.springframework.cache.annotation.Cacheable;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name = EmailAccountDto.TABLE_NAME)
 @Cacheable
@@ -28,5 +25,21 @@ public class EmailAccountDto {
     public EmailAccountDto(String email, UUID accountid) {
         this.email = email;
         this.accountId = accountid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 }

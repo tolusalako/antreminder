@@ -19,7 +19,6 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
 import net.csthings.antreminder.services.account.utils.AccountStatus;
 
 /*
@@ -30,7 +29,6 @@ import net.csthings.antreminder.services.account.utils.AccountStatus;
  * @purpose - TODO
  */
 
-@Data
 @Entity
 @Table(name = AccountDto.TABLE_NAME)
 public class AccountDto implements Serializable {
@@ -63,6 +61,62 @@ public class AccountDto implements Serializable {
         this();
         this.accountId = id;
         this.email = email;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getOnline() {
+        return online;
+    }
+
+    public void setOnline(Date online) {
+        this.online = online;
+    }
+
+    public Set<ReminderDto> getReminders() {
+        return reminders;
+    }
+
+    public void setReminders(Set<ReminderDto> reminders) {
+        this.reminders = reminders;
     }
 
     @JsonIgnore

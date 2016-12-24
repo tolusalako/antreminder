@@ -14,7 +14,6 @@ import org.springframework.cache.annotation.Cacheable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
 import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 
 @Entity
@@ -45,7 +44,6 @@ public class ReminderDto implements Serializable {
         this.number = number;
     }
 
-    @Data
     @Embeddable
     public static class ReminderPK implements Serializable {
 
@@ -62,6 +60,23 @@ public class ReminderDto implements Serializable {
             this.reminderId = reminderId;
             this.status = status;
         }
+
+        public String getReminderId() {
+            return reminderId;
+        }
+
+        public void setReminderId(String reminderId) {
+            this.reminderId = reminderId;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
     }
 
     public String getReminderId() {
