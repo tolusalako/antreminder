@@ -151,8 +151,9 @@ public final class AccountServiceImpl implements AccountService {
                 if (validationDto.getToken().equals(token) && account != null) {
                     account.setStatus(AccountStatus.ACTIVE);
                     accountDao.save(account);
-                    validationAccountDao.save(validationDto);
-                    return new ResultDto<>(true, Status.SUCCESS, "Account validated successfully. Please login.", "");
+                    validationAccountDao.delete(validationDto);
+                    return new ResultDto<>(true, Status.SUCCESS, "Account validated successfully. You can now login.",
+                            "");
                 }
                 else {
                     return new ResultDto<>(false, Status.FAILED, CommonError.DNE, "Account does not exist");

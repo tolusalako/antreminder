@@ -60,13 +60,6 @@ public class ReminderServiceImpl implements ReminderService {
             // ra.getAccounts().add(new AccountDto(accountId));
             ar.getReminders().add(reminder);
 
-            // SimpleCacheManager cacheMng = (SimpleCacheManager)
-            // appContext.getBean("cacheManager");
-            // Object cache =
-            // cacheMng.getCache(ReminderDto.TABLE_NAME).get(reminderKey);
-            // if (null != cache)
-            // log.debug(cache.toString());
-
             if (!reminderDao.exists(reminderKey))
                 reminderDao.save(reminder);
             accountDao.save(ar);

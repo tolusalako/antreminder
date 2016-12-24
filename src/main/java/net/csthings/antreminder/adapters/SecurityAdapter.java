@@ -15,7 +15,8 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 public class SecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().antMatchers("/", "/schedule", "/login").permitAll().anyRequest().permitAll();
+        httpSecurity.authorizeRequests().antMatchers("/", "/schedule", "/login", "/logout").permitAll().anyRequest()
+                .permitAll();
         httpSecurity.authorizeRequests().antMatchers("/reminders/**").authenticated();
         httpSecurity.csrf().csrfTokenRepository(csrfTokenRepository());
         // httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedhandler());
@@ -39,6 +40,6 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/js/**", "/css/**", "/img/**");
+        web.ignoring().antMatchers("/js/**", "/css/**", "/res/**");
     }
 }

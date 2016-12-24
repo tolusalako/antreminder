@@ -42,7 +42,7 @@ public class ReminderRunner {
 
     private static final int MAX_THREAD_COUNT = 10;
     private static final long SCAN_INTERVAL = 300000; // 5 min
-    private static final long SEND_INTERVAL = 60; // min
+    public static final long SEND_INTERVAL = 60; // min
     private String url;
 
     @Autowired
@@ -61,8 +61,6 @@ public class ReminderRunner {
 
         executors = Executors.newFixedThreadPool(MAX_THREAD_COUNT);
         url = runnerSettings.getScanUrl();
-        // scanInterval = Long.valueOf(runnerSettings.getScanInterval());
-
         scrapper = new WebsocScrapper(url, runnerSettings.getScanExpectedTitle());
     }
 
@@ -74,10 +72,16 @@ public class ReminderRunner {
         Map<String, Set<String>> reminderSetReq = new HashMap<>();
         String lastDept = reminders.get(0).getDept();
         for (ReminderDto r : reminders) {
-            if (r.getEmailSent() != null && System.currentTimeMillis() - r.getEmailSent().getTime() < TimeUnit.MINUTES
-                    .toMillis(SEND_INTERVAL))
-                continue;
-
+            if (null != r.getEmailSent()) {
+                long timeDiff = System.currentTimeMillis() - r.getEmailSent().getTime();
+                if (r.getEmailSent() != null && timeDiff < TimeUnit.MINUTES.toMillis(SEND_INTERVAL)) {
+                    // Don't scan if email has been sent in less than
+                    // SEND_INTERVAL
+                    LOG.warn("Skipping scan for {}:{}. Last sent {} mins ago.", r.getDept() + " " + r.getNumber(),
+                            r.getStatus(), TimeUnit.MILLISECONDS.toMinutes(timeDiff));
+                    continue;
+                }
+            }
             if (!r.getDept().equals(lastDept) && !reminderSetReq.isEmpty()) {
                 Map<String, Set<String>> reminderSetReqCopy = new HashMap<>(reminderSetReq);
                 reminderSetReq.clear();
@@ -140,9 +144,26 @@ public class ReminderRunner {
             String number = String.valueOf(data[3]);
             if (!status.equals(updates.get(rId)))
                 continue;
-            List<ReminderDto> reminders = result.get(email);
+
+            // TODO
+            // ReminderDto oldReminder = reminderDao.findOne(new ReminderPK(rId,
+            // status));
+            // if (null != oldReminder && null != oldReminder.getEmailSent()) {
+            // long timeDiff = System.currentTimeMillis() -
+            // oldReminder.getEmailSent().getTime();
+            // if (null != oldReminder.getEmailSent() && timeDiff <
+            // TimeUnit.MINUTES.toMillis(SEND_INTERVAL)) {
+            // LOG.warn("Skipping send for {}:{}. Last sent {} mins ago.",
+            // oldReminder.getDept() + " " + oldReminder.getNumber(),
+            // oldReminder.getStatus(),
+            // TimeUnit.MILLISECONDS.toMinutes(timeDiff));
+            // continue;
+            // }
+            // }
+
             ReminderDto reminder = new ReminderDto(rId, status, title, number);
-            if (reminders == null)
+            List<ReminderDto> reminders = result.get(email);
+            if (null == reminders)
                 reminders = new ArrayList<>();
             reminders.add(reminder);
             result.put(email, reminders);

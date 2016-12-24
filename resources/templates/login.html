@@ -7,6 +7,7 @@
   </div>
     <link rel="stylesheet" type="text/css" href="/css/login.css"
     th:href="@{css/login.css}" media="screen" />
+    <title>Antreminder - Login</title>
 </head>
 <body>
   <div th:replace="fragments/header :: header">
@@ -32,14 +33,14 @@
           <hr>
           <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-          <div id="remember" class="checkbox">
+          <!-- <div id="remember" class="checkbox">
               <label>
-                  <input type="checkbox" value="remember-me"> Remember me
+                  <input type="checkbox" name="rememberme"> Remember me
               </label>
                 <a href="#" class="forgot-password center-block">
                     Forgot password?
                 </a>
-          </div>
+          </div> -->
           <div>
               <button class="btn btn-lg btn-outline-primary btn-block btn-signin" id="form-login-submit" name="login" type="submit">Sign in</button>
           </div>

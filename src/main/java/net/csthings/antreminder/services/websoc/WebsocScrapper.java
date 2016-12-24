@@ -1,5 +1,6 @@
 package net.csthings.antreminder.services.websoc;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,12 +25,16 @@ import net.csthings.antreminder.services.rest.RestClientService;
 public class WebsocScrapper {
     Logger LOG = LoggerFactory.getLogger(WebsocScrapper.class);
     private final String expectedTitle;
+    private final String url;
+    private String latestTerm;
 
     private RestClientService restService;
 
     public WebsocScrapper(String url, String expectedTitle) {
         restService = new RestClientService(url);
+        this.url = url;
         this.expectedTitle = expectedTitle;
+        latestTerm = "";
     }
 
     public String getDeptAttr(String dept) {
@@ -125,7 +130,25 @@ public class WebsocScrapper {
     private MultivaluedMap getBaseForm() {
         MultivaluedMap form = new MultivaluedMapImpl();
         form.add("Submit", "Display Web Results");
-        form.add("YearTerm", "2017-03"); // Important
+        form.add("YearTerm", getLatestTerm()); // Important
         return form;
+    }
+
+    public String getLatestTerm() {
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).get();
+        }
+        catch (IOException e) {
+            LOG.error("Could not connect to " + url, e);
+        }
+        if (doc == null)
+            return "";
+
+        List<Element> options = doc.select("form > table > tbody > tr td select[name=\"YearTerm\"] > option");
+        if (options.isEmpty())
+            return "";
+        return options.get(0).val();
+
     }
 }

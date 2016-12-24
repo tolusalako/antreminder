@@ -3,6 +3,7 @@ package net.csthings.antreminder.services.account.impl;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.Cookie;
 
@@ -41,7 +42,7 @@ public final class LoginServiceImpl implements LoginService {
     private static Logger LOG = LoggerFactory.getLogger(AccountServiceImpl.class);
     public static final int SESSION_TOKEN_LENGTH = 128;
     private static final int SESSION_LIFE = 24; // HRS
-
+    public static final String SESSION_NAME = "eatercookie";
     @Autowired
     EmailAccountDao emailAccountDao;
 
@@ -58,7 +59,7 @@ public final class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResultDto<Cookie> login(String email, String password) {
+    public ResultDto<Cookie> login(String email, String password, boolean rememberMe) {
         if (StringUtils.isAnyEmpty(email, password))
             return new ResultDto<>(null, Status.FAILED, CommonError.INVALID_PARAMETERS, "Email or password is invalid");
 
@@ -85,25 +86,13 @@ public final class LoginServiceImpl implements LoginService {
             if (!passwordMatch)
                 return new ResultDto<>(null, Status.FAILED, CommonError.GENERAL_ERROR, "Wrong password.");
 
-            AccountSessionDto session = createSession(account.getAccountId());
+            AccountSessionDto session = createSession(account.getAccountId(), rememberMe);
 
             if (CommonUtils.isNull(session))
                 return new ResultDto<>(null, Status.FAILED, CommonError.UNEXPECTED_ERROR,
                         "Could not create login session");
             else {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new Date());
-                cal.add(Calendar.HOUR, 24);
-                Cookie cookie = new Cookie("session", session.getSessionId());
-                // cookie.setPath(responsePage);
-                cookie.setSecure(true);
-                cookie.setHttpOnly(true);
-                // response.addCookie(cookie);
-                User user = new User(session.getAccountId(), email, true, session.getSessionId());
-                Authentication authentication = new AuthenticationImpl(user, session.getSessionId());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                return new ResultDto<>(cookie, Status.SUCCESS);
+                return new ResultDto<>(createCookie(session, email), Status.SUCCESS);
             }
 
         }
@@ -119,11 +108,15 @@ public final class LoginServiceImpl implements LoginService {
         String ip = (String) CommonThreadContext.get(CommonThreadContext.IP, "");
         try {
             AccountSessionDto session = getExistingSessionAccount(sessionId);
-            if (session == null)
+            if (session == null || session.getExpiration().getTime() < new Date().getTime())
                 return new ResultDto<>(false, Status.FAILED, CommonError.TOKEN_EXPIRED);
-
-            if (ip.equalsIgnoreCase(session.getIp()))
+            else if (!ip.equalsIgnoreCase(session.getIp()))
+                return new ResultDto<>(false, Status.FAILED, "IP_CHANGED");
+            AccountDto account = accountDao.findOne(session.getAccountId());
+            if (account != null) {
+                createCookie(session, account.getEmail());
                 return new ResultDto<>(true);
+            }
         }
         catch (HibernateException e) {
             LOG.error("Failed to validate session {}", sessionId, e);
@@ -146,11 +139,10 @@ public final class LoginServiceImpl implements LoginService {
 
     }
 
-    private AccountSessionDto createSession(UUID accountId) {
+    private AccountSessionDto createSession(UUID accountId, boolean rememberMe) {
         AccountSessionDto session = getExistingSession(accountId);
 
         try {
-            // Remove old session
             if (session != null)
                 accountSessionDao.delete(accountId);
 
@@ -158,7 +150,7 @@ public final class LoginServiceImpl implements LoginService {
             String ip = (String) CommonThreadContext.get(CommonThreadContext.IP, "");
             cal.setTime(new Date());
             session = new AccountSessionDto();
-            cal.add(Calendar.HOUR, SESSION_LIFE);
+            cal.add(Calendar.HOUR, rememberMe ? SESSION_LIFE * 14 : SESSION_LIFE); // 2Weeks
             session.setExpiration(cal.getTime());
             session.setAccountId(accountId);
             session.setIp(ip);
@@ -180,4 +172,23 @@ public final class LoginServiceImpl implements LoginService {
         }
     }
 
+    private static Cookie createCookie(AccountSessionDto session, String email) {
+        Cookie cookie = new Cookie(SESSION_NAME, session.getSessionId());
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(
+                (int) TimeUnit.MILLISECONDS.toSeconds(session.getExpiration().getTime() - new Date().getTime()));
+        User user = new User(session.getAccountId(), email, true, session.getSessionId());
+        Authentication authentication = new AuthenticationImpl(user, session.getSessionId());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return cookie;
+    }
+
+    @Override
+    public void logout(UUID accountId) {
+        AccountSessionDto ac = getExistingSession(accountId);
+        if (ac != null)
+            accountSessionDao.delete(ac);
+        SecurityContextHolder.getContext().setAuthentication(null);
+    }
 }

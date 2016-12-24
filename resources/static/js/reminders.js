@@ -23,21 +23,33 @@ function refresh(){
 
 $(document).ready(function () {
 	refresh();
-	var table;
+	//Datatable init
+	var table = $('#reminder-table').DataTable({
+		"language": {
+			"emptyTable": "<b>You have no reminders. Click here to add some.</b>"
+  		},
+		"columnDefs": [
+            {
+                "targets": [ 2 ],
+                "visible": false,
+                "searchable": true
+            }
+		]
+
+	});
+	$('.dataTables_empty').click(function() {
+		window.location.href = "/schedule";
+	});
+	//Sort reminders by status
 	$('.list-item').click(function(){
 		var classes = $(this).attr('class');
 		var statusClass = classes.split(' ');
 		var status = statusClass[statusClass.length - 1].split('-')[2];
-		//TODO sort
+		if (status == "all")
+			status = "";
+		table.column(2).search(status).draw();
 	});
-	table = $('#reminder-table').dataTable({
-		"language": {
-			"emptyTable": "<b>You have no reminders. Click here to add some.</b>"
-  		}
-	});
-	$('.dataTables_empty').click(function() {
-		window.location.href = "/schedule";
-	})
+	//Remove reminders
 	$('#btn-reminder-remove').click(function() {
 		$("input:checkbox[name=reminder-checkbox]:checked").each(function(){
 		    row = $(this).parent().parent();
@@ -52,15 +64,14 @@ $(document).ready(function () {
 	                "_csrf": $('.user-head').find("input[name='_csrf']").val()
 	            }).done(function( data ) {
 					var json = JSON.parse(data);
-					console.log(json);
 	                if (json.status != "FAILED"){
 						row.remove();
 						refresh();
-						// table.clear().draw();
+						location.reload();
 					}
 	            }).fail(function (data) {
 					console.log(data)
 	            });
 		});
-	})
+	});
 });

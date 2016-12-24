@@ -3,7 +3,6 @@ package net.csthings.antreminder.controller;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.QueryParam;
@@ -12,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 
 import net.csthings.antreminder.entity.dto.ReminderDto;
-import net.csthings.antreminder.security.AuthenticationImpl;
 import net.csthings.antreminder.security.SecurityUtils;
 import net.csthings.antreminder.services.ServiceException;
 import net.csthings.antreminder.services.reminder.ReminderService;
@@ -49,7 +46,7 @@ public class ReminderController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView reminderGet(Model model, @QueryParam("status") String status) {
         // Get Reminders
-        ResultDto<Collection<ReminderDto>> rez = reminderService.get(getAccountId(), status);
+        ResultDto<Collection<ReminderDto>> rez = reminderService.get(SecurityUtils.getAccountId(), status);
         Collection<ReminderDto> reminders = rez.getItem();
         model.addAttribute("reminders", reminders);
         return new ModelAndView(PAGE_NAME, "Model", model);
@@ -75,7 +72,8 @@ public class ReminderController {
                 map.remove("_csrf");
                 ReminderDto reminder = objMapper.convertValue(map, ReminderDto.class);
                 map.put("accountId", SecurityUtils.getAccountId());
-                EmptyResultDto result = reminderService.add(getAccountId(), getEmail(), reminder);
+                EmptyResultDto result = reminderService.add(SecurityUtils.getAccountId(), SecurityUtils.getEmail(),
+                        reminder);
                 if (!result.getStatus().equals(Status.SUCCESS))
                     throw new ServiceException(result.getMsg());
                 jsonResponse.addProperty("msg", "Reminder added.");
@@ -114,7 +112,8 @@ public class ReminderController {
                 map.remove("_csrf");
                 ReminderDto reminder = objMapper.convertValue(map, ReminderDto.class);
                 map.put("accountId", SecurityUtils.getAccountId());
-                EmptyResultDto result = reminderService.delete(getAccountId(), getEmail(), reminder);
+                EmptyResultDto result = reminderService.delete(SecurityUtils.getAccountId(), SecurityUtils.getEmail(),
+                        reminder);
                 if (!result.getStatus().equals(Status.SUCCESS))
                     throw new ServiceException(result.getMsg());
                 jsonResponse.addProperty("msg", "Reminder remooved.");
@@ -133,14 +132,5 @@ public class ReminderController {
             jsonResponse.addProperty("status", Status.FAILED);
         }
         return jsonResponse.toString();
-    }
-
-    private static UUID getAccountId() {
-        return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal()
-                .getAccountId();
-    }
-
-    private static String getEmail() {
-        return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal().getEmail();
     }
 }

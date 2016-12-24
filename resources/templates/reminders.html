@@ -89,6 +89,7 @@
                 <tr>
                   <th></th>
                   <th>Status</th>
+                  <th>Status Text</th>
                   <th>Department</th>
                   <th>Course Code</th>
                   <th>Course Title</th>
@@ -102,15 +103,19 @@
                     </td>
                     <th:block th:if="${reminder.status == 'OPEN'}">
                         <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-success reminder-status" name="OPEN"></i></td>
+                        <td>OPEN</td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'WAITL'}">
                         <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-warning reminder-status" name="WAITL"></i></td>
+                        <td>WAITLIST</td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'NEWONLY'}">
                         <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-info reminder-status" name="NEWONLY"></i></td>
+                        <td>NEWONLY</td>
                     </th:block>
                     <th:block th:if="${reminder.status == 'FULL'}">
                         <td class="inbox-small-cells"><i class=" fa fa-circle fa-reminder-list text-danger reminder-status" name="FULL"></i></td>
+                        <td>FULL</td>
                     </th:block>
                     <td class="view-message  dont-show" th:text="${reminder.dept} + ' ' + ${reminder.number}"></td>
                     <td class="view-message  text-right reminder-id" th:text="${reminder.reminderId}"></td>

@@ -20,7 +20,11 @@ public class SecurityUtils {
     }
 
     public static UUID getAccountId() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getAccountId();
+        return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal()
+                .getAccountId();
+    }
+
+    public static String getEmail() {
+        return ((AuthenticationImpl) SecurityContextHolder.getContext().getAuthentication()).getPrincipal().getEmail();
     }
 }

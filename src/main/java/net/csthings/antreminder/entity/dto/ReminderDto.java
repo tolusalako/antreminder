@@ -50,7 +50,7 @@ public class ReminderDto implements Serializable {
     public static class ReminderPK implements Serializable {
 
         @Id
-        private String reminderId; // Course code
+        private String reminderId;
         @Id
         private String status;
 

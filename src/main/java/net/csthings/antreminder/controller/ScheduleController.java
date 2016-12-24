@@ -36,7 +36,7 @@ import net.rossillo.spring.web.mvc.CachePolicy;
 @RequestMapping("${schedule.url}")
 public class ScheduleController {
     Logger LOG = LoggerFactory.getLogger(ScheduleController.class);
-    public final static String PAGE = "schedule";
+    public final static String PAGE_NAME = "schedule";
     @Autowired
     WebSocService webSocService;
     @Autowired
@@ -58,7 +58,7 @@ public class ScheduleController {
         model.asMap().clear();
         model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
         model.addAttribute(Attributes.PAGE, webSocService.generateInnerFormHtml());
-        return PAGE;
+        return PAGE_NAME;
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_XHTML_XML_VALUE)
@@ -78,6 +78,6 @@ public class ScheduleController {
         if (!model.containsAttribute(Attributes.FRAGMENT))
             model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
         model.addAttribute(Attributes.REMINDER_ADD_URL, REMINDER_ADD);
-        return PAGE;
+        return PAGE_NAME;
     }
 }
