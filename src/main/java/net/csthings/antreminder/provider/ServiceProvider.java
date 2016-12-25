@@ -2,9 +2,11 @@ package net.csthings.antreminder.provider;
 
 import javax.inject.Singleton;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import net.csthings.antreminder.config.MailSettings;
 import net.csthings.antreminder.services.account.AccountService;
 import net.csthings.antreminder.services.account.LoginService;
 import net.csthings.antreminder.services.account.impl.AccountServiceImpl;
@@ -53,7 +55,7 @@ public class ServiceProvider {
     @Bean
     @Singleton
     public static EmailService emailService() {
-        return new MailGunEmailServiceImpl("Antreminder Support", "antreminder-support@csthings.net"); // TODO
+        return new MailGunEmailServiceImpl();
     }
 
 }

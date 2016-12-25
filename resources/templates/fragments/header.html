@@ -4,11 +4,17 @@
 </head>
 <body>
     <nav class="navbar navbar-dark bg-inverse" th:fragment="header">
-        <a class="navbar-brand" href="#">Antreminder</a>
+        <a class="navbar-brand" href="#">Antreminder
+            <br>
+            <small class="pull-xs-right">UCI</small>
+            <small class="pull-xs-right">-</small>
+            <small class="pull-xs-right">UCLA</small>
+        </a>
         <ul class="nav navbar-nav">
             <!-- <li class="nav-item active">
                 <a class="nav-link" href="/" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
             </li> -->
+  
             <li class="nav-item">
                 <a class="nav-link" href="/schedule" th:href="@{/schedule}">Schedule</a>
             </li>

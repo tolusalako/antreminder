@@ -33,7 +33,7 @@ import net.rossillo.spring.web.mvc.CachePolicy;
  */
 
 @Controller
-@RequestMapping("${schedule.url}")
+@RequestMapping("/schedule")
 public class ScheduleController {
     Logger LOG = LoggerFactory.getLogger(ScheduleController.class);
     public final static String PAGE_NAME = "schedule";
@@ -42,9 +42,6 @@ public class ScheduleController {
     @Autowired
     private WebSocSettings websocSettings;
     RestClientService restService;
-
-    @Value("${reminders.add}")
-    private String REMINDER_ADD;
 
     @PostConstruct
     public void init() {
@@ -77,7 +74,7 @@ public class ScheduleController {
 
         if (!model.containsAttribute(Attributes.FRAGMENT))
             model.addAttribute(Attributes.FRAGMENT, Attributes.Fragments.FORM);
-        model.addAttribute(Attributes.REMINDER_ADD_URL, REMINDER_ADD);
+        model.addAttribute(Attributes.REMINDER_ADD_URL, "/reminders/add");
         return PAGE_NAME;
     }
 }

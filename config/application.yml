@@ -17,19 +17,17 @@ websoc:
     searchFragment: resources/templates/fragments/schedule/search.html
     formFragment: resources/templates/fragments/schedule/form.html
 
-schedule.url: /schedule
-
-reminders:
-    url: /reminders
-    add: /reminders/add
-    get: /reminders/get
-    getall: /reminders/getall
 
 reminder:
     runner:
         scan-interval: 5000 #Milliseconds
         scan-url: https://www.reg.uci.edu/perl/WebSoc
         scan-expected-title: Schedule of Classes search results
+
+mail:
+    name: AntReminder Support
+    email: antreminder-support@csthings.net
+    key: dummy-test-key
 
 spring:
     datasource:

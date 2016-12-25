@@ -14,11 +14,7 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, Authentication auth, HttpServletRequest request, HttpServletResponse response) {
-        return auth == null ? "redirect:schedule" : "redirect:reminders";// "index";
+        return auth == null ? "redirect:schedule" : "redirect:reminders";
     }
 
-    @RequestMapping(value = "/loaderio-27a92395c44b94af53ef36a24e81b285", method = RequestMethod.GET)
-    public String loader(Model model, HttpServletRequest request, HttpServletResponse response) {
-        return "loaderio-27a92395c44b94af53ef36a24e81b285";
-    }
 }

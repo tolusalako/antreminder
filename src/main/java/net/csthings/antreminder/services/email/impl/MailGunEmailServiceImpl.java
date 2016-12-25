@@ -3,6 +3,7 @@ package net.csthings.antreminder.services.email.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
@@ -10,6 +11,9 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PostFilter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -21,6 +25,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+import net.csthings.antreminder.config.MailSettings;
 import net.csthings.antreminder.services.email.EmailService;
 import net.csthings.antreminder.services.email.exception.EmailException;
 import net.csthings.common.utils.CommonUtils;
@@ -29,29 +34,31 @@ public class MailGunEmailServiceImpl implements EmailService {
     Logger LOG = LoggerFactory.getLogger(MailGunEmailServiceImpl.class);
     public static final String MAIL_URL = "https://api.mailgun.net/v3/csthings.net/messages";
     public static final String EVENTS_URL = "https://api.mailgun.net/v3/csthings.net/events";
-    public static final String API_KEY = "key-c1cb209bbfbded916aebb86a15aa80de"; // TODO
-                                                                                 // move
-                                                                                 // this
 
-    public static final String MAIL_NAME_KEY = "mail.name";
-    public static final String MAIL_EMAIL_KEY = "mail.email";
+
+    @Autowired
+    private MailSettings mailSettings;
 
     public String name;
     public String email;
+    private String key;
     private Client client;
     private WebResource mailResource;
     private WebResource eventsResource;
     JsonParser parser;
 
-    public MailGunEmailServiceImpl(String name, String email) {
-        client = Client.create();
-        client.addFilter(getAuthFilter());
-        parser = new JsonParser();
 
-        mailResource = client.resource(MAIL_URL);
-        eventsResource = client.resource(EVENTS_URL);
-        this.name = name;
-        this.email = email;
+        @PostConstruct
+        private void init(){
+
+            this.name = mailSettings.getName();
+            this.email = mailSettings.getEmail();
+            this.key = mailSettings.getKey();
+            client = Client.create();
+            client.addFilter(getAuthFilter());
+            parser = new JsonParser();
+            mailResource = client.resource(MAIL_URL);
+            eventsResource = client.resource(EVENTS_URL);
     }
 
     @Override
@@ -151,7 +158,7 @@ public class MailGunEmailServiceImpl implements EmailService {
     }
 
     public HTTPBasicAuthFilter getAuthFilter() {
-        return new HTTPBasicAuthFilter("api", API_KEY);
+        return new HTTPBasicAuthFilter("api", key);
     }
 
     public String getName() {

@@ -3,9 +3,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <div th:replace="fragments/head :: head">
-    <!-- PlaceHolder -->
+    
   </div>
-  <script src="js/schedule.js" th:src="@{js/schedule.js}"></script>
+  <script src="../static/js/schedule.js" th:src="@{js/schedule.js}"></script>
   <link rel="stylesheet" type="text/css" href="../static/css/schedule.css"
   th:href="@{css/schedule.css}" media="screen" />
   <title>Antreminder - Schedule</title>
@@ -19,6 +19,9 @@
   <br>
   <br>
   <div class="container rounded m-x-auto" id="form-container">
+    <center>
+      
+    </center>
     <div>
       <th:block th:switch="${FRAGMENT}">
       <th:block th:case="'FORM'">

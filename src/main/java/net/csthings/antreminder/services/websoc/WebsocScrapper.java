@@ -26,7 +26,6 @@ public class WebsocScrapper {
     Logger LOG = LoggerFactory.getLogger(WebsocScrapper.class);
     private final String expectedTitle;
     private final String url;
-    private String latestTerm;
 
     private RestClientService restService;
 
@@ -34,15 +33,10 @@ public class WebsocScrapper {
         restService = new RestClientService(url);
         this.url = url;
         this.expectedTitle = expectedTitle;
-        latestTerm = "";
     }
 
     public String getDeptAttr(String dept) {
         return "";
-    }
-
-    public void courseStatusMatches() {
-
     }
 
     /**
