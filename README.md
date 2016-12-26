@@ -3,16 +3,24 @@
 
 ### Contributing
 Tools:
-* Java
+* Java 8
 * Gradle
 * MySql Server
 
 Change the connection configurations in `config/application.yml` and you're good to go.
 
-Build: ``` gradle build```   
-Generate project: ``` gradle eclipse``` or ``` gradle idea ```
-Run: ``` gradle bootRun ```
-Please focus on improving the current features and fixing any bugs before adding implementations.
+```shell
+# Build
+gradle build
+
+# Generate project
+gradle eclipse
+gradle idea
+
+# Run
+gradle bootRun
+```      
+Please focus on improving the current features and fixing any bugs before adding any new features.
 
 ### License
 [MIT License](https://github.com/tolusalako/antreminder/blob/master/LICENSE.md)
