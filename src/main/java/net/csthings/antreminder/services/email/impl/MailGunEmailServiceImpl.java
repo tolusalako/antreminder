@@ -1,3 +1,25 @@
+/**
+ * Copyright (c) 2016-2017 Toluwanimi Salako. http://csthings.net
+
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 package net.csthings.antreminder.services.email.impl;
 
 import java.util.HashMap;
@@ -12,8 +34,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PostFilter;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -35,7 +55,6 @@ public class MailGunEmailServiceImpl implements EmailService {
     public static final String MAIL_URL = "https://api.mailgun.net/v3/csthings.net/messages";
     public static final String EVENTS_URL = "https://api.mailgun.net/v3/csthings.net/events";
 
-
     @Autowired
     private MailSettings mailSettings;
 
@@ -47,18 +66,17 @@ public class MailGunEmailServiceImpl implements EmailService {
     private WebResource eventsResource;
     JsonParser parser;
 
+    @PostConstruct
+    private void init() {
 
-        @PostConstruct
-        private void init(){
-
-            this.name = mailSettings.getName();
-            this.email = mailSettings.getEmail();
-            this.key = mailSettings.getKey();
-            client = Client.create();
-            client.addFilter(getAuthFilter());
-            parser = new JsonParser();
-            mailResource = client.resource(MAIL_URL);
-            eventsResource = client.resource(EVENTS_URL);
+        this.name = mailSettings.getName();
+        this.email = mailSettings.getEmail();
+        this.key = mailSettings.getKey();
+        client = Client.create();
+        client.addFilter(getAuthFilter());
+        parser = new JsonParser();
+        mailResource = client.resource(MAIL_URL);
+        eventsResource = client.resource(EVENTS_URL);
     }
 
     @Override

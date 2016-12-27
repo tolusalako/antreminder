@@ -90,6 +90,7 @@ public class ThymeleafSettings extends WebMvcConfigurerAdapter implements Applic
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("/js/**").addResourceLocations("file:./resources/static/js/");
         registry.addResourceHandler("/css/**").addResourceLocations("file:./resources/static/css/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:./resources/static/images/");
     }
 
 }
