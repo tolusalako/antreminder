@@ -2,20 +2,28 @@ package net.csthings.antreminder.security;
 
 import java.util.Collection;
 
+import javax.servlet.http.Cookie;
+
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import net.csthings.antreminder.entity.User;
 
-public class AuthenticationImpl implements Authentication {
-    private String session;
+@Component
+public class AuthenticationImpl extends AbstractAuthenticationToken implements Authentication {
     private User user;
     private boolean authenticated;
 
-    public AuthenticationImpl(User user, String session) {
-        this.session = session;
+    public AuthenticationImpl() {
+        super(null);
+    }
+
+    public AuthenticationImpl(User user, Cookie cookie) {
+        this();
         this.user = user;
-        authenticated = user.getSession().equals(session);
+        authenticated = user.getAuthenticated();
     }
 
     @Override
@@ -24,13 +32,21 @@ public class AuthenticationImpl implements Authentication {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String getCredentials() {
-        return session;
+        return null;
     }
 
     @Override

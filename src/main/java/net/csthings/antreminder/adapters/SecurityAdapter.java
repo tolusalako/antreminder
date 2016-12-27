@@ -9,6 +9,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import net.csthings.antreminder.security.LogoutManager;
 
 @Configuration
 @EnableWebSecurity
@@ -19,11 +22,10 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
                 .permitAll();
         httpSecurity.authorizeRequests().antMatchers("/reminders/**").authenticated();
         httpSecurity.csrf().csrfTokenRepository(csrfTokenRepository());
-        // httpSecurity.exceptionHandling().accessDeniedHandler(accessDeniedhandler());
-        // httpSecurity.formLogin().loginPage("/login").permitAll().and().logout().permitAll();
-
-        // .usernameParameter("email")
-        // .passwordParameter("password").permitAll().and().exceptionHandling().accessDeniedPage("/login")
+        httpSecurity.formLogin().loginPage("/login").permitAll().and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+                .deleteCookies(LogoutManager.SESSION_NAME).addLogoutHandler(new LogoutManager())
+                .invalidateHttpSession(true);
     }
 
     private static CsrfTokenRepository csrfTokenRepository() {

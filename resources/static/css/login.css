@@ -92,38 +92,22 @@
     box-sizing: border-box;
 }
 
-.btn-signin{
-    /*background-color: #4d90fe; */
-    /*background-color: rgb(27,61,109);*/
-    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
-    padding: 0px;
-    /*font-weight: 700;
-    font-size: 14px;*/
-    height: 45px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    -o-transition: all 0.218s;
-    -moz-transition: all 0.218s;
-    -webkit-transition: all 0.218s;
-    transition: all 0.218s;
-}
 .btn-reg{
     color: rgb(55,58,60);
     border-color: rgb(55,58,60);
 }
 
-.btn-reg:hover{
+/*btn-hov:hover{
     background-color: rgb(55,58,60);
     color: rgb(255, 255, 255);
-}
+}*/
 
-/*
+
 .btn.btn-signin:hover,
 .btn.btn-signin:active,
 .btn.btn-signin:focus {
     background-color: rgb(12, 97, 33);
-}*/
+}
 
 .forgot-password {
     color: rgb(2,117,216);

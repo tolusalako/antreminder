@@ -12,7 +12,6 @@ import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import net.csthings.antreminder.entity.User;
@@ -24,7 +23,7 @@ import net.csthings.antreminder.repo.AccountDao;
 import net.csthings.antreminder.repo.AccountSessionDao;
 import net.csthings.antreminder.repo.EmailAccountDao;
 import net.csthings.antreminder.repo.SessionAccountDao;
-import net.csthings.antreminder.security.AuthenticationImpl;
+import net.csthings.antreminder.security.LogoutManager;
 import net.csthings.antreminder.services.account.LoginService;
 import net.csthings.antreminder.services.account.utils.AccountError;
 import net.csthings.antreminder.services.account.utils.AccountStatus;
@@ -42,7 +41,6 @@ public final class LoginServiceImpl implements LoginService {
     private static Logger LOG = LoggerFactory.getLogger(AccountServiceImpl.class);
     public static final int SESSION_TOKEN_LENGTH = 128;
     private static final int SESSION_LIFE = 24; // HRS
-    public static final String SESSION_NAME = "eatercookie";
     @Autowired
     EmailAccountDao emailAccountDao;
 
@@ -59,7 +57,7 @@ public final class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public ResultDto<Cookie> login(String email, String password, boolean rememberMe) {
+    public ResultDto<User> login(String email, String password, boolean rememberMe) {
         if (StringUtils.isAnyEmpty(email, password))
             return new ResultDto<>(null, Status.FAILED, CommonError.INVALID_PARAMETERS, "Email or password is invalid");
 
@@ -92,7 +90,7 @@ public final class LoginServiceImpl implements LoginService {
                 return new ResultDto<>(null, Status.FAILED, CommonError.UNEXPECTED_ERROR,
                         "Could not create login session");
             else {
-                return new ResultDto<>(createCookie(session, email), Status.SUCCESS);
+                return new ResultDto<>(getUser(session, email), Status.SUCCESS);
             }
 
         }
@@ -114,7 +112,7 @@ public final class LoginServiceImpl implements LoginService {
                 return new ResultDto<>(false, Status.FAILED, "IP_CHANGED");
             AccountDto account = accountDao.findOne(session.getAccountId());
             if (account != null) {
-                createCookie(session, account.getEmail());
+                getUser(session, account.getEmail());
                 return new ResultDto<>(true);
             }
         }
@@ -133,10 +131,6 @@ public final class LoginServiceImpl implements LoginService {
         if (dto != null)
             return accountSessionDao.findOne(dto.getAccountId());
         return null;
-    }
-
-    private void removeOldSession(UUID accountId) {
-
     }
 
     private AccountSessionDto createSession(UUID accountId, boolean rememberMe) {
@@ -172,16 +166,17 @@ public final class LoginServiceImpl implements LoginService {
         }
     }
 
-    private static Cookie createCookie(AccountSessionDto session, String email) {
-        Cookie cookie = new Cookie(SESSION_NAME, session.getSessionId());
+    private static User getUser(AccountSessionDto session, String email) {
+        Cookie cookie = new Cookie(LogoutManager.SESSION_NAME, session.getSessionId());
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(
                 (int) TimeUnit.MILLISECONDS.toSeconds(session.getExpiration().getTime() - new Date().getTime()));
-        User user = new User(session.getAccountId(), email, true, session.getSessionId());
-        Authentication authentication = new AuthenticationImpl(user, session.getSessionId());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return cookie;
+        User user = new User(session.getAccountId(), email, true, cookie);
+        // Authentication authentication = new AuthenticationImpl(user,
+        // session.getSessionId());
+        // SecurityContextHolder.getContext().setAuthentication(authentication);
+        return user;
     }
 
     @Override

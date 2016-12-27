@@ -170,3 +170,13 @@ span.round-tab:hover {
     max-width: 700px;
     height: 1050px;
 }
+
+a.navbar-brand{
+    margin-top: -0.55em;
+}
+
+small {
+    margin-top: -0.55em;
+    margin-right: 0.2em;
+    font-size: .6em;
+}

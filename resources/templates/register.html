@@ -5,10 +5,11 @@
   <div th:replace="fragments/head :: head">
     <!-- PlaceHolder -->
   </div>
-    <script src="/js/reg.js" th:src="@{js/reg.js}"></script>
+
+  	<script src="/js/reg.js" th:src="@{js/reg.js}"></script>
     <link rel="stylesheet" type="text/css" href="/css/login.css"
     th:href="@{css/login.css}" media="screen" />
-    <title>Antreminder - Login</title>
+    <title>Antreminder - Register</title>
 </head>
 <body>
   <div th:replace="fragments/header :: header">
@@ -19,19 +20,15 @@
           <div class="alert alert-success" type="hidden" role="alert">A verification link has been sent to your email.</div>
       </center>
   </th:block>
-  <th:block th:if="${apiResponse == 'activated'}">
-      <center>
-          <div class="alert alert-success" type="hidden" role="alert">Your account has been successfully activated. Please login below.</div>
-      </center>
-  </th:block>
   <div class="container">
   <div class="card card-container">
       <center><h4>Antreminder</h4></center>
-      <form class="form-signin" method="post" action="/login" >
+      <form class="form-signin" method="post" action="/register" >
           <span id="reauth-email" class="reauth-email"></span>
           <input type="email" name="username" class="form-control" id="form-login-email" placeholder="Email address" required autofocus>
           <input type="password" name="password" class="form-control" id="form-login-password" placeholder="Password" required>
-            <th:block th:unless="${apiResponse == 'confirmation'} or ${apiResponse == 'activated'}">
+          <input type="password" name="confirmpassword" class="form-control" id="form-login-confirmpassword" placeholder="Confirm Password" required>
+            <th:block th:unless="${apiResponse == 'confirmation'}">
               <center>
                   <font color="red"><a class="text-bad-login" th:text="${apiResponse}"></a></font>
               </center>
@@ -39,21 +36,13 @@
           <hr>
           <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-          <!-- <div id="remember" class="checkbox">
-              <label>
-                  <input type="checkbox" name="rememberme"> Remember me
-              </label>
-                <a href="#" class="forgot-password center-block">
-                    Forgot password?
-                </a>
-          </div> -->
           <div>
-              <button class="btn btn-lg btn-outline-primary btn-block btn-hov" id="form-login-submit" name="login" type="submit">Sign in</button>
+              <button class="btn btn-lg btn-outline-primary btn-block btn-hov" id="form-register-submit" name="register" type="submit">Sign Up</button>
           </div>
-      </form>
+      </form><!-- /form -->
       <div>
           <center>
-              <a href="/register">Create a New Account</a>
+              <a href="/login">Already Have an Account</a>
           </center>
       </div>
   </div><!-- /card-container -->

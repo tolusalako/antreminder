@@ -7,6 +7,8 @@ import javax.ws.rs.QueryParam;
 
 import org.springframework.stereotype.Service;
 
+import net.csthings.antreminder.entity.dto.AccountDto;
+import net.csthings.common.db.exception.DatabaseException;
 import net.csthings.common.dto.EmptyResultDto;
 import net.csthings.common.dto.ResultDto;
 
@@ -22,5 +24,9 @@ public interface AccountService extends Serializable {
     public ResultDto<Boolean> changePassword(String email, String oldPassword, String newpassword);
 
     public ResultDto<Boolean> deleteAccount(String email, String password);
+
+    public AccountDto getAccount(String email) throws DatabaseException;
+
+    public boolean accountWithEmailExists(String email) throws DatabaseException;
 
 }

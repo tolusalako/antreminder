@@ -193,7 +193,8 @@ public final class AccountServiceImpl implements AccountService {
         });
     }
 
-    private AccountDto getAccount(String email) throws DatabaseException {
+    @Override
+    public AccountDto getAccount(String email) throws DatabaseException {
         EmailAccountDto rez = emailAccountDao.findOne(email);
         if (null == rez)
             return null;
@@ -205,7 +206,8 @@ public final class AccountServiceImpl implements AccountService {
         return accountDao.findOne(accountId);
     }
 
-    private boolean accountWithEmailExists(String email) throws DatabaseException {
+    @Override
+    public boolean accountWithEmailExists(String email) throws DatabaseException {
         return getAccount(email) != null;
     }
 

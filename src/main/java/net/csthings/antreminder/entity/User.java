@@ -2,22 +2,24 @@ package net.csthings.antreminder.entity;
 
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class User {
     private String email;
     private Boolean authenticated;
-    private String session;
+    private Cookie cookie;
     private UUID accountId;
 
     public User() {
     }
 
-    public User(UUID accountId, String email, Boolean authenticated, String session) {
+    public User(UUID accountId, String email, Boolean authenticated, Cookie cookie) {
         this.accountId = accountId;
         this.email = email;
         this.authenticated = authenticated;
-        this.session = session;
+        this.cookie = cookie;
     }
 
     public UUID getAccountId() {
@@ -44,15 +46,15 @@ public class User {
         this.authenticated = authenticated;
     }
 
-    public String getSession() {
-        return session;
+    public Cookie getCookie() {
+        return cookie;
     }
 
-    public void setSession(String session) {
-        this.session = session;
+    public void setCookie(Cookie cookie) {
+        this.cookie = cookie;
     }
 
     public boolean isAuthenticated() {
-        return authenticated && StringUtils.isNotEmpty(session) && StringUtils.isNotEmpty(email) && accountId != null;
+        return authenticated && null != cookie && StringUtils.isNotEmpty(email) && accountId != null;
     }
 }
