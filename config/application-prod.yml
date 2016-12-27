@@ -5,3 +5,6 @@ spring:
         url: jdbc:mysql://prod-ip:3306/prod-db
         username: prod-user
         password: prod-secure-pass
+logging:
+    path: logs
+    file: antreminder.log

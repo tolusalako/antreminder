@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,12 +45,16 @@ public class ReminderController {
     private static final ObjectMapper objMapper = new ObjectMapper();
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView reminderGet(Model model, @QueryParam("status") String status) {
+    public ModelAndView reminderGet(Model model, @QueryParam("status") String status, Authentication auth) {
         // Get Reminders
-        ResultDto<Collection<ReminderDto>> rez = reminderService.get(SecurityUtils.getAccountId(), status);
-        Collection<ReminderDto> reminders = rez.getItem();
-        model.addAttribute("reminders", reminders);
-        return new ModelAndView(PAGE_NAME, "Model", model);
+        if (null != auth && auth.isAuthenticated()) {
+            ResultDto<Collection<ReminderDto>> rez = reminderService.get(SecurityUtils.getAccountId(), status);
+            Collection<ReminderDto> reminders = rez.getItem();
+            model.addAttribute("reminders", reminders);
+            return new ModelAndView(PAGE_NAME, "Model", model);
+        }
+        else
+            return new ModelAndView("redirect:/" + AccountController.LOGIN_NAME, "Model", model);
     }
 
     // Add reminder

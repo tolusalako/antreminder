@@ -18,8 +18,8 @@ import net.csthings.antreminder.security.LogoutManager;
 public class SecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().antMatchers("/", "/schedule", "/login", "/logout").permitAll().anyRequest()
-                .permitAll();
+        httpSecurity.authorizeRequests().antMatchers("/", "/schedule", "/login", "/logout", "/register").permitAll()
+                .anyRequest().permitAll();
         httpSecurity.authorizeRequests().antMatchers("/reminders/**").authenticated();
         httpSecurity.csrf().csrfTokenRepository(csrfTokenRepository());
         httpSecurity.formLogin().loginPage("/login").permitAll().and().logout()

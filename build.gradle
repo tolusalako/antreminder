@@ -67,9 +67,12 @@ dependencies {
 	compile group: 'commons-validator', name: 'commons-validator', version: '1.4.1'
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
-
 	//Web Scrap
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
+	//log
+	// compile group:'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+	compile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.7'
+	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
 	//Local
 	compile files('resources')
 	compile fileTree(dir: 'libs', include: ['*.jar'])

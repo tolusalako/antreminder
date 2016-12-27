@@ -24,3 +24,5 @@ Please focus on improving the current features and fixing any bugs before adding
 
 ### License
 [MIT License](https://github.com/tolusalako/antreminder/blob/master/LICENSE.md)
+
+Big thanks to [Mailgun](https://www.mailgun.com/) for proving 10K free emails per month.
