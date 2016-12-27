@@ -50,7 +50,6 @@ msg_alert.swapShow = function(message, mode, code){
 
 $(document).ready(function(){
     $(".modal-btn").click(function(event) {
-            // $("#modal-form").submit(function(event) {
         var FAILED = "FAILED";
         var STATUS_FORBIDDEN = 403;
         var MSG = "MSG";
@@ -97,5 +96,5 @@ $(document).ready(function(){
             // }, 2000);
             $('#schedule-modal').modal('toggle');
         });
-
+        $("select[name='Breadth']").get(0).selectedIndex = 0;
     });

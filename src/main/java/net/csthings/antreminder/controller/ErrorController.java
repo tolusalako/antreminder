@@ -1,14 +1,14 @@
 package net.csthings.antreminder.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@ControllerAdvice
+@Controller
 public class ErrorController {
-
-    @ExceptionHandler(value = { Exception.class })
+    @RequestMapping(method = RequestMethod.GET, value = "/error")
     public String accessDenied(Model model) {
-        return "redirect:/login";
+        return "redirect:/schedule";
     }
 }

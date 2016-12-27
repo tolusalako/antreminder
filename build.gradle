@@ -65,10 +65,11 @@ dependencies {
 	compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19.1'
 	//MISC
 	compile group: 'commons-validator', name: 'commons-validator', version: '1.4.1'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+
 	//Web Scrap
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
-	compile group: 'org.seleniumhq.selenium', name: 'selenium-htmlunit-driver', version: '2.52.0'
-	compile group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '2.53.0'
 	//Local
 	compile files('resources')
 	compile fileTree(dir: 'libs', include: ['*.jar'])
