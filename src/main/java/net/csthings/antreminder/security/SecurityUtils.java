@@ -24,7 +24,6 @@ package net.csthings.antreminder.security;
 
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -35,10 +34,8 @@ public class SecurityUtils {
 
     public static boolean isAuthenticated() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.isAuthenticated() && !auth.getName().equals(ANONYMOUS_USER)
-                && auth.getCredentials() instanceof String && StringUtils.isNotEmpty((String) auth.getCredentials())
-                && auth.getPrincipal() != null && auth.getPrincipal() instanceof User
-                && ((User) auth.getPrincipal()).isAuthenticated();
+        return auth.isAuthenticated() && !auth.getName().equals(ANONYMOUS_USER) && auth.getPrincipal() != null
+                && auth.getPrincipal() instanceof User && ((User) auth.getPrincipal()).isAuthenticated();
     }
 
     public static UUID getAccountId() {

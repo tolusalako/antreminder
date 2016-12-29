@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <div th:replace="fragments/head :: head">
+    <!-- PlaceHolder -->
+  </div>
+  <link rel="stylesheet" type="text/css" href="/css/error.css"
+  th:href="@{css/error.css}" media="screen" />
+    <title>Antreminder - Error</title>
+</head>
+<body>
+  <div th:replace="fragments/header :: header">
+    <!-- PlaceHolder -->
+  </div>
+  <div class="container">
+  <div class="card card-container">
+      <center><h4>Can't find that page. Will keep searching ...</h4></center>
+      <center>
+          <img src="images/binoculars.png" th:src="@{images/binoculars.png}" />
+      </center>
+  </div><!-- /card-container -->
+</div><!-- /container -->
+</body>
+</html>

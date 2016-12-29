@@ -64,15 +64,17 @@
                     <button class="btn btn-outline-danger" type="submit" name="logout">Logout</button>
                 </form>
             </div>
-            <th:block th:unless="${#authorization?.expression('isAuthenticated()') or #httpServletRequest.requestURI.equalsIgnoreCase('/login') or #httpServletRequest.requestURI.equalsIgnoreCase('/register') or #httpServletRequest.requestURI.equalsIgnoreCase('/validate')}">
-                <form class="form-inline pull-xs-right" method="post" action="/login">
-                    <!-- <font color="red"><a class="text-bad-login" th:text="${apiResponse}"></a></font> -->
-                    <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <input class="form-control" id="form-login-email" type="text" name="username" placeholder="email"></input>
-                    <input class="form-control" id="form-login-password" type="password"  name="password" placeholder="password"></input>
-                    <button class="btn btn-outline-info" id="form-login-submit" type="submit" name="login">Login</button>
-                </form>
+            <th:block th:unless="${#httpServletRequest.requestURI.equalsIgnoreCase('/error')}">
+                <th:block th:unless="${#authorization?.expression('isAuthenticated()') or #httpServletRequest.requestURI.equalsIgnoreCase('/login') or #httpServletRequest.requestURI.equalsIgnoreCase('/register') or #httpServletRequest.requestURI.equalsIgnoreCase('/validate')}">
+                    <form class="form-inline pull-xs-right" method="post" action="/login">
+                        <!-- <font color="red"><a class="text-bad-login" th:text="${apiResponse}"></a></font> -->
+                        <input type="hidden" name="page" th:value="${#httpServletRequest.requestURI} " />
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input class="form-control" id="form-login-email" type="text" name="username" placeholder="email" />
+                        <input class="form-control" id="form-login-password" type="password"  name="password" placeholder="password" />
+                        <button class="btn btn-outline-info" id="form-login-submit" type="submit" name="login">Login</button>
+                    </form>
+                </th:block>
             </th:block>
         </div>
 </nav>

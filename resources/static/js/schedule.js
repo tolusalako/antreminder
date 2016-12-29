@@ -50,6 +50,10 @@ msg_alert.swapShow = function(message, mode, code){
 
 $(document).ready(function(){
     $(".modal-btn").click(function(event) {
+        if ($(this).hasClass('disabled')){
+            event.preventDefault();
+            return;
+        }
         var FAILED = "FAILED";
         var STATUS_FORBIDDEN = 403;
         var MSG = "MSG";

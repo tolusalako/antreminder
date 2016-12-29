@@ -22,15 +22,23 @@
 */
 package net.csthings.antreminder.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class ErrorController {
-    @RequestMapping(method = RequestMethod.GET, value = "/error")
-    public String accessDenied(Model model) {
-        return "redirect:/schedule";
+public class ErrorController implements org.springframework.boot.autoconfigure.web.ErrorController {
+    private static final String PAGE = "/error";
+
+    @RequestMapping(value = PAGE)
+    public String error(Model model, HttpServletResponse httpResponse) {
+        return "error";
+    }
+
+    @Override
+    public String getErrorPath() {
+        return PAGE;
     }
 }
