@@ -9,6 +9,7 @@ $(document).ready(function () {
     //
     function clearMsg(){
         $('.text-bad-login').html('');
+        $('.resend-bad-login').html('');
     }
     $('#form-login-email').focus(clearMsg);
     $('#form-login-password').focus(clearMsg);

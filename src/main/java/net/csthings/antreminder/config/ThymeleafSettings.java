@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -30,6 +32,8 @@ import org.thymeleaf.templateresolver.FileTemplateResolver;
 public class ThymeleafSettings extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
+    @Autowired
+    private Environment env;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -44,6 +48,7 @@ public class ThymeleafSettings extends WebMvcConfigurerAdapter implements Applic
         // templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setPrefix("resources/templates/");
         templateResolver.setSuffix(".html");
+        templateResolver.setCacheable(Boolean.valueOf(env.getProperty("spring.thymeleaf.cache")));
         templateResolver.setTemplateMode("HTML5");
         // templateResolver.setCacheable(false);
         return templateResolver;

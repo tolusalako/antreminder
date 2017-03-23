@@ -1,4 +1,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml" />
     <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="s.w.s.m.m.a.RequestMappingHandlerMapping" level="ERROR"/>
 </configuration>

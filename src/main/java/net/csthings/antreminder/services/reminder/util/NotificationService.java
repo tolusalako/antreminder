@@ -90,10 +90,6 @@ public class NotificationService {
         for (Entry<String, List<ReminderDto>> entry : accountsNotifications.entrySet()) {
             String recipient = entry.getKey();
             List<ReminderDto> notifications = entry.getValue();
-            Calendar cal = Calendar.getInstance();
-            // String time = StringUtils.join(cal.get(Calendar.HOUR), ":",
-            // cal.get(Calendar.MINUTE),
-            // cal.get(Calendar.AM_PM) == 1 ? "PM" : "AM");
             String subject = "";
             String text = "";
 
@@ -130,6 +126,7 @@ public class NotificationService {
                 LOG.error("Could not send emails to {}", recipient, e);
             }
         }
+        reminderDao.flush();
 
     }
 

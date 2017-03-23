@@ -64,6 +64,8 @@ public class AccountDto implements Serializable {
     private int status;
     private Date created;
     private Date online;
+    @Column(name = "frequency", nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'F_1_HR'")
+    private String frequency;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = ReminderDto.class, cascade = { CascadeType.MERGE })
     @JoinTable(name = AccountReminderDto.TABLE_NAME, joinColumns = { @JoinColumn(name = "accountId") },
@@ -139,6 +141,14 @@ public class AccountDto implements Serializable {
 
     public void setReminders(Set<ReminderDto> reminders) {
         this.reminders = reminders;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
 
     @JsonIgnore

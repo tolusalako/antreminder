@@ -12,11 +12,10 @@ server.error.whitelabel.enabled: false
 
 websoc:
     baseUrl: https://www.reg.uci.edu/perl/WebSoc
-    formUrl: /schedule
-    searchUrl: /schedule
-    searchFragment: resources/templates/fragments/schedule/search.html
-    formFragment: resources/templates/fragments/schedule/form.html
 
+logging:
+    path: logs
+    file: antreminder.log
 
 reminder:
     runner:
@@ -30,11 +29,12 @@ mail:
     key: dummy-test-key
 
 spring:
+    thymeleaf.cache: false
     datasource:
         driver: com.mysql.jdbc.Driver
-        url: jdbc:mysql://192.168.0.14:3306/test_csthings
-        username: root
-        password: root
+        url: jdbc:mysql://192.168.0.2:3306/test_antreminder?verifyServerCertificate=false&useSSL=false&requireSSL=false
+        username: antreminder
+        password: antreminder
         testWhileIdle: true
         validationQuery: SELECT 1
     jpa:

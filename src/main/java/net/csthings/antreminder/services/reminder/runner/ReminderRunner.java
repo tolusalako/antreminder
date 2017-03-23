@@ -23,6 +23,7 @@
 package net.csthings.antreminder.services.reminder.runner;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.springframework.stereotype.Component;
 
 import net.csthings.antreminder.config.RunnerSettings;
 import net.csthings.antreminder.entity.dto.ReminderDto;
+import net.csthings.antreminder.entity.dto.ReminderDto.ReminderPK;
 import net.csthings.antreminder.repo.AccountDao;
 import net.csthings.antreminder.repo.ReminderDao;
 import net.csthings.antreminder.services.ServiceException;
@@ -62,9 +64,10 @@ import net.csthings.antreminder.services.websoc.WebsocUtils;
 public class ReminderRunner {
     Logger LOG = LoggerFactory.getLogger(ReminderRunner.class);
 
-    private static final int MAX_THREAD_COUNT = 10;
-    private static final long SCAN_INTERVAL = 300000; // 5 min
-    public static final long SEND_INTERVAL = 60; // min
+    private static final int MAX_THREAD_COUNT = 2;
+    private static final long SCAN_INTERVAL = 900000; // 15 min
+    public static final long SEND_INTERVAL = 1; // hr
+    public static final long RESEND_INTERVAL = 24; // hrs
     private String url;
 
     @Autowired
@@ -88,18 +91,26 @@ public class ReminderRunner {
 
     @Scheduled(fixedRate = SCAN_INTERVAL)
     public void reminderScan() {
-        List<ReminderDto> reminders = reminderDao.getRemindersGroupDeptId();
+        List<ReminderDto> reminders = new ArrayList<>();
+        try {
+            reminderDao.getRemindersGroupDeptId();
+        }
+        catch (Exception e) {
+            LOG.warn("No reminders found.");
+        }
+
         if (reminders.isEmpty())
             return;
+
         Map<String, Set<String>> reminderSetReq = new HashMap<>();
         String lastDept = reminders.get(0).getDept();
         for (ReminderDto r : reminders) {
             if (null != r.getEmailSent()) {
-                long timeDiff = System.currentTimeMillis() - r.getEmailSent().getTime();
-                if (r.getEmailSent() != null && timeDiff < TimeUnit.MINUTES.toMillis(SEND_INTERVAL)) {
+                long timeDiff = Calendar.getInstance().getTime().getTime() - r.getEmailSent().getTime();
+                if (timeDiff < TimeUnit.HOURS.toMillis(SEND_INTERVAL)) {
                     // Don't scan if email has been sent in less than
                     // SEND_INTERVAL
-                    LOG.warn("Skipping scan for {}:{}. Last sent {} mins ago.", r.getDept() + " " + r.getNumber(),
+                    LOG.warn("Skipping scan for {}: {}. Last sent {} mins ago.", r.getDept() + " " + r.getNumber(),
                             r.getStatus(), TimeUnit.MILLISECONDS.toMinutes(timeDiff));
                     continue;
                 }
@@ -167,6 +178,13 @@ public class ReminderRunner {
             if (!status.equals(updates.get(rId)))
                 continue;
 
+            ReminderDto oldReminder = reminderDao.findOne(new ReminderPK(rId, status));
+            if (oldReminder.getEmailSent() != null) {
+                long timeDiff = Calendar.getInstance().getTime().getTime() - oldReminder.getEmailSent().getTime();
+                if (timeDiff < TimeUnit.HOURS.toMillis(RESEND_INTERVAL)) {
+                    LOG.warn("Last sent less than 24 hrs ago, skipping...");
+                }
+            }
             ReminderDto reminder = new ReminderDto(rId, status, title, number);
             List<ReminderDto> reminders = result.get(email);
             if (null == reminders)

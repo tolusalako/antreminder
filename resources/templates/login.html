@@ -33,7 +33,9 @@
           <input type="password" name="password" class="form-control" id="form-login-password" placeholder="Password" required>
             <th:block th:unless="${apiResponse == 'confirmation'} or ${apiResponse == 'activated'}">
               <center>
-                  <font color="red"><a class="text-bad-login" th:text="${apiResponse}"></a></font>
+                  <font color="red">
+                      <span class="text-bad-login" th:utext="${apiResponse}"></span>
+                  </font>
               </center>
           </th:block>
           <hr>

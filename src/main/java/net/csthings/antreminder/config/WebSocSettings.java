@@ -39,12 +39,4 @@ import lombok.Data;
 public @Data class WebSocSettings {
     @NotEmpty
     private String baseUrl;
-    @NotEmpty
-    private String formUrl;
-    @NotEmpty
-    private String searchUrl;
-    @NotEmpty
-    private String searchFragment;
-    @NotEmpty
-    private String formFragment;
 }

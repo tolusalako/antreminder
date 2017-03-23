@@ -51,6 +51,9 @@ public class WebsocScrapper {
 
     private RestClientService restService;
 
+    // @Autowired
+    // AppInfoDao appInfo;
+
     public WebsocScrapper(String url, String expectedTitle) {
         restService = new RestClientService(url);
         this.url = url;
@@ -162,9 +165,16 @@ public class WebsocScrapper {
             return "";
 
         List<Element> options = doc.select("form > table > tbody > tr td select[name=\"YearTerm\"] > option");
-        if (options.isEmpty())
-            return "";
-        return options.get(0).val();
+        String term = "";
+        for (Element option : options) {
+            String selected = option.attributes().get("selected");
+            if (!selected.isEmpty()) {
+                term = option.val();
+                // appInfo.save(new AppInfoDto("term", option.text()));
+                break;
+            }
+        }
+        return term;
 
     }
 }
